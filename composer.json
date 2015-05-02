@@ -1,0 +1,24 @@
+{
+  "name": "viscreation/vis-ui-js",
+  "type": "component",
+  "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andriy Oblivantsev"
+    }
+  ],
+  "require": {
+    "robloach/component-installer": "*",
+    "components/jquery": "1.*",
+    "components/jqueryui": "1.*",
+    "components/normalize.css": "2.*",
+    "components/bootstrap": "3.*",
+    "drmonty/leaflet": "0.7.*",
+    "components/datatables": "1.10.*"
+
+  },
+  "config": {
+    "component-dir": "web/assets"
+  }
+}
