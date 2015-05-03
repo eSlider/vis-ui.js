@@ -21,6 +21,7 @@
     "components/font-awesome": "*",
     "components/openlayers2": "*",
     "components/respondjs": "*",
+    "components/jquery-dialogextend-js": "*",
     "components/placeholdersjs": "*"
   },
   "config": {
@@ -100,6 +101,26 @@
           "component": {
             "scripts": [
               "dist/*.js"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/jquery-dialogextend-js",
+        "type": "component",
+        "version": "2.0.4",
+        "source": {
+          "url": "http://github.com//ROMB/jquery-dialogextend",
+          "type": "git",
+          "reference": "master"
+        },
+        "extra": {
+          "component": {
+            "scripts": [
+              "build/*.js"
             ]
           }
         }

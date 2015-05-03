@@ -1,5 +1,10 @@
 (function($) {
 
+    // fake dialogExtend check for ui-dialog
+    $.fn["dialog"] = function() {
+        return this.hasClass('popup-dialog') ? this.popupDialog(arguments) : this.dialog(arguments);
+    };
+
     /**
      * jQuery dialog with bootstrap styles
      *
@@ -17,6 +22,9 @@
         _create: function() {
             var element = $(this.element);
             var widget = this;
+
+            element.addClass('popup-dialog');
+
 
             // overrides default options
             $.extend(this.options, {
@@ -48,9 +56,12 @@
 
             var result = this._super();
 
+            // fake dialogExtend check for ui-dialog
+            element.data("ui-dialog",true);
             element.dialogExtend($.extend(true, {
                 closable:    true,
                 maximizable: true,
+                resizible: true,
                 //dblclick: true,
                 //minimizable: true,
                 //modal: true,
@@ -81,6 +92,8 @@
                 if(!target.is('.ui-dialog-titlebar, .ui-dialog-title')){
                     return;
                 }
+
+
 
                 if(element.dialogExtend('state') == 'normal'){
                     element.dialogExtend('maximize');
