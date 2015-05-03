@@ -40,7 +40,7 @@
         });
     }
 
-    $.widget('mapbender.generateElements', {
+    $.widget('vis-ui-js.generateElements', {
         options:      {},
         declarations: {
             popup: function(item, declarations, widget) {

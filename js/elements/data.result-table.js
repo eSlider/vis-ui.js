@@ -11,7 +11,7 @@
      columns:      [{data: 'id', title: 'ID'}, {data: 'label', title: 'Title'}],
      data:         [{id: 1, label: 'example'}]
      */
-    $.widget("mapbender.resultTable", {
+    $.widget("vis-ui-js.resultTable", {
 
         _table:     null,
         _dataTable: null,

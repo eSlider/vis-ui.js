@@ -3,7 +3,7 @@
     /**
      * jQuery tabs with bootstrap styles
      */
-    $.widget("mapbender.tabNavigator", $.ui.tabs, {
+    $.widget("vis-ui-js.tabNavigator", $.ui.tabs, {
         options: {
         },
         _create: function() {

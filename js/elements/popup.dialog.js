@@ -6,7 +6,7 @@
      * @author Andriy Oblivantsev <eslider@gmail.com>
      * @copyright 05.11.2014 by WhereGroup GmbH & Co. KG
      */
-    $.widget("mapbender.popupDialog", $.ui.dialog, {
+    $.widget("vis-ui-js.popupDialog", $.ui.dialog, {
 
         /**
          * Constructor, runs only if the object wasn't created before

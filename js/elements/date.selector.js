@@ -8,7 +8,7 @@
      *
      * @author Andriy Oblivantsev <eslider@gmail.com>
      */
-    $.widget("mapbender.dateSelector", {
+    $.widget("vis-ui-js.dateSelector", {
         _init: function() {
             var widget = this;
             var element = widget.element;

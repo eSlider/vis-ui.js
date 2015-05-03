@@ -8,7 +8,7 @@
  */
 (function($) {
 
-    $.widget("mapbender.digitizingToolSet", {
+    $.widget("vis-ui-js.digitizingToolSet", {
 
         options:           {layer: null},
         controls:          null,
