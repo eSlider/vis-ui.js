@@ -47,9 +47,24 @@
 
                     var $div = $("<div/>");
                     $div.generateElements({
-                        type:  'input',
-                        title: "Input",
-                        mandatory: true
+                        children: [{
+                            type:        "input",
+                            title:       "Name",
+                            placeholder: "Please enter name",
+                            mandatory:   true
+                        }, {
+                            type:        "input",
+                            name:        "secondname",
+                            title:       "Second name",
+                            placeholder: "Please enter secondname"
+                        }, {
+                            type:    "select",
+                            title:  "Title",
+                            options: {
+                                mr: "Mr.",
+                                ms: "Ms."
+                            }
+                        }]
                     });
 
                     $div.popupDialog({
@@ -63,7 +78,6 @@
                             }
                         }]
                     });
-
 
                 });
             })

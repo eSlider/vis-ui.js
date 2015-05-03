@@ -87,12 +87,8 @@
         },
         "extra": {
           "component": {
-            "scripts": [
-              "dest/respond.min.js"
-            ],
-            "files": [
-              "dest/*.js"
-            ]
+            "scripts": ["dest/respond.min.js"],
+            "files": ["dest/*.js"]
           }
         }
       }
@@ -110,9 +106,7 @@
         },
         "extra": {
           "component": {
-            "scripts": [
-              "dist/*.js"
-            ]
+            "scripts": ["dist/*.js"]
           }
         }
       }
@@ -124,15 +118,13 @@
         "type": "component",
         "version": "2.0.4",
         "source": {
-          "url": "http://github.com//ROMB/jquery-dialogextend",
+          "url": "http://github.com/ROMB/jquery-dialogextend",
           "type": "git",
           "reference": "master"
         },
         "extra": {
           "component": {
-            "scripts": [
-              "build/*.js"
-            ]
+            "scripts": ["build/*.js"]
           }
         }
       }
