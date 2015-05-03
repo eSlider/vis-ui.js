@@ -23,11 +23,10 @@
 
     <!-- Leaflat -->
     <script src="web/assets/leaflet/js/leaflet.min.js" type="text/javascript"></script>
-    <link media="all" type="text/css" href="web/assets/leaflet/css/leaflet.css">
+    <link media="all" type="text/css" rel="stylesheet" href="web/assets/leaflet/css/leaflet.css">
 
     <!-- OpenLayers -->
     <script src="web/assets/openlayers2/OpenLayers.js" type="text/javascript"></script>
-    <link media="all" type="text/css" href="web/assets/openlayers2/theme/default/style.css">
 
 
     <!--[if lt IE 9]>
@@ -110,11 +109,46 @@
                         }]
                     });
 
+                    // create a map in the "map" div, set the view to a given place and zoom
+
+                    (function(){
+                        var leaflatMap = $("<div class='leaflat-map'></div>");
+                        leaflatMap.popupDialog({
+                            title: 'Leaflat demo',
+                            height:   "300",
+                            width:    "400px",
+                            create: function() {
+                                var map = L.map(leaflatMap[0]).setView([51.505, -0.09], 13);
+                                L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                                    maxZoom:     18,
+                                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                                    id:          'examples.map-i875mjb7'
+                                }).addTo(map);
+
+                                L.marker([51.5, -0.09]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+
+                                var popup = L.popup();
+                                map.on('click', function(e) {
+                                    popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
+                                });
+                            }
+                        });
+                    })()
+
                 });
             })
         });
     </script>
 
+    <style type="text/css" media="all">
+        html,body{
+            height: 100%;
+            overflow: hidden;
+        }
+        .leaflat-map{
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
 </body>
