@@ -288,7 +288,7 @@
                 return container;
             },
             fieldSet: function(item, declarations, widget) {
-                var fieldSet = $("<fieldset/>");
+                var fieldSet = $("<fieldset class='form-group'/>");
                 if(has(item, 'children')) {
                     $.each(item.children, function(k, item) {
                         fieldSet.append(widget.genElement(item));
@@ -337,7 +337,7 @@
              * @return {*|HTMLElement}
              */
             breakLine: function(item, declarations, widget) {
-                return $("<hr/>");
+                return $("<hr class='break-line'/>");
             }
         },
 

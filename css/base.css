@@ -19,3 +19,14 @@
 .popup-dialog.modal-body{
     overflow-y: auto;
 }
+
+fieldset.form-group{
+    margin-left: -15px;
+}
+
+fieldset.form-group > .checkbox,
+fieldset.form-group > .radio,
+fieldset.form-group > .form-group{
+    display: inline-block;
+    margin-left: 15px;
+}
