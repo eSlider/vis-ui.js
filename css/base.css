@@ -15,3 +15,7 @@
     content: "\f00d";
     font-size: 18px
 }
+
+.popup-dialog.modal-body{
+    overflow-y: auto;
+}

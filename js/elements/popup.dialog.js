@@ -46,7 +46,12 @@
                     height += $(el).outerHeight();
                 });
                 win.height(Math.round(height));
-                //$("> .modal-body",win).height(height-40);
+                element.width(element.closest('.ui-dialog').find('> .modal-header').width());
+            });
+
+            //resize dialog height fix
+            element.bind('popupdialogresizestop', function(e, ui) {
+                element.width(element.closest('.ui-dialog').find('> .modal-header').width());
             });
 
             // prevent key listening outside the dialog

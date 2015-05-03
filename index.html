@@ -44,10 +44,27 @@
         $(function() {
             jQuery.getScript("js/loader.js?ver="+Math.random(), function() {
                 loadElements(function(){
-                    $("<div/>").popupDialog({
-                        title: "Demo",
-                        maximizable: true
+
+                    var $div = $("<div/>");
+                    $div.generateElements({
+                        type:  'input',
+                        title: "Input",
+                        mandatory: true
                     });
+
+                    $div.popupDialog({
+                        title:       "Demo",
+                        maximizable: true,
+                        buttons:     [{
+                            text:  "OK",
+                            click: function(e) {
+                                var div = $(e.currentTarget).closest(".ui-dialog").find(".popup-dialog");
+                                div.popupDialog('close');
+                            }
+                        }]
+                    });
+
+
                 });
             })
         });
