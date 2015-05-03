@@ -15,11 +15,11 @@
     "components/normalize.css": "2.*",
     "components/bootstrap": "3.*",
     "afarkas/html5shiv": "dev-master",
-    "drmonty/leaflet": "0.7.*",
+    "drmonty/leaflet": "0.*",
     "components/datatables": "1.10.*",
     "components/underscore": "*",
-    "components/font-awesome": "4.3.*",
-    "components/openlayers2": "2.13.1"
+    "components/font-awesome": "*",
+    "components/openlayers2": "*"
   },
   "config": {
     "component-dir": "web/assets"
