@@ -4,3 +4,14 @@
 .ui-dialog.ui-resizable > * {
     box-sizing: content-box !important;
 }
+
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-close > .ui-button-text {
+    display: block;
+    font-size: 0;
+}
+
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-close > .ui-button-text:before {
+    font-family: FontAwesome;
+    content: "\f00d";
+    font-size: 18px
+}

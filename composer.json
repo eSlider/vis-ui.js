@@ -10,18 +10,18 @@
   ],
   "require": {
     "robloach/component-installer": "*",
+    "components/normalize.css": "2.*",
+    "components/font-awesome": "*",
+    "components/bootstrap": "3.*",
+    "drmonty/leaflet": "0.*",
+    "components/openlayers2": "*",
     "components/jquery": "1.*",
     "components/jqueryui": "1.*",
-    "components/normalize.css": "2.*",
-    "components/bootstrap": "3.*",
     "afarkas/html5shiv": "dev-master",
-    "drmonty/leaflet": "0.*",
-    "components/datatables": "1.10.*",
     "components/underscore": "*",
-    "components/font-awesome": "*",
-    "components/openlayers2": "*",
     "components/respondjs": "*",
     "components/jquery-dialogextend-js": "*",
+    "components/datatables": "1.10.*",
     "components/placeholdersjs": "*"
   },
   "config": {
@@ -30,11 +30,19 @@
   "extra": {
     "component": {
       "scripts": [
+        "js/utils/*.js",
+        "js/elements/*.js",
         "js/jquery.form.generator.js"
       ],
-      "files": [
-        "js/elements/*"
-      ]
+      "styles" : [
+        "css/base.css"
+      ],
+      "components/bootstrap": {
+        "styles": [
+          "css/bootstrap.min.css",
+          "css/bootstrap-theme.min.css"
+        ]
+      }
     }
   },
   "repositories": [
@@ -52,6 +60,9 @@
           "component": {
             "scripts": [
               "OpenLayers.js"
+            ],
+            "styles": [
+              "theme/default/style.css"
             ],
             "files": [
               "*.js",
