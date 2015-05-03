@@ -14,11 +14,44 @@
     "components/jqueryui": "1.*",
     "components/normalize.css": "2.*",
     "components/bootstrap": "3.*",
+    "afarkas/html5shiv": "dev-master",
     "drmonty/leaflet": "0.7.*",
-    "components/datatables": "1.10.*"
-
+    "components/datatables": "1.10.*",
+    "components/underscore": "*",
+    "components/font-awesome": "4.3.*",
+    "components/openlayers2": "2.13.1"
   },
   "config": {
     "component-dir": "web/assets"
-  }
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "components/openlayers2",
+        "type": "component",
+        "version": "2.13.1",
+        "dist": {
+          "url": "https://github.com/openlayers/openlayers/releases/download/release-2.13.1/OpenLayers-2.13.1.zip",
+          "type": "zip"
+        },
+        "extra": {
+          "component": {
+            "scripts": [
+              "OpenLayers.js"
+            ],
+            "files": [
+              "*.js",
+              "img/*",
+              "art/*",
+              "theme/*/*"
+            ]
+          }
+        },
+        "require": {
+          "robloach/component-installer": "*"
+        }
+      }
+    }
+  ]
 }
