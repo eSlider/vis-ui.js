@@ -1,0 +1,6 @@
+/*
+* popupDialog resizing fix
+*/
+.ui-dialog.ui-resizable > * {
+    box-sizing: content-box !important;
+}
