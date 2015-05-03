@@ -46,35 +46,66 @@
                 loadElements(function(){
 
                     var $div = $("<div/>");
+                    var nameFields = [{
+                        type:    "select",
+                        title:   "Title",
+                        options: {
+                            mr: "Mr.",
+                            ms: "Ms."
+                        }
+                    },{
+                        type:        "input",
+                        title:       "Name",
+                        placeholder: "Please enter name",
+                        mandatory:   true
+                    }, {
+                        type:        "input",
+                        name:        "secondname",
+                        title:       "Second name",
+                        placeholder: "Please enter secondname"
+                    }];
+
+                    var agreementElements = [{
+                        type: "checkbox",
+                        name: 'agb',
+                        title: "AGB"
+                    },{
+                        type: "radio",
+                        name: 'ato',
+                        value: 1,
+                        title: "Yes"
+                    },{
+                        type: "radio",
+                        name: 'ato',
+                        value: 0,
+                        title: "No"
+                    }];
+
                     $div.generateElements({
                         children: [{
-                            type:        "input",
-                            title:       "Name",
-                            placeholder: "Please enter name",
-                            mandatory:   true
+                            type:     'fieldSet',
+                            children: nameFields
+                        }, {type: "breakLine"}, {
+                            type:        "textArea",
+                            title:       "Description",
+                            placeholder: "Something..."
                         }, {
-                            type:        "input",
-                            name:        "secondname",
-                            title:       "Second name",
-                            placeholder: "Please enter secondname"
-                        }, {
-                            type:    "select",
-                            title:  "Title",
-                            options: {
-                                mr: "Mr.",
-                                ms: "Ms."
-                            }
+                            type:     "fieldSet",
+                            children: agreementElements
                         }]
                     });
 
                     $div.popupDialog({
                         title:       "Demo",
                         maximizable: true,
+                        width: "500px",
                         buttons:     [{
                             text:  "OK",
                             click: function(e) {
-                                var div = $(e.currentTarget).closest(".ui-dialog").find(".popup-dialog");
-                                div.popupDialog('close');
+                                var popup = $(e.currentTarget).closest(".ui-dialog").find(".popup-dialog");
+                                console.log(popup.formData());
+                                return;
+                                popup.popupDialog('close');
                             }
                         }]
                     });

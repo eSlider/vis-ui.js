@@ -7,8 +7,7 @@ This package just provides the basic JavaScript UI generator in the package. Thi
 means that although the stylesheets are there, you will be required to provide
 your own means of including the styles.
 
-Elements
---------
+## Elements
 
 Basic usage:
 ```javascript
