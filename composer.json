@@ -19,7 +19,8 @@
     "components/datatables": "1.10.*",
     "components/underscore": "*",
     "components/font-awesome": "*",
-    "components/openlayers2": "*"
+    "components/openlayers2": "*",
+    "components/respondjs": "*"
   },
   "config": {
     "component-dir": "web/assets"
@@ -45,6 +46,32 @@
               "img/*",
               "art/*",
               "theme/*/*"
+            ]
+          }
+        },
+        "require": {
+          "robloach/component-installer": "*"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/respondjs",
+        "type": "component",
+        "version": "1.4.2",
+        "source": {
+          "url": "https://github.com/scottjehl/Respond",
+          "type": "git",
+          "reference": "master"
+        },
+        "extra": {
+          "component": {
+            "scripts": [
+              "dest/respond.min.js"
+            ],
+            "files": [
+              "dest/*.js"
             ]
           }
         },
