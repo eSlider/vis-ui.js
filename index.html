@@ -39,6 +39,14 @@
         $(function() {
             jQuery.getScript("src/js/loader.js?ver=" + Math.random(), function() {
                 loadElements(function() {
+                    $("body").generateElements({
+                        type:     "form",
+                        children: [{
+                            type:    "select",
+                            title:   "Examples",
+                            options: {popup: "popup demo #1"}
+                        }]
+                    });
 
                     // Map test
                     (function(){

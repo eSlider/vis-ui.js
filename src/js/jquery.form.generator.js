@@ -410,7 +410,7 @@
         },
         _setOptions: function(options) {
             if(has(options, 'type')) {
-                this.element.append(this.genElement(options));
+                this.genElement(options)
             }
             this._super(options);
             this.refresh();
