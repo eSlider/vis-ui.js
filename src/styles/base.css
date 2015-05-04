@@ -1,6 +1,44 @@
 .mb-element-popup-dialog{
   position: absolute !important;
 }
+.ui-icon{
+    font-size: 0;
+    color: inherit;
+
+}
+
+.ui-icon:before{
+    font-family: FontAwesome;
+    font-size: 14px;
+    display: block;
+    vertical-align: middle;
+}
+
+/* close */
+.ui-icon-closethick:before {
+    content: "\f00d";
+    font-size: 13px;
+}
+
+/* restore */
+.ui-icon-minus:before {
+    content: '\f096';
+}
+
+/* collapse */
+.ui-icon-triangle-1-s:before {
+    content: '\f068';
+}
+
+/* restore */
+.ui-icon-newwin:before {
+    content: "\f096";
+}
+
+/* maiximize */
+.ui-icon-extlink:before {
+    content: '\f065';
+}
 
 /*
 * popupDialog resizing fix
@@ -9,15 +47,37 @@
     box-sizing: content-box !important;
 }
 
-.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-close > .ui-button-text {
-    display: block;
-    font-size: 0;
+.ui-dialog  > .ui-dialog-titlebar.modal-header{
+    position: relative;
 }
 
-.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-close > .ui-button-text:before {
-    font-family: FontAwesome;
-    content: "\f00d";
-    font-size: 18px
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-buttonpane a,
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-buttonpane button
+{
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    opacity: 1;
+    color: #989898;
+    background: #E4E4E4;
+    height: 21px;
+    width: 21px;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-buttonpane a{
+    float: none;
+}
+
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-buttonpane a:hover,
+.ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-buttonpane button:hover{
+    color: #000000;
+}
+
+
+.ui-dialog > .ui-dialog-titlebar  .ui-dialog-titlebar-close > .ui-button-text {
+    display: block;
+    font-size: 0;
 }
 
 .popup-dialog.modal-body{
