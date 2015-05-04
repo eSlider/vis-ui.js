@@ -62,7 +62,6 @@
       "type": "package",
       "package": {
         "name": "components/jquery-dialogextend-js",
-        "type": "component",
         "version": "2.0.4",
         "source": {
           "url": "http://github.com/ROMB/jquery-dialogextend",
