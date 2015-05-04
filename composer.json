@@ -70,9 +70,8 @@
           "reference": "master"
         },
         "dist": {
-          "url": "http://github.com/ROMB/jquery-dialogextend",
-          "type": "git",
-          "reference": "master"
+          "url": "https://github.com/ROMB/jquery-dialogextend/archive/2.0.4.zip",
+          "type": "zip"
         },
         "extra": {
           "component": {
