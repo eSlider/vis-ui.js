@@ -30,19 +30,13 @@
   "extra": {
     "component": {
       "scripts": [
-        "js/utils/*.js",
-        "js/elements/*.js",
-        "js/jquery.form.generator.js"
+        "src/js/utils/*.js",
+        "src/js/elements/*.js",
+        "src/js/jquery.form.generator.js"
       ],
       "styles": [
-        "css/base.css"
-      ],
-      "components/bootstrap": {
-        "styles": [
-          "css/bootstrap.min.css",
-          "css/bootstrap-theme.min.css"
-        ]
-      }
+        "src/css/base.css"
+      ]
     }
   },
   "repositories": [
