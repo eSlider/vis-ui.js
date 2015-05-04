@@ -1,5 +1,5 @@
 {
-  "name": "viscreation/vis-ui-js",
+  "name": "viscreation/vis-ui.js",
   "type": "component",
   "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
   "license": "MIT",
@@ -15,7 +15,6 @@
     "components/font-awesome": "*",
     "components/bootstrap": "3.*",
     "drmonty/leaflet": "0.*",
-    "components/openlayers2": "*",
     "components/jquery": "1.*",
     "components/jqueryui": "1.*",
     "afarkas/html5shiv": "dev-master",
@@ -35,7 +34,7 @@
         "js/elements/*.js",
         "js/jquery.form.generator.js"
       ],
-      "styles" : [
+      "styles": [
         "css/base.css"
       ],
       "components/bootstrap": {
@@ -47,34 +46,6 @@
     }
   },
   "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "components/openlayers2",
-        "type": "component",
-        "version": "2.13.1",
-        "dist": {
-          "url": "https://github.com/openlayers/openlayers/releases/download/release-2.13.1/OpenLayers-2.13.1.zip",
-          "type": "zip"
-        },
-        "extra": {
-          "component": {
-            "scripts": [
-              "OpenLayers.js"
-            ],
-            "styles": [
-              "theme/default/style.css"
-            ],
-            "files": [
-              "*.js",
-              "img/*",
-              "art/*",
-              "theme/*/*/*"
-            ]
-          }
-        }
-      }
-    },
     {
       "type": "package",
       "package": {

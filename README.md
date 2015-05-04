@@ -1,4 +1,4 @@
-VIS-UI-JS
+vis-ui.js
 =========
 
 Shim repository for [Bootstrap](http://getbootstrap.com).
@@ -42,4 +42,4 @@ $div.popupDialog({
 Package Managers
 ----------------
 
-* [Composer](http://packagist.org/packages/viscreation/vis-ui-js): `viscreation/vis-ui-js`
+* [Composer](http://packagist.org/packages/viscreation/vis-ui-js): `viscreation/vis-ui.js`

@@ -13,6 +13,9 @@
      */
     $.widget("vis-ui-js.popupDialog", $.ui.dialog, {
 
+        // track if window is opened
+        isOpened: false,
+
         /**
          * Constructor, runs only if the object wasn't created before
          *
@@ -24,7 +27,6 @@
             var widget = this;
 
             element.addClass('popup-dialog');
-
 
             // overrides default options
             $.extend(this.options, {
@@ -98,8 +100,6 @@
                     return;
                 }
 
-
-
                 if(element.dialogExtend('state') == 'normal'){
                     element.dialogExtend('maximize');
                 }else{
@@ -115,6 +115,11 @@
          * @return {}
          */
         open: function() {
+            if(this.isOpened){
+                return
+            }
+            this.isOpened = true;
+
             var content = $(this.element);
             var dialog = content.closest('.ui-dialog');
             var header = $('.ui-widget-header', dialog);
@@ -122,7 +127,6 @@
             var dialogBody = $('.ui-dialog-content', dialog);
             var dialogBottomPane = $('.ui-dialog-buttonpane', dialog);
             var dialogBottomButtons = $('.ui-dialog-buttonset > .ui-button', dialogBottomPane);
-
 
             // Marriage of jQuery UI and Bootstrap
             dialog.addClass('modal-content');
@@ -134,6 +138,12 @@
 
             // Set as mapbender element
             dialog.addClass('mb-element-popup-dialog');
+
+            // Fix switch between windows
+            if(dialog.css('z-index') == "auto"){
+                dialog.css('z-index',1);
+            }
+
             return this._super();
         }
     });

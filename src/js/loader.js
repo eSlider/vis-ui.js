@@ -3,17 +3,18 @@
  * @author Andriy Oblivantsev <eslider@gmail.com>
  */
 var requieredFiles = [
-    'js/utils/fn.formData.js',
-    'js/elements/data.result-table.js',
-    'js/elements/date.selector.js',
-    'js/elements/geo.toolset.js',
-    'js/elements/popup.dialog.js',
-    'js/elements/tab.navigator.js',
-    'js/jquery.form.generator.js'
+    'utils/fn.formData.js',
+    'elements/data.result-table.js',
+    'elements/date.selector.js',
+    'elements/geo.toolset.js',
+    'elements/popup.dialog.js',
+    'elements/tab.navigator.js',
+    'jquery.form.generator.js'
 ];
 
 var loadedFiles = 0;
 var onComplete = null;
+var sourcesPath = "src/js/";
 
 function checkLoad() {
     loadedFiles++;
@@ -33,7 +34,7 @@ function loadElements(completeHandler) {
         onComplete  = completeHandler;
     }
     $.each(requieredFiles, function(i, fileName) {
-        jQuery.getScript(fileName + "?ver=" + Math.random(), checkLoad).error(onLoadError);
+        jQuery.getScript(sourcesPath+fileName + "?ver=" + Math.random(), checkLoad).error(onLoadError);
     })
 }
 
