@@ -64,6 +64,7 @@
     width: 21px;
     margin-right: 5px;
     border-radius: 3px;
+    text-shadow: 0px 1px 1px #fff;
 }
 .ui-dialog > .ui-dialog-titlebar > .ui-dialog-titlebar-buttonpane a{
     float: none;
