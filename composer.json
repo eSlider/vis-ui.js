@@ -69,6 +69,11 @@
           "type": "git",
           "reference": "master"
         },
+        "dist": {
+          "url": "http://github.com/ROMB/jquery-dialogextend",
+          "type": "git",
+          "reference": "master"
+        },
         "extra": {
           "component": {
             "scripts": ["build/*.js"]
