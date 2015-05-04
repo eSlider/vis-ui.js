@@ -37,87 +37,19 @@
 
     <script type="application/javascript">
         $(function() {
-            jQuery.getScript("src/js/loader.js?ver="+Math.random(), function() {
-                loadElements(function(){
+            jQuery.getScript("src/js/loader.js?ver=" + Math.random(), function() {
+                loadElements(function() {
 
-                    var $div = $("<div/>");
-                    var nameFields = [{
-                        type:    "select",
-                        title:   "Title",
-                        options: {
-                            mr: "Mr.",
-                            ms: "Ms."
-                        }
-                    },{
-                        type:        "input",
-                        title:       "Name",
-                        placeholder: "Please enter name",
-                        mandatory:   true
-                    }, {
-                        type:        "input",
-                        name:        "secondname",
-                        title:       "Second name",
-                        placeholder: "Please enter secondname"
-                    }];
-
-                    var agreementElements = [{
-                        type: "checkbox",
-                        name: 'agb',
-                        title: "AGB"
-                    },{
-                        type: "radio",
-                        name: 'ato',
-                        value: 1,
-                        title: "Yes"
-                    },{
-                        type: "radio",
-                        name: 'ato',
-                        value: 0,
-                        title: "No"
-                    }];
-
-                    $div.generateElements({
-                        children: [{
-                            type:     'fieldSet',
-                            children: nameFields
-                        }, {type: "breakLine"}, {
-                            type:        "textArea",
-                            title:       "Description",
-                            placeholder: "Something..."
-                        }, {
-                            type:     "fieldSet",
-                            children: agreementElements
-                        }]
-                    });
-
-                    $div.popupDialog({
-                        title:       "Demo",
-                        maximizable: true,
-                        width: "500px",
-                        buttons:     [{
-                            text:  "OK",
-                            click: function(e) {
-                                var popup = $(e.currentTarget).closest(".ui-dialog").find(".popup-dialog");
-                                console.log(popup.formData());
-                                return;
-                                popup.popupDialog('close');
-                            }
-                        }]
-                    });
-
-                    // create a map in the "map" div, set the view to a given place and zoom
-
+                    // Map test
                     (function(){
-                        var leaflatMap = $("<div id='leaflat-map'></div>");
+                        var leafLatPopup = $("<div><div class='leaflat-map'/></div>");
                         var isCreated = false;
-                        leaflatMap.popupDialog({
+                        leafLatPopup.popupDialog({
                             title: 'Leaflat demo',
                             height:   "500",
-                            width:    "300px",
+                            width:    "500px",
                             open: function() {
-                                console.log("open!!!");
-                                var map = L.map(leaflatMap[0]).setView([51.505, -0.09], 13);
-
+                                var map = L.map(leafLatPopup.find('.leaflat-map')[0]).setView([51.505, -0.09], 13);
                                 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
                                     maxZoom:     18,
                                     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -132,18 +64,88 @@
                                 });
                             }
                         });
+                    })();
+
+                    // Form test
+                    (function() {
+                        var $div = $("<div/>");
+                        var nameFields = [{
+                            type:    "select",
+                            title:   "Title",
+                            options: {
+                                mr: "Mr.",
+                                ms: "Ms."
+                            }
+                        }, {
+                            type:        "input",
+                            title:       "Name",
+                            placeholder: "Please enter name",
+                            mandatory:   true
+                        }, {
+                            type:        "input",
+                            name:        "secondname",
+                            title:       "Second name",
+                            placeholder: "Please enter secondname"
+                        }];
+
+                        var agreementElements = [{
+                            type:  "checkbox",
+                            name:  'agb',
+                            title: "AGB"
+                        }, {
+                            type:  "radio",
+                            name:  'ato',
+                            value: 1,
+                            title: "Yes"
+                        }, {
+                            type:  "radio",
+                            name:  'ato',
+                            value: 0,
+                            title: "No"
+                        }];
+
+                        $div.generateElements({
+                            children: [{
+                                type:     'fieldSet',
+                                children: nameFields
+                            }, {type: "breakLine"}, {
+                                type:        "textArea",
+                                title:       "Description",
+                                placeholder: "Something..."
+                            }, {
+                                type:     "fieldSet",
+                                children: agreementElements
+                            }]
+                        });
+
+                        $div.popupDialog({
+                            title:       "Demo",
+                            maximizable: true,
+                            width:       "500px",
+                            buttons:     [{
+                                text:  "OK",
+                                click: function(e) {
+                                    var popup = $(e.currentTarget).closest(".ui-dialog").find(".popup-dialog");
+                                    console.log(popup.formData());
+                                    return;
+                                    popup.popupDialog('close');
+                                }
+                            }]
+                        });
                     })()
+
                 });
             })
         });
     </script>
 
     <style type="text/css" media="all">
-        html,body{
+        html, body {
             height: 100%;
             overflow: hidden;
         }
-        .leaflat-map{
+
+        .leaflat-map {
             height: 100%;
         }
     </style>
