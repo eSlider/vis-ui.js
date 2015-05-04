@@ -289,6 +289,11 @@
             },
             fieldSet: function(item, declarations, widget) {
                 var fieldSet = $("<fieldset class='form-group'/>");
+
+                if(has(item, 'title')) {
+                    fieldSet.append("<legend>"+title+"</legend>");
+                }
+
                 if(has(item, 'children')) {
                     $.each(item.children, function(k, item) {
                         fieldSet.append(widget.genElement(item));
