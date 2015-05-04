@@ -131,6 +131,24 @@ $div.popupDialog({
 });
 ```
 
+## Integration 
+
+Extend composer dependencies with *eslider/vis-ui.js* and update composer.
+```sh
+composer update
+```
+
+Load JS library to HTML.
+```html
+<script src="web/assets/vis-ui.js/vis-ui.js-built.js"></script>
+```
+
+Add CSS styles.
+```html
+<link media="all" type="text/css" rel="stylesheet" href="web/assets/require.css">
+```
+
+
 
 Package Managers
 ----------------
