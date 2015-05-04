@@ -9,7 +9,100 @@ your own means of including the styles.
 
 ## Elements
 
-Basic usage:
+Description how to use element generator.
+
+---
+### Input 
+```javascript
+$("<div/>").generateElements({
+    type: "input",
+    name: "name",
+    title: "Input",
+    placeholder: "Enter the name",
+    mandatory: true,
+    cssClass: "input-css", 
+    css: {width: 80%}
+})
+```
+#### Options
+* name:  Field name 
+* title: Title string
+* placeholder: Place holder in the input field
+* mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
+* cssClass: CSS class name
+* css: Custom CSS styles object. Example: {width: 80%}
+* value: Default value
+
+---
+### Text area  
+```javascript
+$("<div/>").generateElements({
+    type: "textArea",
+    name: "description" ,
+    title: "Description",
+    placeholder: "Enter the description",
+})
+```
+#### Options
+* name:  Field name 
+* title: Title string
+* placeholder: Place holder in the input field
+* mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
+* cssClass: CSS class name
+* css: Custom CSS styles object. Example: {width: 80%}
+* value: Default value
+
+---
+
+### Check box 
+```javascript
+$("<div/>").generateElements({
+    type: "checkbox",
+    name: "check1",
+    title: "Checkbox",
+    mandatory: true,
+    cssClass: "input-css", 
+    css: {width: 80%}
+})
+```
+#### Options
+* name:  Field name 
+* title: Title string
+* placeholder: Place holder in the input field
+* mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
+* cssClass: CSS class name
+* css: Custom CSS styles object. Example: {width: 80%}
+* value: Default value
+
+
+---
+
+### Radio button
+```javascript
+$("<div/>").generateElements({children:[{
+        type: "radio",
+        name: "yesNo",
+        title: "Yes",
+        css: {width: 50%}
+    },{
+        type: "radio",
+        name: "yesNo",
+        title: "no",
+        css: {width: 50%}
+}]})
+```
+#### Options
+* name:  Field name 
+* title: Title string
+* placeholder: Place holder in the input field
+* mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
+* cssClass: CSS class name
+* css: Custom CSS styles object. Example: {width: 80%}
+* value: Default value
+
+---
+
+### Basic usage example:
 ```javascript
 
 var $div = $("<div/>");
