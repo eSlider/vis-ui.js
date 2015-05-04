@@ -19,7 +19,7 @@
     "components/jqueryui": "1.*",
     "afarkas/html5shiv": "dev-master",
     "components/underscore": "*",
-    "components/respondjs": "*",
+    "rogeriopradoj/respond": "*",
     "components/jquery-dialogextend-js": "*",
     "components/datatables": "1.10.*",
     "components/placeholdersjs": "*"
@@ -40,25 +40,6 @@
     }
   },
   "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "components/respondjs",
-        "type": "component",
-        "version": "1.4.2",
-        "source": {
-          "url": "https://github.com/scottjehl/Respond",
-          "type": "git",
-          "reference": "master"
-        },
-        "extra": {
-          "component": {
-            "scripts": ["dest/respond.min.js"],
-            "files": ["dest/*.js"]
-          }
-        }
-      }
-    },
     {
       "type": "package",
       "package": {
