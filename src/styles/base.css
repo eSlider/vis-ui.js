@@ -87,11 +87,15 @@
 
 fieldset.form-group{
     margin-left: -15px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 fieldset.form-group > .checkbox,
 fieldset.form-group > .radio,
 fieldset.form-group > .form-group{
     display: inline-block;
-    margin-left: 15px;
+    vertical-align: bottom;
+    margin-bottom: 5px;
+    padding-left: 15px;
 }

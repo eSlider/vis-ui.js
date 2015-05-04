@@ -49,14 +49,14 @@
                     });
 
                     // Map test
-                    (function(){
+                    (function() {
                         var leafLatPopup = $("<div><div class='leaflat-map'/></div>");
                         var isCreated = false;
                         leafLatPopup.popupDialog({
-                            title: 'Leaflat demo',
-                            height:   "500",
-                            width:    "500px",
-                            open: function() {
+                            title:  'Leaflat demo',
+                            height: "500",
+                            width:  "500px",
+                            open:   function() {
                                 var map = L.map(leafLatPopup.find('.leaflat-map')[0]).setView([51.505, -0.09], 13);
                                 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
                                     maxZoom:     18,
@@ -83,17 +83,26 @@
                             options: {
                                 mr: "Mr.",
                                 ms: "Ms."
-                            }
+                            },
+                            css:     {width: "20%"}
                         }, {
                             type:        "input",
                             title:       "Name",
                             placeholder: "Please enter name",
-                            mandatory:   true
+                            mandatory:   true,
+                            css:         {width: "40%"}
                         }, {
                             type:        "input",
                             name:        "secondname",
                             title:       "Second name",
-                            placeholder: "Please enter secondname"
+                            placeholder: "Please enter secondname",
+                            css:         {width: "40%"}
+                        }, {
+                            type:   "date",
+                            title:  "Birthday",
+                            value:  "2015",
+                            format: "YY",
+                            css:    {width: "20%"}
                         }];
 
                         var agreementElements = [{
