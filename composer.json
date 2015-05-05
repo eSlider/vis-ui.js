@@ -2,6 +2,9 @@
   "name": "viscreation/vis-ui.js",
   "type": "component",
   "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
+  "keywords": [ "assets", "jquery", "vis-ui"],
+  "homepage": "https://github.com/eSlider",
+  "type": "library",
   "license": "MIT",
   "authors": [
     {
@@ -45,19 +48,15 @@
       "package": {
         "name": "components/placeholdersjs",
         "type": "component",
-        "version": "3.0.2",
-        "source": {
-          "url": "http://github.com/jamesallardice/Placeholders.js",
-          "type": "git",
-          "reference": "master"
+        "version": "4.0.1",
+        "dist": {
+          "url": "http://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
+          "type": "zip"
         },
         "extra": {
           "component": {
-            "scripts": ["dist/*.js"]
+            "scripts": ["dist/placeholders.min.js","dist/placeholders.jquery.min.js"]
           }
-        },
-        "require": {
-          "robloach/component-installer": "*"
         }
       }
     },
@@ -67,11 +66,6 @@
         "name": "components/jquerydialogextendjs",
         "type": "component",
         "version": "2.0.4",
-        "source": {
-          "url": "http://github.com/ROMB/jquery-dialogextend",
-          "type": "git",
-          "reference": "master"
-        },
         "dist": {
           "url": "https://github.com/ROMB/jquery-dialogextend/archive/2.0.4.zip",
           "type": "zip"
@@ -80,9 +74,6 @@
           "component": {
             "scripts": ["build/*.js"]
           }
-        },
-        "require": {
-          "robloach/component-installer": "*"
         }
       }
     }
