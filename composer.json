@@ -20,7 +20,7 @@
     "afarkas/html5shiv": "*",
     "components/underscore": "*",
     "rogeriopradoj/respond": "*",
-    "components/jquery-dialogextend-js": "*",
+    "components/jquerydialogextendjs": "2.0.4",
     "components/datatables": "1.10.*",
     "components/placeholdersjs": "*"
   },
@@ -64,7 +64,7 @@
     {
       "type": "package",
       "package": {
-        "name": "components/jquery-dialogextend-js",
+        "name": "components/jquerydialogextendjs",
         "type": "component",
         "version": "2.0.4",
         "source": {
