@@ -1,6 +1,5 @@
 {
   "name": "viscreation/vis-ui.js",
-  "type": "component",
   "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
   "keywords": [ "assets", "jquery", "vis-ui"],
   "homepage": "https://github.com/eSlider",
