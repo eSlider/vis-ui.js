@@ -50,7 +50,6 @@
         "name": "components/placeholdersjs",
         "type": "component",
         "version": "4.0.1",
-        "packagist": false,
         "dist": {
           "url": "http://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
           "type": "zip"
@@ -68,7 +67,6 @@
         "name": "components/jquerydialogextendjs",
         "type": "component",
         "version": "2.0.4",
-        "packagist": false,
         "dist": {
           "url": "http://github.com/ROMB/jquery-dialogextend/archive/2.0.4.zip",
           "type": "zip"
