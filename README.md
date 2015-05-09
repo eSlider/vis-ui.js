@@ -100,6 +100,20 @@ $("<div/>").generateElements({children:[{
 * css: Custom CSS styles object. Example: {width: 80%}
 * value: Default value
 
+### Select
+```javascript
+$("<div/>").generateElements({type: "select", value: "de", options: {en:"English", de"En} })
+```
+#### Options
+* name:  Field name 
+* title: Title string
+* mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
+* cssClass: CSS class name
+* css: Custom CSS styles object. Example: {width: 80%}
+* value: Default value
+* options: key/values object or array
+* multiply: Multiply selection. Default false
+
 ---
 
 ### Basic usage example:
