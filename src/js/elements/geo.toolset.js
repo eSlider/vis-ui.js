@@ -10,7 +10,11 @@
 
     $.widget("vis-ui-js.digitizingToolSet", {
 
-        options:           {layer: null},
+        options:           {
+            layer:    null,
+            // Open layer control events
+            controlEvents: []
+        },
         controls:          null,
         _activeControls:   [],
         currentController: null,
@@ -28,60 +32,43 @@
             widget.controls = {
                 drawPoint:      {
                     infoText: "Draw point",
-                    listener: function(e) {
+                    control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Point),
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
-                        } else {
-                            mapElement.css({cursor: 'default'});
                         }
-
-                    },
-                    control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Point, {
-                        featureAdded: function(feature) {
-                            widget._trigger("featureAdded", null, feature);
-                        }
-                    })
+                    }
                 },
                 drawLine:       {
                     infoText: "Draw line",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
-                        } else {
-                            mapElement.css({cursor: 'default'});
                         }
 
                     },
-                    control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Path, {
-                        featureAdded: function(feature) {
-                            widget._trigger("featureAdded", null, feature);
-                        }
-                    })
+                    control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Path)
                 },
                 drawPolygon:    {
                     infoText: "Draw polygone",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
                         } else {
                             mapElement.css({cursor: 'default'});
                         }
 
                     },
-                    control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Polygon, {
-                        featureAdded: function(feature) {
-                            widget._trigger("featureAdded", null, feature);
-                        }
-                    })
+                    control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Polygon)
                 },
                 drawRectangle:  {
                     infoText: "Draw rectangle",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
                         } else {
                             mapElement.css({cursor: 'default'});
@@ -97,9 +84,9 @@
                 },
                 drawCircle:     {
                     infoText: "Draw circle",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
                         } else {
                             mapElement.css({cursor: 'default'});
@@ -114,9 +101,9 @@
                 },
                 drawEllipse:    {
                     infoText: "Draw ellipse",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
                         } else {
                             mapElement.css({cursor: 'default'});
@@ -132,14 +119,13 @@
                 },
                 drawDonut:          {
                     infoText: "Draw donut",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
                         } else {
                             mapElement.css({cursor: 'default'});
                         }
-
                     },
                     control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Polygon, {
                         handlerOptions: {
@@ -149,9 +135,9 @@
                 },
                 modifyFeature:           {
                     infoText: "Select and edit geometry position/size",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'crosshair'});
                         } else {
                             mapElement.css({cursor: 'default'});
@@ -162,9 +148,9 @@
                 },
                 moveFeature:           {
                     infoText: "Move geometry",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        if(widget.setController(el.data('control'))) {
+                        if(widget.toggleController(el.data('control'))) {
                             mapElement.css({cursor: 'default'});
                         }
                         mapElement.css({cursor: 'default'});
@@ -176,14 +162,15 @@
                         onComplete: function(feature) {
                             feature.renderIntent = 'default';
                             feature.layer.redraw();
+
                         }
                     })
                 },
                 selectFeature:         {
                     infoText: "Select geometry",
-                    listener: function(e) {
+                    onClick: function(e) {
                         var el = $(e.currentTarget);
-                        widget.setController(el.data('control'));
+                        widget.toggleController(el.data('control'));
                         mapElement.css({cursor: 'default'});
 
                     },
@@ -200,14 +187,14 @@
                 removeSelected: {
                     infoText: "Remove selected geometries",
                     cssClass: 'critical',
-                    listener: function() {
+                    onClick: function() {
                         layer.removeFeatures(layer.selectedFeatures);
                     }
                 },
                 removeAll:      {
                     infoText: "Remove all geometries",
                     cssClass: 'critical',
-                    listener: function() {
+                    onClick: function() {
                         layer.removeAllFeatures();
                     }
                 }
@@ -226,12 +213,8 @@
             var layer = widget.getLayer();
             var map = layer.map;
 
-            if(widget.options.hasOwnProperty('onFeatureAdded')) {
-                widget.element.bind('digitizingtoolsetfeatureadded', widget.options.onFeatureAdded);
-            }
-
             // clean controllers
-            widget.cleanUp();
+            //widget.cleanUp();
 
             // clean navigation
             element.empty();
@@ -252,11 +235,26 @@
         },
 
         /**
-         * Switch between current and element controller.
-         * Returns true if last controller was different to given one
+         * Toggle controller and return true if controller turned on
          *
          * @param controller
          * @returns {boolean}
+         */
+        toggleController: function(controller) {
+            var widget = this;
+            var setOn = widget.currentController != controller;
+            if(setOn) {
+                widget.setController(controller);
+            } else {
+                widget.deactivateCurrentController();
+            }
+            return setOn;
+        },
+
+        /**
+         * Switch between current and element controller.
+         *
+         * @param controller
          */
         setController: function(controller) {
             var widget = this;
@@ -266,20 +264,10 @@
             }
 
             if(widget.currentController) {
-                if(widget.currentController instanceof OpenLayers.Control.SelectFeature) {
-                    widget.currentController.unselectAll();
-                }
-
-                widget.currentController.deactivate();
-
-                if(controller === widget.currentController) {
-                    widget.currentController = null;
-                    return false;
-                }
+                widget.deactivateCurrentController();
             }
 
             widget.currentController = controller;
-            return true;
         },
 
         /**
@@ -291,6 +279,7 @@
             var widget = this;
             var element = $(widget.element);
             var controls = widget.controls;
+            var controlEvents = widget.options.controlEvents;
 
             $.each(buttons, function(i, item) {
                 //var item = this;
@@ -317,46 +306,31 @@
                         button.addClass(controlDefinition.cssClass)
                     }
 
-                    button.on('click', controlDefinition.listener);
+                    button.on('click', controlDefinition.onClick);
 
                     if(controlDefinition.hasOwnProperty('control')) {
                         button.data('control', controlDefinition.control);
                         widget._activeControls.push(controlDefinition.control);
 
                         var drawControlEvents = controlDefinition.control.events;
-                        drawControlEvents.register('activate', button, function() {
+                        drawControlEvents.register('activate', button, function(e) {
+                            widget._trigger('controlActivate', null, e);
                             button.addClass('active');
                         });
-                        drawControlEvents.register('deactivate', button, function() {
+                        drawControlEvents.register('deactivate', button, function(e) {
+                            widget._trigger('controlDeactivate', null, e);
                             button.removeClass('active');
+                        });
+
+                        // Map event handler to ol controls
+                        $.each(controlEvents,function(eventName,eventHandler){
+                            drawControlEvents.register(eventName, null, eventHandler);
                         });
                     }
                 }
 
                 element.append(button);
             });
-        },
-
-        /**
-         * Clean up
-         */
-        cleanUp: function() {
-            var widget = this;
-            if(!widget.hasLayer()){
-                return;
-            }
-            var layer = widget.getLayer();
-            var mapElement = widget.getMapElement();
-            var map = layer.map;
-            var activeControls = widget._activeControls;
-            for (var k in  activeControls) {
-                var control = activeControls[k];
-                control.deactivate();
-                mapElement.css({cursor: 'default'});
-                map.removeControl(control);
-            }
-
-            widget._activeControls = [];
         },
 
         /**
@@ -384,6 +358,27 @@
          */
         hasLayer: function(){
             return !!this.getLayer();
+        },
+
+        /**
+         * Deactivate current OpenLayer controller
+         */
+        deactivateCurrentController: function(){
+            var widget = this;
+            var mapElement = widget.getMapElement();
+            var previousController = widget.currentController;
+
+            if(previousController) {
+                if(previousController instanceof OpenLayers.Control.SelectFeature) {
+                    previousController.unselectAll();
+                }
+
+                previousController.deactivate();
+                widget.currentController = null;
+            }
+
+            mapElement.css({cursor: 'default'});
         }
     });
+
 })(jQuery);
