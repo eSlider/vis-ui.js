@@ -39,7 +39,7 @@
         "src/js/jquery.form.generator.js"
       ],
       "styles": [
-        "src/css/base.css"
+        "src/styles/base.css"
       ]
     }
   },
