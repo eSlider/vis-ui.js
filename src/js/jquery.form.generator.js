@@ -303,7 +303,10 @@
                 var fieldSet = $("<fieldset class='form-group'/>");
 
                 if(has(item, 'title')) {
-                    fieldSet.append("<legend>"+title+"</legend>");
+                    fieldSet.append(declarations.label(item, declarations));
+                }
+                if(has(item, 'legend')) {
+                    fieldSet.append("<legend>"+item.legend+"</legend>");
                 }
 
                 if(has(item, 'children')) {
