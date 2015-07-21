@@ -19,8 +19,24 @@ $.fn.formData = function(values) {
             var input = $(this);
             var value = values[this.name];
 
-            if (values.hasOwnProperty(this.name)) {
+            if(values.hasOwnProperty(this.name)) {
+
                 switch (this.type) {
+                    case 'select-multiple':
+                        var declaration = input.data('declaration');
+                        var type = declaration.fieldType ? declaration.fieldType : 'text';
+
+                        if(type == 'text') {
+                            var separator = declaration.separator ? declaration.separator : ',';
+                            var vals = $.isArray(value) ? value : value.split(separator);
+                            $.each(vals, function(i, optionValue) {
+                                $("option[value='" + optionValue + "']", input).prop("selected", true);
+                            });
+                        } else {
+                            input.val(value);
+                        }
+                        break;
+
                     case 'checkbox':
                         input.prop('checked', value !== null && value);
                         break;
