@@ -61,6 +61,10 @@ $.fn.formData = function(values) {
                     value = input.val();
             }
 
+            if(value === ""){
+                value = null;
+            }
+
             if(declaration){
                 if(declaration.hasOwnProperty('mandatory') && declaration.mandatory ){
                     var isDataReady = false;
