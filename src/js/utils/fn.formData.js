@@ -26,7 +26,7 @@ $.fn.formData = function(values) {
                         var declaration = input.data('declaration');
                         var type = declaration.fieldType ? declaration.fieldType : 'text';
 
-                        if(type == 'text') {
+                        if(type == 'text' && value ) {
                             var separator = declaration.separator ? declaration.separator : ',';
                             var vals = $.isArray(value) ? value : value.split(separator);
                             $.each(vals, function(i, optionValue) {
