@@ -140,6 +140,7 @@
 
                 if(has(item, 'title')) {
                     container.append(declarations.label(item, declarations));
+                    container.addClass('has-title')
                 }
 
                 if(has(item, 'mandatory') && item.mandatory) {
@@ -162,6 +163,12 @@
                         }
                         return hasValue;
                     });
+                }
+
+                if(has(item, 'infoText')) {
+                    var infoButton = $('<a class="infoText">Info</a>');
+                    infoButton.attr('title', item.infoText);
+                    container.append(infoButton);
                 }
 
                 container.append(inputField);
@@ -226,6 +233,13 @@
                 }
 
                 container.append(label);
+
+                if(has(item, 'infoText')) {
+                    var infoButton = $('<a class="infoText">Info</a>');
+                    infoButton.attr('title', item.infoText);
+                    container.append(infoButton);
+                }
+
                 return container;
             },
             radio: function(item, declarations, widget) {
@@ -246,12 +260,17 @@
             textArea:  function(item, declarations, widget) {
                 var inputField = $('<textarea class="form-control" rows="3"/>');
                 var container =  declarations.input(item, declarations, widget, inputField);
+                container.addClass('textarea-container');
+
                 inputField.data('declaration',item);
                 return container;
             },
             select:    function(item, declarations, widget) {
                 var select = $('<select class="form-control"/>');
                 var container = declarations.input(item, declarations, widget, select);
+
+                container.addClass('select-container');
+
 
                 if(has(item, 'multiple') && item.multiple) {
                     select.attr('multiple', 'multiple');
