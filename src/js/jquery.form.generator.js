@@ -427,6 +427,19 @@
 
                 container.data('declaration', item);
                 return container;
+            },
+
+            /**
+             *
+             * @param item
+             * @param declarations
+             * @param widget
+             */
+            text: function(item, declarations, widget) {
+                var text = $('<div class="text"/>');
+                var container = declarations.input(item, declarations, widget, text);
+                container.addClass('text');
+                return container;
             }
 
         },

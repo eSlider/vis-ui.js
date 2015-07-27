@@ -13,17 +13,37 @@ $.fn.formData = function(values) {
     var form = $(this);
     var inputs = $(':input', form).get();
     var hasNewValues = typeof values == 'object';
+    var textElements = $(".form-group.text", form);
+
 
     if (hasNewValues) {
+
+        $.each(textElements, function() {
+            var textElementContainer = $(this);
+            var textElement = $('.text', textElementContainer);
+            var declaration = textElementContainer.data('item');
+            if(declaration.hasOwnProperty('text')) {
+                var html = "";
+                try {
+                    var data = values;
+                    eval('html=' + declaration.text + ';');
+                } catch (e) {
+                    console.error("The defenition", declaration, " of ", textElement, ' is erroneous.', e);
+                }
+                textElement.html(html);
+            }
+        });
+
         $.each(inputs, function() {
             var input = $(this);
             var value = values[this.name];
+            var declaration = input.data('declaration');
 
             if(values.hasOwnProperty(this.name)) {
 
                 switch (this.type) {
                     case 'select-multiple':
-                        var declaration = input.data('declaration');
+                        //var declaration = input.data('declaration');
                         var type = declaration.fieldType ? declaration.fieldType : 'text';
 
                         if(type == 'text' && value ) {

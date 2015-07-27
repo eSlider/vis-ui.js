@@ -6,6 +6,12 @@
   .form-group, .checkbox {
     position: relative;
 
+    &.text{
+      > .text{
+        font-size: 12px;
+      }
+    }
+
     > a.infoText {
       display: block;
       position: absolute;
