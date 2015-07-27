@@ -25,7 +25,8 @@
     "rogeriopradoj/respond": "*",
     "components/jquerydialogextendjs": "*",
     "components/datatables": "1.10.*",
-    "components/placeholdersjs": "*"
+    "components/placeholdersjs": "*",
+	"medialize/jquery-context-menu": "*"
   },
   "config": {
     "bin-dir": "bin",
