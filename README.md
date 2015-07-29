@@ -102,7 +102,7 @@ $("<div/>").generateElements({children:[{
 
 ### Select
 ```javascript
-$("<div/>").generateElements({type: "select", value: "de", options: {en:"English", de"En} })
+$("<div/>").generateElements({type: "select", value: "de", options: {en:"English", de: "German"} })
 ```
 #### Options
 * name:  Field name 
