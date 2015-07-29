@@ -211,7 +211,7 @@
                     label.append(item.title);
                 }
 
-                if(has(item, 'checked')) {
+                if(has(item, 'checked') && item.checked) {
                     input.attr('checked', "checked");
                 }
 
@@ -268,9 +268,9 @@
             select:    function(item, declarations, widget) {
                 var select = $('<select class="form-control"/>');
                 var container = declarations.input(item, declarations, widget, select);
+                var value = has(item, 'value') ? item.value : null;
 
                 container.addClass('select-container');
-
 
                 if(has(item, 'multiple') && item.multiple) {
                     select.attr('multiple', 'multiple');
@@ -286,11 +286,9 @@
                     });
                 }
 
-                if(has(item, 'value')) {
-                    window.setTimeout(function(){
-                        select.val(item.value);
-                    },1)
-                }
+                window.setTimeout(function() {
+                    select.val(value);
+                }, 20);
 
                 return container;
             },
