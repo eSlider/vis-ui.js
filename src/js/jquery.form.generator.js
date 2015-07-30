@@ -156,7 +156,7 @@
                             container.removeClass('has-error');
                         }else{
                             if(inputField.is(":visible")){
-                                var text = item.hasOwnProperty('mandatoryText')? item.mandatoryText: "Bitte übeprüfen!";
+                                var text = item.hasOwnProperty('mandatoryText')? item.mandatoryText: "Please, check!";
                                 $.notify( inputField, text, { position:"top right", autoHideDelay: 2000});
                             }
                             container.addClass('has-error');
