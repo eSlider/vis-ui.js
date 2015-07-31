@@ -18,7 +18,7 @@
     "components/font-awesome": "*",
     "components/bootstrap": "3.*",
     "drmonty/leaflet": "0.*",
-    "components/jquery": "1.*",
+    "components/jquery": "1.11.2",
     "components/jqueryui": "1.*",
     "afarkas/html5shiv": "*",
     "components/underscore": "*",
