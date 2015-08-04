@@ -42,8 +42,7 @@
             if(hasRowButtons) {
                 widget._addButtons(options.buttons);
             }
-
-            var dataTable = widget._dataTable = table.DataTable($.extend(options, {
+            var dataTable = widget._dataTable = table.DataTable($.extend({
                 "oLanguage": {
                     sEmptyTable: "Keine Ergebnisse gefunden",
                     sInfo:       "_START_ bis _END_ von _TOTAL_",
@@ -53,7 +52,7 @@
                         "sPrevious": "Zurück"
                     }
                 }
-            }));
+            },options));
 
             dataTableContainer = table.closest('.dataTables_wrapper');
             dataTableContainer.find('.dataTables_paginate a').addClass('button');
