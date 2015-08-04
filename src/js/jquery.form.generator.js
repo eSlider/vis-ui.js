@@ -292,9 +292,59 @@
 
                 return container;
             },
+            image: function(item, declarations, widget) {
+                var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
+                var container = declarations.input(item, declarations, widget, image);
+                container.addClass("image-container");
+                if(has(item, 'imageCss')) {
+                    image.css(item['imageCss']);
+                } else {
+                    image.css({width: "100%"});
+                }
+                return container;
+            },
             file:      function(item, declarations, widget) {
-                var input = $('<input type="file"/>');
+                var input = $('<input type="hidden" />');
+                var fileInput = $('<input type="file" />');
                 var container = declarations.input(item, declarations, widget, input);
+                var uploadButton = $('<span class="btn btn-success fileinput-button">'
+                      + '<span>Select</span>'
+                      + '<input type="file" />'
+                +'</span>');
+                var buttonContainer = $("<div/>");
+                var progressBar  = $("<div class='progress-bar'/>");
+
+
+                //input.detach();
+                container.addClass("file-container");
+                uploadButton.append(fileInput);
+                buttonContainer.append(uploadButton);
+                buttonContainer.append(progressBar)
+                container.append(buttonContainer);
+
+                fileInput.fileupload({
+                    dataType:    'json',
+                    url:         item.uploadHanderUrl,
+                    formData:    item.formData,
+                    //sequentialUploads: true,
+                    add:         function(e, data) {
+                        console.log("added file", data, e);
+                        data.submit();
+                    },
+                    progressall: function(e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        progressBar.css({width: progress + "%"});
+                    },
+                    done:        function(e, data) {
+                        progressBar.css({width: 0});
+                        console.log("done")
+
+                    },
+                    success:        function(result, textStatus, jqXHR) {
+                        console.log("success")
+                    }
+                });
+
                 return container;
             },
             tabs: function(item, declarations, widget) {
