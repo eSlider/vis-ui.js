@@ -223,7 +223,7 @@
                         }else{
                             container.addClass('has-error');
                             if(input.is(':visible')){
-                                var text = item.hasOwnProperty('mandatoryText') ? item.mandatoryText : "Bitte bestätigen!";
+                                var text = item.hasOwnProperty('mandatoryText') ? item.mandatoryText : "Please confirm!";
                                 $.notify( input, text, { position:"top left", autoHideDelay: 2000});
                             }
 
