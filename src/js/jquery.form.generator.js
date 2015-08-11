@@ -316,7 +316,7 @@
                 container.addClass("file-container");
                 uploadButton.append(fileInput);
                 buttonContainer.append(uploadButton);
-                buttonContainer.append(progressBar)
+                uploadButton.append(progressBar);
                 container.append(buttonContainer);
 
                 fileInput.fileupload({
@@ -331,6 +331,7 @@
                     progressall: function(e, data) {
                         var progress = parseInt(data.loaded / data.total * 100, 10);
                         progressBar.css({width: progress + "%"});
+                        //progressBar.html(progress + "%");
                     },
                     done:        function(e, data) {
                         progressBar.css({width: 0});
