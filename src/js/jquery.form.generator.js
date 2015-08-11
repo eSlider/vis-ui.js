@@ -307,12 +307,10 @@
                 var input = $('<input type="hidden" />');
                 var fileInput = $('<input type="file" />');
                 var container = declarations.input(item, declarations, widget, input);
-                var uploadButton = $('<span class="btn btn-success fileinput-button">'
-                      + '<span>Select</span>'
-                +'</span>');
+                var textSpan = '<span>' + (has(item, 'text') ? item.text : "Select") + '</span>';
+                var uploadButton = $('<span class="btn btn-success fileinput-button">' + textSpan + '</span>');
                 var buttonContainer = $("<div/>");
-                var progressBar  = $("<div class='progress-bar'/>");
-
+                var progressBar = $("<div class='progress-bar'/>");
 
                 //input.detach();
                 container.addClass("file-container");
