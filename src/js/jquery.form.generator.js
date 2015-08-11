@@ -309,7 +309,6 @@
                 var container = declarations.input(item, declarations, widget, input);
                 var uploadButton = $('<span class="btn btn-success fileinput-button">'
                       + '<span>Select</span>'
-                      + '<input type="file" />'
                 +'</span>');
                 var buttonContainer = $("<div/>");
                 var progressBar  = $("<div class='progress-bar'/>");
@@ -337,11 +336,14 @@
                     },
                     done:        function(e, data) {
                         progressBar.css({width: 0});
-                        console.log("done")
-
                     },
-                    success:        function(result, textStatus, jqXHR) {
-                        console.log("success")
+                    success:     function(result, textStatus, jqXHR) {
+                        if(result.files && result.files[0]) {
+                            var fileInfo = result.files[0];
+                            var img = container.closest('form').find('img[name="' + item.name + '"]');
+                            input.val(fileInfo.url);
+                            img.attr('src', fileInfo.thumbnailUrl);
+                        }
                     }
                 });
 

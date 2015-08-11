@@ -6,6 +6,13 @@
   .form-group, .checkbox {
     position: relative;
 
+
+    &.file-container{
+      .progress-bar{
+        transition: none;
+      }
+    }
+
     &.text{
       > .text{
         font-size: 12px;
