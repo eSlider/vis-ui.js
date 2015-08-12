@@ -308,13 +308,17 @@
                 return container;
             },
             file:      function(item, declarations, widget) {
-                var input = $('<input type="hidden" />');
+                var input = $('<input type="hidden"  />');
                 var fileInput = $('<input type="file" />');
                 var container = declarations.input(item, declarations, widget, input);
                 var textSpan = '<span>' + (has(item, 'text') ? item.text : "Select") + '</span>';
                 var uploadButton = $('<span class="btn btn-success fileinput-button">' + textSpan + '</span>');
                 var buttonContainer = $("<div/>");
                 var progressBar = $("<div class='progress-bar'/>");
+
+                if(has(item, 'accept')) {
+                    fileInput.attr('accept', item.accept);
+                }
 
                 //input.detach();
                 container.addClass("file-container");
