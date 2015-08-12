@@ -1,3 +1,10 @@
+@mixin vertical-align-middle {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 
 /**
 * Form elements!
@@ -6,6 +13,11 @@
   .form-group, .checkbox {
     position: relative;
 
+    &.image-container{
+      > img{
+        @include vertical-align-middle;
+      }
+    }
 
     &.file-container{
       .progress-bar{

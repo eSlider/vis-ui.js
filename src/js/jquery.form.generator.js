@@ -294,8 +294,12 @@
             },
             image: function(item, declarations, widget) {
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
+                var subContainer = $("<div class='sub-container'/>");
                 var container = declarations.input(item, declarations, widget, image);
+
+                container.append(subContainer.append(image.detach()));
                 container.addClass("image-container");
+
                 if(has(item, 'imageCss')) {
                     image.css(item['imageCss']);
                 } else {
@@ -325,7 +329,7 @@
                     formData:    item.formData,
                     //sequentialUploads: true,
                     add:         function(e, data) {
-                        console.log("added file", data, e);
+                        //console.log("added file", data, e);
                         data.submit();
                     },
                     progressall: function(e, data) {
@@ -340,6 +344,7 @@
                         if(result.files && result.files[0]) {
                             var fileInfo = result.files[0];
                             var img = container.closest('form').find('img[name="' + item.name + '"]');
+                            //debugger;
                             input.val(fileInfo.url);
                             img.attr('src', fileInfo.thumbnailUrl);
                         }
@@ -488,6 +493,23 @@
                 var text = $('<div class="text"/>');
                 var container = declarations.input(item, declarations, widget, text);
                 container.addClass('text');
+                return container;
+            },
+
+            /**
+             * Simple container
+             *
+             * @param item
+             * @param declarations
+             * @param widget
+             */
+            container: function(item, declarations, widget) {
+                var container = $('<div class="container form-group"/>');
+                if(has(item, 'children')) {
+                    $.each(item.children, function(k, item) {
+                        container.append(widget.genElement(item));
+                    })
+                }
                 return container;
             }
 
