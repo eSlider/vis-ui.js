@@ -167,6 +167,10 @@
 
                 if(has(item, 'infoText')) {
                     var infoButton = $('<a class="infoText">Info</a>');
+                    infoButton.on('click touch press',function(e){
+                       var button = $(e.currentTarget);
+                        $.notify(button.attr('title'),'info');
+                    });
                     infoButton.attr('title', item.infoText);
                     container.append(infoButton);
                 }
