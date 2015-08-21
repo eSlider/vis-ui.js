@@ -523,6 +523,11 @@
 
         },
 
+        /**
+         * Constructor
+         *
+         * @private
+         */
         _create:      function() {
             this._setOptions(this.options);
         },
@@ -570,28 +575,33 @@
         genElements: function(element, children) {
             var widget = this;
             $.each(children, function(k, item) {
-                var subElement = widget.genElement(item);
-                element.append(subElement);
+                element.append(widget.genElement(item));
             })
         },
 
-        _setOption:  function(key, value) {
+        /**
+         * Set options
+         *
+         * @param options
+         * @private
+         */
+        _setOptions: function(options) {
             var widget = this;
             var element = $(widget.element);
 
-            if(key === "children") {
-                widget.genElements(element, value);
+            if(has(options, 'type')) {
+                element.append(widget.genElement(options));
+            } else if(has(options, 'children')) {
+                widget.genElements(element, options.children);
             }
 
-            this._super(key, value);
+            widget._super(options);
+            widget.refresh();
         },
-        _setOptions: function(options) {
-            if(has(options, 'type')) {
-                this.genElement(options)
-            }
-            this._super(options);
-            this.refresh();
-        },
+
+        /**
+         * Refresh generated elements
+         */
         refresh:     function() {
             this._trigger('refresh');
         }
