@@ -21,7 +21,7 @@ $("<div/>").generateElements({
     placeholder: "Enter the name",
     mandatory: true,
     cssClass: "input-css", 
-    css: {width: 80%}
+    css: {width: "80%"}
 })
 ```
 #### Options
@@ -30,7 +30,7 @@ $("<div/>").generateElements({
 * placeholder: Place holder in the input field
 * mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
 * cssClass: CSS class name
-* css: Custom CSS styles object. Example: {width: 80%}
+* css: Custom CSS styles object. Example: {width: "80%"}
 * value: Default value
 
 ---
@@ -49,7 +49,7 @@ $("<div/>").generateElements({
 * placeholder: Place holder in the input field
 * mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
 * cssClass: CSS class name
-* css: Custom CSS styles object. Example: {width: 80%}
+* css: Custom CSS styles object. Example: {width: "80%"}
 * value: Default value
 
 ---
@@ -62,7 +62,7 @@ $("<div/>").generateElements({
     title: "Checkbox",
     mandatory: true,
     cssClass: "input-css", 
-    css: {width: 80%}
+    css: {width: "80%"}
 })
 ```
 #### Options
@@ -71,7 +71,7 @@ $("<div/>").generateElements({
 * placeholder: Place holder in the input field
 * mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
 * cssClass: CSS class name
-* css: Custom CSS styles object. Example: {width: 80%}
+* css: Custom CSS styles object. Example: {width: "80%"}
 * value: Default value
 
 
@@ -97,7 +97,7 @@ $("<div/>").generateElements({children:[{
 * placeholder: Place holder in the input field
 * mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
 * cssClass: CSS class name
-* css: Custom CSS styles object. Example: {width: 80%}
+* css: Custom CSS styles object. Example: {width: "80%"}
 * value: Default value
 
 ### Select
@@ -109,7 +109,7 @@ $("<div/>").generateElements({type: "select", value: "de", options: {en:"English
 * title: Title string
 * mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)
 * cssClass: CSS class name
-* css: Custom CSS styles object. Example: {width: 80%}
+* css: Custom CSS styles object. Example: {width: "80%"}
 * value: Default value
 * options: key/values object or array
 * multiply: Multiply selection. Default false
