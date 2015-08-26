@@ -7,6 +7,10 @@ This package just provides the basic JavaScript UI generator in the package. Thi
 means that although the stylesheets are there, you will be required to provide
 your own means of including the styles.
 
+## Examples 
+
+* [Basic](https://rawgit.com/eSlider/vis-ui.js/master/index.html)
+
 ## Elements
 
 Description how to use element generator.
