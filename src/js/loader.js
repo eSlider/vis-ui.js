@@ -3,6 +3,8 @@
  * @author Andriy Oblivantsev <eslider@gmail.com>
  */
 var requieredFiles = [
+    'utils/DataUtil.js',
+    'utils/EventDispatcher.js',
     'utils/fn.formData.js',
     'elements/data.result-table.js',
     'elements/date.selector.js',
