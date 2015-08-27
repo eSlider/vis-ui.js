@@ -99,3 +99,11 @@ fieldset.form-group > .form-group{
     margin-bottom: 5px;
     padding-left: 15px;
 }
+.mb-element-modal-dialog{
+    background-color: rgba(192, 192, 192, 0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;}
