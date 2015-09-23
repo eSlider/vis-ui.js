@@ -1,11 +1,13 @@
 vis-ui.js
 =========
 
-Shim repository for [Bootstrap](http://getbootstrap.com).
+This package provides JavaScript UI generator based on [Bootstrap](http://www.bootstrap.com) and [jQuery UI](www.jquery-ui.com). 
 
-This package just provides the basic JavaScript UI generator in the package. This
-means that although the stylesheets are there, you will be required to provide
-your own means of including the styles.
+## Features
+
+* Generate form and input elements
+* Check and fill form 
+* Tab navigation
 
 ## Examples 
 
