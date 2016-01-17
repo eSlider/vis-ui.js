@@ -121,14 +121,19 @@
 
             if(hasRowButtons) {
                 $.each(options.buttons, function(idx, button) {
-                    if(!button.hasOwnProperty('onClick'))
+                    if(!button.hasOwnProperty('onClick') && !button.hasOwnProperty('click'))
                         return;
 
                     $(table).delegate("tbody>tr[role='row'] button." + button.className, 'click', function(e) {
                         var $button = $(this);
                         var data = dataTable.row($button.closest('tr')[0]).data();
                         e.stopPropagation();
-                        button.onClick(data, $button);
+                        if(button.click && typeof button.click == "function"){
+                            $button.data("item", data);
+                            $.proxy(button.click, $button)(e);
+                        }else{
+                            button.onClick(data, $button);
+                        }
                     });
                 });
             }
