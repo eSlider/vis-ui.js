@@ -154,7 +154,8 @@
                         html.append(element.html);
                         break;
                     case 'button':
-                        var button = $('<button class="button" title="' + element.title + '">' + element.title + '</button>');
+                        var title = element.title?element.title:(element.text?element.text:'');
+                        var button = $('<button class="button" title="' + title + '">' + title + '</button>');
                         if(_.has(element,'cssClass')){
                              button.addClass(element.cssClass);
                         }
