@@ -4,7 +4,6 @@
   "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
   "keywords": [ "assets", "jquery", "vis-ui"],
   "homepage": "https://github.com/eSlider",
-  "type": "library",
   "license": "MIT",
   "authors": [
     {
@@ -13,20 +12,20 @@
     }
   ],
   "require": {
-    "robloach/component-installer": "*",
-    "components/normalize.css": "2.*",
-    "components/font-awesome": "*",
+    "robloach/component-installer": "0.2.*",
+    "components/normalize.css": "3.0.*",
+    "components/font-awesome": "4.5.*",
     "components/bootstrap": "3.*",
     "drmonty/leaflet": "0.*",
-    "components/jquery": "1.11.2",
+    "components/jquery": "1.* || 2.*",
     "components/jqueryui": "1.*",
-    "afarkas/html5shiv": "*",
-    "components/underscore": "*",
-    "rogeriopradoj/respond": "*",
+    "afarkas/html5shiv": "3.*",
+    "components/underscore": "1.8.*",
+    "rogeriopradoj/respond": "1.4.*",
     "components/jquerydialogextendjs": "*",
     "components/datatables": "1.10.*",
     "components/placeholdersjs": "*",
-	"medialize/jquery-context-menu": "*"
+	"medialize/jquery-context-menu": "1.*"
   },
   "config": {
     "bin-dir": "bin",
