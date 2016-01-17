@@ -11,6 +11,7 @@ var requieredFiles = [
     'elements/geo.toolset.js',
     'elements/popup.dialog.js',
     'elements/tab.navigator.js',
+    'elements/confirm.dialog.js',
     'jquery.form.generator.js'
 ];
 

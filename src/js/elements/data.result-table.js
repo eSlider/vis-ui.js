@@ -473,7 +473,7 @@
             var pageNumber = Math.floor(nodePosition / rowsOnOnePage);
             tableApi.page(pageNumber).draw( false );
             return pageNumber;
-        },
+        }
     });
 
 })(jQuery);
