@@ -8,7 +8,7 @@
  * @param options
  * @returns {*}
  */
-window.ConfirmDialog = function(options) {
+window.confirmDialog = function(options) {
     var dialog = $("<div class='confirm-dialog'>" + (options.hasOwnProperty('html') ? options.html : "") + "</div>").popupDialog({
         title:       options.hasOwnProperty('title') ? options.title : "",
         maximizable: false,
