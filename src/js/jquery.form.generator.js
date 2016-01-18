@@ -564,6 +564,12 @@
                 element.addClass('has-warning');
             }
 
+            for (var k in item) {
+                if(typeof item[k] == "function") {
+                    element.on(k, item[k]);
+                }
+            }
+
             return element;
         },
 
