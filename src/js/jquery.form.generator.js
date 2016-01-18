@@ -410,19 +410,19 @@
                 return inputHolder;
             },
             resultTable: function(item, declarations, widget) {
-                var $div = $("<div/>");
-                $div.data('declaration',item);
-                return $div.resultTable($.extend(item, {
-                    lengthChange: false,
-                    pageLength:   10,
-                    searching:    false,
-                    info:         true,
-                    processing:   false,
-                    ordering:     true,
-                    paging:       true,
-                    selectable:   false,
-                    autoWidth:    false
-                }));
+                return $("<div/>")
+                    .data('declaration', item)
+                    .resultTable($.extend({
+                        lengthChange: false,
+                        pageLength:   10,
+                        searching:    false,
+                        info:         true,
+                        processing:   false,
+                        ordering:     true,
+                        paging:       true,
+                        selectable:   false,
+                        autoWidth:    false
+                    }, item));
             },
             digitizingToolSet: function(item, declarations, widget) {
                 var $div = $("<div/>");
