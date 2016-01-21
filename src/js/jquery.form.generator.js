@@ -297,7 +297,6 @@
                 return container;
             },
             image: function(item, declarations, widget) {
-                debugger;
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
                 var subContainer = $("<div class='sub-container'/>");
                 var container = declarations.input(item, declarations, widget, image);
