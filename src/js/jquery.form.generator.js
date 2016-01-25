@@ -10,9 +10,10 @@
      * @type {string[]}
      */
     var eventNameList = [
-        'click', 'dblclick', 'contextmenu',
+        'load',
         'focus', 'blur',
         'input', 'change', 'paste',
+        'click', 'dblclick', 'contextmenu',
         'keydown', 'keypress', 'keyup',
         'dragstart','ondrag','dragover','drop',
         'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup',
@@ -64,15 +65,25 @@
             } else if(typeof value == "string" && _.contains(eventNameList, k)) {
                 var elm = element;
                 if(elm.hasClass("form-group")) {
-                    elm = elm.find(".form-control");
+                    elm = elm.find("input,.form-control");
                 }
-                elm.on(k, function(e) {
-                    var el = $(this);
-                    var result = false;
-                    eval(value);
-                    result && e.preventDefault();
-                    return result;
-                });
+                if(k == "load"){
+                    $(elm).ready(function(e) {
+                        var el = elm;
+                        var result = false;
+                        eval(value);
+                        result && e.preventDefault();
+                        return result;
+                    });
+                }else{
+                    elm.on(k, function(e) {
+                        var el = $(this);
+                        var result = false;
+                        eval(value);
+                        result && e.preventDefault();
+                        return result;
+                    });
+                }
             }
         });
     }
@@ -219,7 +230,7 @@
                 return label;
             },
             checkbox: function(item, declarations, widget, input) {
-                var container = $('<div class="checkbox"/>');
+                var container = $('<div class="form-group checkbox"/>');
                 var label = $('<label/>');
 
                 input = input ? input : $('<input type="checkbox"/>');
