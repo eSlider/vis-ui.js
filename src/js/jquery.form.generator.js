@@ -12,6 +12,7 @@
     var eventNameList = [
         'click', 'dblclick', 'contextmenu',
         'focus', 'blur',
+        'input', 'change', 'paste',
         'keydown', 'keypress', 'keyup',
         'dragstart','ondrag','dragover','drop',
         'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup',
