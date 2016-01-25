@@ -4,7 +4,20 @@
  * @copyright 08.04.2015 by WhereGroup GmbH & Co. KG
  */
 (function($) {
-    
+
+    /**
+     * Event list
+     * @type {string[]}
+     */
+    var eventNameList = [
+        'click', 'dblclick', 'contextmenu',
+        'focus', 'blur',
+        'keydown', 'keypress', 'keyup',
+        'dragstart','ondrag','dragover','drop',
+        'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup',
+        'touchstart', 'touchmove', 'touchend','touchcancel'
+    ];
+
     // extend jquery to fire event on "show" and "hide" calls
     $.each(['show', 'hide'], function (i, ev) {
         var el = $.fn[ev];
@@ -13,7 +26,6 @@
             return el.apply(this, arguments);
         };
     });
-
 
     /**
      * Check if object has a key
@@ -48,6 +60,18 @@
         $.each(declaration, function(k, value) {
             if(typeof value == 'function') {
                 element.on(k, value);
+            } else if(typeof value == "string" && _.contains(eventNameList, k)) {
+                var elm = element;
+                if(elm.hasClass("form-group")) {
+                    elm = elm.find(".form-control");
+                }
+                elm.on(k, function(e) {
+                    var el = $(this);
+                    var result = false;
+                    eval(value);
+                    result && e.preventDefault();
+                    return result;
+                });
             }
         });
     }
@@ -563,7 +587,7 @@
             if(has(item, 'mandatory')){
                 element.addClass('has-warning');
             }
-            
+
             return element;
         },
 
