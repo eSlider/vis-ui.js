@@ -147,6 +147,7 @@
             button:    function(item, declarations) {
                 var title = has(item, 'title') ? item.title : 'Submit';
                 var button = $('<button class="btn button">' + title + '</button>');
+                button.attr("title", title);
                 return button;
             },
             submit:    function(item, declarations) {
