@@ -44,8 +44,8 @@
             }
             var dataTable = widget._dataTable = table.DataTable($.extend({
                 "oLanguage": {
-                    sEmptyTable: "Keine Ergebnisse gefunden",
-                    sInfo:       "_START_ bis _END_ von _TOTAL_",
+                    sEmptyTable: "0 / 0",
+                    sInfo:      "_START_ / _END_ (_TOTAL_)",
                     "oPaginate": {
                         "sSearch":   "Filter:",
                         "sNext":     "Weiter",
