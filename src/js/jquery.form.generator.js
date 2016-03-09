@@ -341,6 +341,38 @@
                 container.append(subContainer.append(image.detach()));
                 container.addClass("image-container");
 
+                if(has(item, 'enlargeImage') && item.enlargeImage) {
+                    image.attr('tabindex', 0);
+                    image.css('cursor', 'pointer');
+                    image.on('keypress click', function(e) {
+                        if(e.type !== 'click' && e.which && e.which !== 13) {
+                            return
+                        }
+
+                        var bigImage = new Image();
+                        bigImage.src = item.src;
+                        bigImage.onload = function() {
+                            var dialog = $('<div>');
+                            var bImage = $('<img src="' + image.attr('src') + '"/>');
+                            var _popupConfig = {
+                                title: image.title ? image.title : 'Image',
+                                width: bigImage.width
+                            };
+                            var maxHeight = $(window).height() - 100;
+                            if(bigImage.height > maxHeight) {
+                                _popupConfig.height = maxHeight;
+                            }
+                            dialog.popupDialog(_popupConfig);
+                            bImage.css({
+                                height:      'auto',
+                                width:       '100%',
+                                'max-width': bigImage.width
+                            });
+                            dialog.append(bImage);
+                        };
+                    })
+                }
+
                 if(has(item, 'imageCss')) {
                     image.css(item['imageCss']);
                 } else {
