@@ -53,7 +53,7 @@
     }
 
     /**
-     * Add jquery events to element by declration
+     * Add jquery events to element y declration
      *
      * @param element
      * @param declaration
@@ -385,7 +385,7 @@
                 var fileInput = $('<input type="file" />');
                 var container = declarations.input(item, declarations, widget, input);
                 var textSpan = '<span>' + (has(item, 'text') ? item.text : "Select") + '</span>';
-                var uploadButton = $('<span class="btn btn-success fileinput-button">' + textSpan + '</span>');
+                var uploadButton = $('<span class="btn btn-success button fileinput-button">' + textSpan + '</span>');
                 var buttonContainer = $("<div/>");
                 var progressBar = $("<div class='progress-bar'/>");
 
