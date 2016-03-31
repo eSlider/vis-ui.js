@@ -434,27 +434,19 @@
             });
             return result;
         },
-        
+
         /**
-         * 
-         * @param {type} dom
+         * Get DOM TR row by data object
+         * @param {type} DOM object
          * @returns {undefined}
          */
-        getDomRowByData: function(data){
-           var tableApi = this.getApi();
-           var rows = tableApi.rows().nodes();
-           var result;
+        getDomRowByData: function(data) {
+            var tableApi = this.getApi();
+            var result = _.first(tableApi.rows(function(idx, _data, row) {
+                return _data == data
+            }).nodes());
 
-           $.each(rows, function(i, domRow){
-                var tr = $(domRow);
-                var row = tableApi.row( tr );
-                if( row.data() == data){
-                    result = tr;
-                    return false;
-                }
-           });
-           
-           return result;
+            return result ? $(result) : result;
         },
         
         /**
