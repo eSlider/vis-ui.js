@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Vis-ui.js by eSlider</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Vis-ui.js</h1>
+        <h2>web ui generator</h2>
+        <a href="https://github.com/eSlider/vis-ui.js" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="vis-uijs" class="anchor" href="#vis-uijs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>vis-ui.js</h1>
+
+<p>This package provides JavaScript UI generator based on <a href="http://www.bootstrap.com">Bootstrap</a> and <a href="www.jquery-ui.com">jQuery UI</a>. </p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Generate form and input elements</li>
+<li>Check and fill form </li>
+<li>Tab navigation</li>
+</ul>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+
+<ul>
+<li><a href="https://rawgit.com/eSlider/vis-ui.js/master/index.html">Basic</a></li>
+</ul>
+
+<h2>
+<a id="elements" class="anchor" href="#elements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Elements</h2>
+
+<p>Description how to use element generator.</p>
+
+<hr>
+
+<h3>
+<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">generateElements</span>({
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>input<span class="pl-pds">"</span></span>,
+    name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>,
+    title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Input<span class="pl-pds">"</span></span>,
+    placeholder<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Enter the name<span class="pl-pds">"</span></span>,
+    mandatory<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    cssClass<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>input-css<span class="pl-pds">"</span></span>, 
+    css<span class="pl-k">:</span> {width<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>80%<span class="pl-pds">"</span></span>}
+})</pre></div>
+
+<h4>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h4>
+
+<ul>
+<li>name:  Field name </li>
+<li>title: Title string</li>
+<li>placeholder: Place holder in the input field</li>
+<li>mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)</li>
+<li>cssClass: CSS class name</li>
+<li>css: Custom CSS styles object. Example: {width: "80%"}</li>
+<li>value: Default value</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="text-area" class="anchor" href="#text-area" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Text area</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">generateElements</span>({
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>textArea<span class="pl-pds">"</span></span>,
+    name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>description<span class="pl-pds">"</span></span> ,
+    title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Description<span class="pl-pds">"</span></span>,
+    placeholder<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Enter the description<span class="pl-pds">"</span></span>,
+})</pre></div>
+
+<h4>
+<a id="options-1" class="anchor" href="#options-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h4>
+
+<ul>
+<li>name:  Field name </li>
+<li>title: Title string</li>
+<li>placeholder: Place holder in the input field</li>
+<li>mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)</li>
+<li>cssClass: CSS class name</li>
+<li>css: Custom CSS styles object. Example: {width: "80%"}</li>
+<li>value: Default value</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="check-box" class="anchor" href="#check-box" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check box</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">generateElements</span>({
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span>,
+    name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>check1<span class="pl-pds">"</span></span>,
+    title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Checkbox<span class="pl-pds">"</span></span>,
+    mandatory<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    cssClass<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>input-css<span class="pl-pds">"</span></span>, 
+    css<span class="pl-k">:</span> {width<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>80%<span class="pl-pds">"</span></span>}
+})</pre></div>
+
+<h4>
+<a id="options-2" class="anchor" href="#options-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h4>
+
+<ul>
+<li>name:  Field name </li>
+<li>title: Title string</li>
+<li>placeholder: Place holder in the input field</li>
+<li>mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)</li>
+<li>cssClass: CSS class name</li>
+<li>css: Custom CSS styles object. Example: {width: "80%"}</li>
+<li>value: Default value</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="radio-button" class="anchor" href="#radio-button" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Radio button</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">generateElements</span>({children<span class="pl-k">:</span>[{
+        type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>radio<span class="pl-pds">"</span></span>,
+        name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>yesNo<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Yes<span class="pl-pds">"</span></span>,
+        css<span class="pl-k">:</span> {width<span class="pl-k">:</span> <span class="pl-c1">50</span><span class="pl-k">%</span>}
+    },{
+        type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>radio<span class="pl-pds">"</span></span>,
+        name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>yesNo<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>no<span class="pl-pds">"</span></span>,
+        css<span class="pl-k">:</span> {width<span class="pl-k">:</span> <span class="pl-c1">50</span><span class="pl-k">%</span>}
+}]})</pre></div>
+
+<h4>
+<a id="options-3" class="anchor" href="#options-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h4>
+
+<ul>
+<li>name:  Field name </li>
+<li>title: Title string</li>
+<li>placeholder: Place holder in the input field</li>
+<li>mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)</li>
+<li>cssClass: CSS class name</li>
+<li>css: Custom CSS styles object. Example: {width: "80%"}</li>
+<li>value: Default value</li>
+</ul>
+
+<h3>
+<a id="select" class="anchor" href="#select" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Select</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">generateElements</span>({type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>select<span class="pl-pds">"</span></span>, value<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>de<span class="pl-pds">"</span></span>, options<span class="pl-k">:</span> {en<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>, de<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>German<span class="pl-pds">"</span></span>} })</pre></div>
+
+<h4>
+<a id="options-4" class="anchor" href="#options-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h4>
+
+<ul>
+<li>name:  Field name </li>
+<li>title: Title string</li>
+<li>mandatory: Mandatory field: true, false or ReExpr ("/^\d+$/g" - only decimals)</li>
+<li>cssClass: CSS class name</li>
+<li>css: Custom CSS styles object. Example: {width: "80%"}</li>
+<li>value: Default value</li>
+<li>options: key/values object or array</li>
+<li>multiply: Multiply selection. Default false</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="basic-usage-example" class="anchor" href="#basic-usage-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic usage example:</h3>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-k">var</span> $div <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>);
+<span class="pl-smi">$div</span>.<span class="pl-en">generateElements</span>({children<span class="pl-k">:</span>[{
+    type<span class="pl-k">:</span>  <span class="pl-s"><span class="pl-pds">'</span>input<span class="pl-pds">'</span></span>,
+    title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Input<span class="pl-pds">"</span></span>,
+    placeholder<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>placeholder value<span class="pl-pds">"</span></span>,
+    mandatory<span class="pl-k">:</span> <span class="pl-c1">true</span>
+},{
+    type<span class="pl-k">:</span>  <span class="pl-s"><span class="pl-pds">'</span>input<span class="pl-pds">'</span></span>,
+    name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>input2<span class="pl-pds">"</span></span>,
+    title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Input #2<span class="pl-pds">"</span></span>,
+    placeholder<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>placeholder value #2<span class="pl-pds">"</span></span>
+}]});
+
+<span class="pl-smi">$div</span>.<span class="pl-en">popupDialog</span>({
+    title<span class="pl-k">:</span>       <span class="pl-s"><span class="pl-pds">"</span>Demo<span class="pl-pds">"</span></span>,
+    maximizable<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    buttons<span class="pl-k">:</span>     [{
+        text<span class="pl-k">:</span>  <span class="pl-s"><span class="pl-pds">"</span>OK<span class="pl-pds">"</span></span>,
+        <span class="pl-en">click</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">e</span>) {
+            <span class="pl-k">var</span> div <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-smi">e</span>.<span class="pl-smi">currentTarget</span>).<span class="pl-en">closest</span>(<span class="pl-s"><span class="pl-pds">"</span>.ui-dialog<span class="pl-pds">"</span></span>).<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">"</span>.popup-dialog<span class="pl-pds">"</span></span>);
+            <span class="pl-smi">div</span>.<span class="pl-en">popupDialog</span>(<span class="pl-s"><span class="pl-pds">'</span>close<span class="pl-pds">'</span></span>);
+        }
+    }]
+});</pre></div>
+
+<h2>
+<a id="integration" class="anchor" href="#integration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Integration</h2>
+
+<p>Extend composer dependencies with <em>eslider/vis-ui.js</em> and update composer.</p>
+
+<div class="highlight highlight-source-shell"><pre>composer update</pre></div>
+
+<p>Load JS library to HTML.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>web/assets/vis-ui.js/vis-ui.js-built.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<p>Add CSS styles.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">link</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>all<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/css<span class="pl-pds">"</span></span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>web/assets/require.css<span class="pl-pds">"</span></span>&gt;</pre></div>
+
+<h2>
+<a id="package-managers" class="anchor" href="#package-managers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Package Managers</h2>
+
+<ul>
+<li>
+<a href="http://packagist.org/packages/viscreation/vis-ui-js">Composer</a>: <code>viscreation/vis-ui.js</code>
+</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/eSlider/vis-ui.js/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/eSlider/vis-ui.js/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/eSlider/vis-ui.js"></a> is maintained by <a href="https://github.com/eSlider">eSlider</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
