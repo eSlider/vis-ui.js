@@ -1,5 +1,6 @@
-.mb-element-popup-dialog{
-  position: absolute !important;
+.mb-element-popup-dialog {
+    position: absolute !important;
+    z-index: 5;
 }
 .ui-icon{
     font-size: 0;
