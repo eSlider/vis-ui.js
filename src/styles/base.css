@@ -2,6 +2,20 @@
     position: absolute !important;
     z-index: 5;
 }
+
+.mb-element-popup-dialog .ui-dialog-titlebar-close {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.mb-element-popup-dialog .ui-dialog-titlebar-close:after {
+    content: "\f00d";
+}
+
+
 .ui-icon{
     font-size: 0;
     color: inherit;
