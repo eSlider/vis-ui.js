@@ -138,6 +138,7 @@
 
             // Set as mapbender element
             dialog.addClass('mb-element-popup-dialog');
+            dialogBottomButtons.addClass('btn');
 
             // Fix switch between windows
             if(dialog.css('z-index') == "auto"){
