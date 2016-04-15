@@ -324,6 +324,8 @@
 
                         // Map event handler to ol controls
                         $.each(controlEvents,function(eventName,eventHandler){
+                            controlDefinition.control[eventName] = eventHandler;
+
                             drawControlEvents.register(eventName, null, eventHandler);
                         });
                     }
