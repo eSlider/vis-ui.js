@@ -174,6 +174,10 @@
                 if(has(item, 'value')) {
                     inputField.val(item.value);
                 }
+                if(has(item, 'disabled') && item.disabled) {
+                   container.attr('disabled','');
+                }
+
 
                 if(has(item, 'title')) {
                     container.append(declarations.label(item, declarations));
@@ -581,7 +585,7 @@
              * @param widget
              */
             container: function(item, declarations, widget) {
-                var container = $('<div class="container form-group"/>');
+                var container = $('<div class="form-group"/>');
                 if(has(item, 'children')) {
                     $.each(item.children, function(k, item) {
                         container.append(widget.genElement(item));
