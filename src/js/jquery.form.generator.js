@@ -174,8 +174,9 @@
                 if(has(item, 'value')) {
                     inputField.val(item.value);
                 }
+
                 if(has(item, 'disabled') && item.disabled) {
-                   container.attr('disabled','');
+                    inputField.attr('disabled','');
                 }
 
 
