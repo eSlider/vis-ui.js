@@ -32,9 +32,9 @@
                 }
             });
 
-         /*   if(activeTab > -1) {
+           if(activeTab > -1) {
                 widget.option('active', activeTab);
-            } */
+            }
 
             if(widget.isClosable()) {
                 ul.delegate('>li> a > span.close', 'click', function(e) {
@@ -78,7 +78,9 @@
             var el = this.element;
             var navigation = $("> .ui-tabs-nav",el);
             var id = item.hasOwnProperty('id') ? item.id : 'tabs-' + guid();
-            var label = $('<li><a role="tab" data-toggle="tab" href="#' + id + '">' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
+            var href = location.href+'#'+id;
+
+            var label = $('<li><a role="tab" data-toggle="tab" +href>' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
             var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
 
             label.data('item',item);
