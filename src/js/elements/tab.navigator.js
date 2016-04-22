@@ -79,8 +79,7 @@
             var navigation = $("> .ui-tabs-nav",el);
             var id = item.hasOwnProperty('id') ? item.id : 'tabs-' + guid();
             var href = location.href+'#'+id;
-
-            var label = $('<li><a role="tab" data-toggle="tab" +href>' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
+            var label = $('<li><a role="tab" data-toggle="tab" href="' + href+ '">' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
             var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
 
             label.data('item',item);
