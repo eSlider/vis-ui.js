@@ -32,9 +32,9 @@
                 }
             });
 
-            if(activeTab > -1) {
+         /*   if(activeTab > -1) {
                 widget.option('active', activeTab);
-            }
+            } */
 
             if(widget.isClosable()) {
                 ul.delegate('>li> a > span.close', 'click', function(e) {
