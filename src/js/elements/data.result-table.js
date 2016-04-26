@@ -132,7 +132,7 @@
                             $button.data("item", data);
                             $.proxy(button.click, $button)(e);
                         }else{
-                            button.onClick(data, $button);
+                            button.onClick(data, $button, e);
                         }
                     });
                 });
