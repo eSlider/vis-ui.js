@@ -23,7 +23,7 @@
     "components/underscore": "1.8.*",
     "rogeriopradoj/respond": "1.4.*",
     "components/jquerydialogextendjs": "*",
-    "components/datatables": "1.10.*",
+    "eslider/data-tables": "1.x",
     "components/placeholdersjs": "*",
 	"medialize/jquery-context-menu": "1.*"
   },
