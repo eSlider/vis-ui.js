@@ -23,7 +23,7 @@
     "components/underscore": "1.8.*",
     "rogeriopradoj/respond": "1.4.*",
     "components/jquerydialogextendjs": "*",
-    "datatables/datatables": "1.10.x",
+    "components/datatables": "1.10.*",
     "components/placeholdersjs": "*",
 	"medialize/jquery-context-menu": "1.*"
   },
@@ -33,17 +33,6 @@
   },
   "extra": {
     "component": {
-      "datatables/datatables": {
-        "scripts": [
-          "media/js/jquery.dataTables.js"
-        ],
-        "styles": [
-          "media/css/jquery.dataTables.css"
-        ],
-        "files": [
-          "media/**"
-        ]
-      },
       "scripts": [
         "src/js/utils/*.js",
         "src/js/elements/*.js",
