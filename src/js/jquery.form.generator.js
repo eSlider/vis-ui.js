@@ -323,7 +323,12 @@
                 }
 
                 if(has(item, 'options')) {
-                    $.each(item.options, function(value, title) {
+                    var isValuePack = _.isArray(_.first(item.options)) && _.size(_.first(item.options)) == 2;
+                    _.each(item.options, function(title, value) {
+                        if(isValuePack) {
+                            value = title[0];
+                            title = title[1];
+                        }
                         var option = $("<option/>");
                         option.attr('value', value);
                         option.html(title);
