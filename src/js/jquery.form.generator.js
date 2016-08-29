@@ -487,20 +487,31 @@
                 input.dateSelector(item);
                 return inputHolder;
             },
+            colorPicker:  function(item, declarations, widget) {
+                var inputField = $('<input class="form-control" rows="3"/>');
+                var container =  declarations.input(item, declarations, widget, inputField);
+                container.addClass('colorpicker-container');
+                console.log(inputField);
+                inputField.colorpicker({
+                    color: "#ff0000",
+                    horizontal: true
+                });
+                return container;
+            },
             resultTable: function(item, declarations, widget) {
                 return $("<div/>")
-                    .data('declaration', item)
-                    .resultTable($.extend({
-                        lengthChange: false,
-                        pageLength:   10,
-                        searching:    false,
-                        info:         true,
-                        processing:   false,
-                        ordering:     true,
-                        paging:       true,
-                        selectable:   false,
-                        autoWidth:    false
-                    }, item));
+                  .data('declaration', item)
+                  .resultTable($.extend({
+                      lengthChange: false,
+                      pageLength:   10,
+                      searching:    false,
+                      info:         true,
+                      processing:   false,
+                      ordering:     true,
+                      paging:       true,
+                      selectable:   false,
+                      autoWidth:    false
+                  }, item));
             },
             digitizingToolSet: function(item, declarations, widget) {
                 var $div = $("<div/>");
@@ -625,6 +636,12 @@
 
             if(has(item, 'cssClass')) {
                 element.addClass(item.cssClass);
+            }
+
+            if(has(item, 'attr')) {
+                $.each(item.attr, function(key, val) {
+                    element.attr(key,val);
+                });
             }
 
             if(typeof item == "object") {
