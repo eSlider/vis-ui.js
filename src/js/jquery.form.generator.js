@@ -488,30 +488,30 @@
                 return inputHolder;
             },
             colorPicker:  function(item, declarations, widget) {
-                var inputField = $('<input class="form-control" rows="3"/>');
-                var container =  declarations.input(item, declarations, widget, inputField);
-                container.addClass('colorpicker-container');
-                console.log(inputField);
-                inputField.colorpicker({
-                    color: "#ff0000",
-                    horizontal: true
-                });
-                return container;
+              var cpwrap = $('<div class="input-group colorpicker-component colorpicker-element"/>');
+              cpwrap.append('<input class="form-control" rows="3"/>');
+              cpwrap.append('<span class="input-group-addon"><i></i></span>');
+              var container =  declarations.input(item, declarations, widget, cpwrap);
+              if (item.value) {
+                item.color = item.value;
+              }
+              cpwrap.colorpicker(item);
+              return container;
             },
             resultTable: function(item, declarations, widget) {
                 return $("<div/>")
-                  .data('declaration', item)
-                  .resultTable($.extend({
-                      lengthChange: false,
-                      pageLength:   10,
-                      searching:    false,
-                      info:         true,
-                      processing:   false,
-                      ordering:     true,
-                      paging:       true,
-                      selectable:   false,
-                      autoWidth:    false
-                  }, item));
+                    .data('declaration', item)
+                    .resultTable($.extend({
+                        lengthChange: false,
+                        pageLength:   10,
+                        searching:    false,
+                        info:         true,
+                        processing:   false,
+                        ordering:     true,
+                        paging:       true,
+                        selectable:   false,
+                        autoWidth:    false
+                    }, item));
             },
             digitizingToolSet: function(item, declarations, widget) {
                 var $div = $("<div/>");
