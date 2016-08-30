@@ -488,15 +488,59 @@
                 return inputHolder;
             },
             colorPicker:  function(item, declarations, widget) {
-              var cpwrap = $('<div class="input-group colorpicker-component colorpicker-element"/>');
-              cpwrap.append('<input class="form-control" rows="3"/>');
-              cpwrap.append('<span class="input-group-addon"><i></i></span>');
-              var container =  declarations.input(item, declarations, widget, cpwrap);
-              if (item.value) {
-                item.color = item.value;
-              }
-              cpwrap.colorpicker(item);
-              return container;
+                var container = $('<div />');
+                var inputHolder = declarations.input(item, declarations, widget);
+                inputHolder.append('<span class="input-group-addon"><i></i></span>');
+                inputHolder.addClass("input-group");
+                inputHolder.addClass("colorpicker-element");
+                inputHolder.addClass("colorpicker-component");
+                var label = inputHolder.find('> label');
+                container.prepend(label);
+                container.append(inputHolder);
+                inputHolder.find('> label').remove();
+                if (item.value) {
+                    item.color = item.value;
+                }
+                inputHolder.colorpicker(item);
+                return container;
+            },
+            slider: function(item, declarations, widget) {
+                var inputHolder = declarations.input(item, declarations, widget);
+                var label = inputHolder.find('> label');
+                label.append('<span/>')
+                var input = inputHolder.find('> input');
+                var sliderrange = $('<div/>');
+                inputHolder.prepend(sliderrange);
+                inputHolder.find('> label').remove();
+                inputHolder.find('> input').attr('type', 'hidden');
+                var container = $('<div />');
+                container.prepend(label);
+                container.append(inputHolder);
+
+                label.find('> span').text(' ' + item.value);
+                sliderrange.slider($.extend({
+                    range:  "max",
+                    min:    1,
+                    max:    10,
+                    value:  1,
+                    step:   1,
+                    slide:  function(event, ui) {
+                        input.val(ui.value);
+                        label.find('> span').text(' ' + ui.value);
+                    },
+                    change: function(event, ui) {
+                        var value = input.val();
+                        label.find('> span').text(' ' + value);
+                    }
+                }, item));
+
+                input.on('change',function() {
+                    var value = input.val();
+                    label.find('> span').text(' ' + value);
+                    sliderrange.slider("value", value);
+                });
+
+                return container;
             },
             resultTable: function(item, declarations, widget) {
                 return $("<div/>")
