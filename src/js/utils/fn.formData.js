@@ -67,6 +67,10 @@ $.fn.formData = function(values) {
                             input.prop("checked", true);
                         }
                         break;
+                    case 'hidden':
+                        input.val(value);
+                        input.trigger('change');
+                        break;
                     default:
                         input.val(value);
                 }
