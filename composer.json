@@ -28,7 +28,7 @@
     "components/datatables": "1.10.*",
     "components/placeholdersjs": "*",
     "medialize/jquery-context-menu": "1.*",
-    "debugteam/bootstrap-colorpicker": "dev-master"
+    "debugteam/bootstrap-colorpicker": "1.*"
   },
   "config": {
     "bin-dir": "bin",
