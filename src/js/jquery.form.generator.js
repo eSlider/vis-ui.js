@@ -155,6 +155,29 @@
                 button.attr('type', 'submit');
                 return button;
             },
+            accordion: function(item, declarations,widget) {
+
+                var container = $('<div class="accordion panel-group"/>');
+                var elements = [];
+
+                if(has(item, 'children')) {
+                    $.each(item.children, function(k, subItem) {
+                        var htmlElement = widget.genElement(subItem);
+                        var element = {
+                            html: htmlElement
+                        };
+
+                        if(has(subItem, 'title')) {
+                            element.title = subItem.title;
+                        }
+
+
+                        elements.push(element);
+                    });
+                }
+                container.accordionView({children: elements});
+                return container;
+            },
             input:     function(item, declarations, widget, input) {
                 var type = has(declarations, 'type') ? declarations.type : 'text';
                 var inputField = input ? input : $('<input class="form-control" type="' + type + '"/>');
@@ -298,7 +321,7 @@
                 var container = $('<div class="form-group"/>');
                 if(has(item, 'children')) {
                     $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
+                        container.append(widget.ent(item));
                     });
                 }
                 return container;

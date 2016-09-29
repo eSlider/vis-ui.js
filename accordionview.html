@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>VIS UI - Demo</title>
+
+    <link media="all" type="text/css" rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="src/styles/base.css">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/r/dt/dt-1.10.8/datatables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/ROMB/jquery-dialogextend/master/build/jquery.dialogextend.min.js"
+            type="text/javascript"></script>
+    <link media="all" type="text/css" rel="stylesheet"
+          href="https://raw.githubusercontent.com/jquery/jquery-ui/master/themes/base/resizable.css">
+
+    <!-- Underscore -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"
+            type="text/javascript"></script>
+
+    <!-- Leaflat -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/Leaflet/Leaflet/master/dist/leaflet.css"/>
+
+    <!--[if lt IE 9]>
+    <script src="web/assets/html5shiv/dist/html5shiv.js" type="text/javascript"></script>
+    <script src="web/assets/respondjs/respondjs-built.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <!--[if lt IE 10]>
+    <script src="web/assets/placeholdersjs/placeholdersjs-built.js" type="text/javascript"></script>
+    <![endif]-->
+
+
+    <script type="application/javascript">
+        $(function() {
+            jQuery.getScript("src/js/loader.js?ver=" + Math.random(), function() {
+                loadElements(function() {
+
+
+                    // Form test
+                    (function() {
+
+                        var FormBuilder = function() {
+                            var self = this;
+                            self.elements = [];
+                            self.breakLines = 0;
+
+                            this.label = function(name, title) {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type:  "label",
+                                    title: title,
+                                    name:  "label" + name
+                                });
+                                return self;
+                            };
+
+                            this.button = function(name, title) {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type:  "button",
+                                    title: title,
+                                    name:  "button" + name
+                                });
+                                return self;
+                            };
+
+                            this.breakLine = function() {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type: "breakLine",
+
+                                    name: "breakLine" + self.breakLines++
+                                });
+                                return self;
+                            };
+
+                            this.checkBox = function(name, title) {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type:  "checkbox",
+                                    title: title,
+                                    name:  "checkbox" + name,
+
+                                });
+                                return self;
+                            };
+                            this.select = function(name, options) {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type:    "select",
+                                    name:    "select" + name,
+                                    options: options,
+                                    value:   0
+                                });
+                                return self;
+                            };
+                            this.input = function(name, title, placeholder) {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type:        "input",
+                                    title:       title,
+                                    name:        "input" + name,
+                                    placeholder: placeholder
+                                });
+                                return self;
+                            };
+
+                            this.dataTable = function(name, options) {
+                                name = self._capitalize(name);
+                                var html = $('<table/>').resultTable({
+                                    lengthChange: options.lengthChange || false,
+                                    searching:    options.searching || false,
+                                    info:         options.info || false,
+                                    columns:      options.columns,
+                                    data:         options.data,
+                                    buttons:      options.buttons
+
+                                });
+
+                                var table = {
+                                    html: html,
+                                    name: name
+                                };
+
+                                self.elements.push(table);
+                                return self;
+                            };
+
+                            this.html = function(name, html) {
+                                name = self._capitalize(name);
+                                self.elements.push({
+                                    type: "html",
+                                    html: html,
+                                    name: "html" + name
+                                });
+                                return self;
+                            };
+
+                            this._capitalize = function(word) {
+                                return word && word.length > 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+                            };
+
+                            this.fields = function(elements) {
+
+                                if(elements) {
+                                    self.elements = elements;
+                                    return this;
+                                }
+                                return self.elements;
+                            }
+
+                        };
+
+                        var formBuilder = function() {
+                            return new FormBuilder();
+                        };
+
+                        var $div = $("<div/>");
+
+                        var resultDataTableColumns = [{
+                            data:  'resultName',
+                            title: 'Name'
+                        }, {
+                            data:  'resultDescription',
+                            title: 'Description'
+                        }];
+
+                        var resultDataTableButtons = [{
+                            title:     "",
+                            className: "fa fa-bars"
+                        }, {
+                            title:     "",
+                            className: "fa fa-bars"
+                        }];
+                        var resultDataTableData = [];
+
+                        var resultDataTableOptions = {
+                            columns: resultDataTableColumns,
+                            data:    resultDataTableData,
+                            buttons: resultDataTableButtons
+                        };
+
+                        var queryDataTableColumns = [{
+                            data:  'queryName',
+                            title: 'Name'
+                        }, {
+                            data:  'queryDescription',
+                            title: 'Description'
+                        }];
+
+                        var queryDataTableData = [];
+
+                        var queryDataTableButtons = [{
+                            title:     "",
+                            className: "fa fa-bars"
+                        }, {
+                            title:     "",
+                            className: "fa fa-bars"
+                        }];
+
+                        var queryDataTableOptions = {
+                            columns: queryDataTableColumns,
+                            data:    queryDataTableData,
+                            buttons: queryDataTableButtons
+                        };
+
+                        var resultsViewHint = "<p>Result detauls view example by click on the result row.</p>";
+
+                        var children = formBuilder().label("actionButtons", "Action Buttons:").button("newQuery", "New Query").breakLine().input("accordionQuery0", "Accordion Query #1", "Accordion Query #1").checkBox("currentExtent0", "Current Extent").select("queryExportType", ["CSV", "XLS"]).button("export0", "Export").button("edit0", "Edit").button("style0", "Style").breakLine().label("results0", "Results:").dataTable("results0", resultDataTableOptions).breakLine().input("accordionQuery1", "Accordion Query #2", "Accordion Query #2").breakLine().input("accordionQuery2", "Accordion Query #3", "Accordion Query #3").checkBox("currentExtent1", "Current Extent").select("resultsExportType", ["CSV", "XLS"]).button("export1", "Export").button("edit1", "Edit").button("style1", "Style").label("results1", "Results:").dataTable("results1", queryDataTableOptions).html("resultsViewHint", resultsViewHint).html("resultsDetailView", "<div id='resultsDetailView'></div>").fields();
+
+                        $("body").generateElements({
+                            type:     "accordion",
+                            children: [{
+                                type:"button",
+                                title:"Test"
+                            }]
+                        });
+
+                        /***
+
+
+                         $div.popupDialog({
+                            title:       "Demo",
+                            maximizable: true,
+                            width:       "500px",
+                            buttons:     [{
+                                text:  "OK",
+                                click: function(e) {
+                                    var popup = $(e.currentTarget).closest(".ui-").find(".popup-");
+                                    console.log(popup.formData());
+                                    return;
+                                    popup.popup('close');
+                                }
+                            }]
+                        });
+                         *
+                         *
+                         *
+                         */
+
+                    })()
+
+                });
+            })
+        });
+    </script>
+
+    <style type="text/css" media="all">
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .leaflat-map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+</body>
+</html>

@@ -12,7 +12,8 @@ var requieredFiles = [
     'elements/popup.dialog.js',
     'elements/tab.navigator.js',
     'elements/confirm.dialog.js',
-    'jquery.form.generator.js'
+    'elements/accordion.view.js',
+    'jquery.form.generator.js',
 ];
 
 var loadedFiles = 0;
