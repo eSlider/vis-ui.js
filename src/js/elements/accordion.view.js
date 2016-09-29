@@ -8,13 +8,29 @@
      */
     $.widget("vis-ui-js.accordionView", $.ui.accordion, {
         options: {
-            collapsible: true
+            collapsible: true,
+            navigation:  true,
+            header:      '.header',
+            activate:    function(event, ui) {
+                var newPanel = ui.newPanel;
+                if(newPanel.length === 1) {
+                    debugger;
+                    newPanel.attr("style", "");
+                }
+            },
+            create:      function(header, group) {
+
+                if(group && group.panel)
+                    group.panel.attr("style", "");
+            }
+
         },
         _create: function() {
             var widget = this;
             var options = widget.options;
 
-            this.options.header = '.header';
+            //this.options.autoHeight = false;
+
             var el = widget.element;
             var r = this._super();
 
@@ -26,7 +42,9 @@
                 });
             }
 
-        },
+        }
+
+        ,
 
         close: function(uuid) {
 
@@ -42,26 +60,24 @@
             var id = 'accordion-group-';
             id += item.hasOwnProperty('id') ? item.id : guid();
             var group = $("<div class='group panel panel-default' id='" + id + "'/>");
-            var content = $("<div class='panel-collapse collapse in'/>");
+            var content = $("<div class='panel-collapse' style='height: auto !important;'/>");
             var header = $("<div class='panel-heading header'></div>");
             var headerTitle = $("<h3 />");
-            debugger;
+
             if(item && item.children) {
 
                 headerTitle.html(item.title || "");
                 header.append(headerTitle);
                 content.append(header);
 
-
                 $.each(item.children, function(i, element) {
-                  var a=  content.generateElements(element);
+                    var a = content.generateElements(element);
 
                 });
 
                 this.refresh();
                 return el;
             }
-
 
             headerTitle.html(item.title || "");
             header.append(headerTitle);

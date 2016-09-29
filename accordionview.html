@@ -222,7 +222,7 @@
                             children: [{
                                 type:     "container",
                                 title:    "New Query",
-                                children:  formBuilder().label("actionButtons", "Action Buttons:").button("newQuery", "New Query").fields()
+                                children: formBuilder().label("actionButtons", "Action Buttons:").button("newQuery", "New Query").fields()
                             }, {
                                 type:     "container",
                                 title:    "Accordion Query",
@@ -235,7 +235,7 @@
                                 type:     "container",
                                 title:    "Acordion Query 2",
                                 children: formBuilder().input("accordionQuery1", "Accordion Query #2", "Accordion Query #2").fields()
-                            },{
+                            }, {
                                 type:     "container",
                                 title:    "Acordion Query 3",
                                 children: formBuilder().input("accordionQuery2", "Accordion Query #3", "Accordion Query #3").checkBox("currentExtent1", "Current Extent").select("resultsExportType", ["CSV", "XLS"]).button("export1", "Export").button("edit1", "Edit").button("style1", "Style").label("results1", "Results:").dataTable("results1", queryDataTableOptions).html("resultsViewHint", resultsViewHint).html("resultsDetailView", "<div id='resultsDetailView'></div>").fields()
@@ -244,10 +244,7 @@
                             ]
                         });
 
-
-
-
-                         $div.popupDialog({
+                        $div.popupDialog({
                             title:       "Demo",
                             maximizable: true,
                             width:       "500px",
@@ -261,7 +258,6 @@
                                 }
                             }]
                         });
-
 
                     })()
 
