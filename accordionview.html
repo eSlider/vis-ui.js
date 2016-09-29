@@ -215,39 +215,34 @@
                             buttons: queryDataTableButtons
                         };
 
-                        var resultsViewHint = "<p>Result detauls view example by click on the result row.</p>";
-
-                        var children = formBuilder().label("actionButtons", "Action Buttons:").button("newQuery", "New Query").breakLine().input("accordionQuery0", "Accordion Query #1", "Accordion Query #1").checkBox("currentExtent0", "Current Extent").select("queryExportType", ["CSV", "XLS"]).button("export0", "Export").button("edit0", "Edit").button("style0", "Style").breakLine().label("results0", "Results:").dataTable("results0", resultDataTableOptions).breakLine().input("accordionQuery1", "Accordion Query #2", "Accordion Query #2").breakLine().input("accordionQuery2", "Accordion Query #3", "Accordion Query #3").checkBox("currentExtent1", "Current Extent").select("resultsExportType", ["CSV", "XLS"]).button("export1", "Export").button("edit1", "Edit").button("style1", "Style").label("results1", "Results:").dataTable("results1", queryDataTableOptions).html("resultsViewHint", resultsViewHint).html("resultsDetailView", "<div id='resultsDetailView'></div>").fields();
+                        var resultsViewHint = "<p>Result details view example by click on the result row.</p>";
 
                         $("body").generateElements({
                             type:     "accordion",
                             children: [{
-                                type:"button",
-                                title:"Test"
-                            }]
-                        });
+                                type:     "container",
+                                title:    "New Query",
+                                children:  formBuilder().label("actionButtons", "Action Buttons:").button("newQuery", "New Query").fields()
+                            }, {
+                                type:     "container",
+                                title:    "Accordion Query",
+                                children: formBuilder().input("accordionQuery0", "Accordion Query #1", "Accordion Query #1").checkBox("currentExtent0", "Current Extent").select("queryExportType", ["CSV", "XLS"]).button("export0", "Export").button("edit0", "Edit").button("style0", "Style").fields()
+                            }, {
+                                type:     "container",
+                                title:    "Result Data Table",
+                                children: formBuilder().label("results0", "Results:").dataTable("results0", resultDataTableOptions).fields()
+                            }, {
+                                type:     "container",
+                                title:    "Acordion Query 2",
+                                children: formBuilder().input("accordionQuery1", "Accordion Query #2", "Accordion Query #2").fields()
+                            },{
+                                type:     "container",
+                                title:    "Acordion Query 3",
+                                children: formBuilder().input("accordionQuery2", "Accordion Query #3", "Accordion Query #3").checkBox("currentExtent1", "Current Extent").select("resultsExportType", ["CSV", "XLS"]).button("export1", "Export").button("edit1", "Edit").button("style1", "Style").label("results1", "Results:").dataTable("results1", queryDataTableOptions).html("resultsViewHint", resultsViewHint).html("resultsDetailView", "<div id='resultsDetailView'></div>").fields()
+                            }
 
-                        /***
-
-
-                         $div.popupDialog({
-                            title:       "Demo",
-                            maximizable: true,
-                            width:       "500px",
-                            buttons:     [{
-                                text:  "OK",
-                                click: function(e) {
-                                    var popup = $(e.currentTarget).closest(".ui-").find(".popup-");
-                                    console.log(popup.formData());
-                                    return;
-                                    popup.popup('close');
-                                }
-                            }]
-                        });
-                         *
-                         *
-                         *
-                         */
+                            ]
+                        });t
 
                     })()
 

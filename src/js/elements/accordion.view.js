@@ -15,26 +15,8 @@
             var options = widget.options;
 
             this.options.header = '.header';
-
-            // TODO: add classes for theming
-            if(this.options.classes) {
-                /**
-                 this.options.classes["ui-accordion-header"] = "";
-                 this.options.classes["ui-accordion-header-collapsed"] = "";
-                 this.options.classes["ui-accordion-content"] = "";
-                 * */
-            } else {
-                /*
-                 this.options.classes = {
-                 "ui-accordion-header":           "",
-                 "ui-accordion-header-collapsed": "",
-                 "ui-accordion-content":          ""
-                 };
-                 * **/
-            }
-
             var el = widget.element;
-            this._super();
+            var r = this._super();
 
             el.addClass('mapbender-element-accordion-view');
 
@@ -57,17 +39,36 @@
 
             var el = this.element;
 
-            var id = 'accordion-group-' + (item.hasOwnProperty('id') ? item.id : guid());
+            var id = 'accordion-group-';
+            id += item.hasOwnProperty('id') ? item.id : guid();
+            var group = $("<div class='group panel panel-default' id='" + id + "'/>");
+            var content = $("<div class='panel-collapse collapse in'/>");
+            var header = $("<div class='panel-heading header'></div>");
+            var headerTitle = $("<h3 />");
+            debugger;
+            if(item && item.children) {
 
-            var header = $("<h3 class='ui-accordion-header header'></h3>");
-            var group = $("<div class='group ui-accordion-content' id='" + id + "'/>");
+                headerTitle.html(item.title || "");
+                header.append(headerTitle);
+                content.append(header);
 
-            header.html(item.title || "");
-            group.append(item.html);
 
-            el.append(header);
+                $.each(item.children, function(i, element) {
+                  var a=  content.generateElements(element);
+
+                });
+
+                this.refresh();
+                return el;
+            }
+
+
+            headerTitle.html(item.title || "");
+            header.append(headerTitle);
+            group.append(header);
+            content.append(item.html);
+            group.append(content);
             el.append(group);
-
             this.refresh();
             return el;
         },
