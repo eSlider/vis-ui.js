@@ -217,7 +217,7 @@
 
                         var resultsViewHint = "<p>Result details view example by click on the result row.</p>";
 
-                        $("body").generateElements({
+                        $div.generateElements({
                             type:     "accordion",
                             children: [{
                                 type:     "container",
@@ -242,7 +242,26 @@
                             }
 
                             ]
-                        });t
+                        });
+
+
+
+
+                         $div.popupDialog({
+                            title:       "Demo",
+                            maximizable: true,
+                            width:       "500px",
+                            buttons:     [{
+                                text:  "OK",
+                                click: function(e) {
+                                    var popup = $(e.currentTarget).closest(".ui-").find(".popup-");
+                                    console.log(popup.formData());
+                                    return;
+                                    popup.popup('close');
+                                }
+                            }]
+                        });
+
 
                     })()
 
