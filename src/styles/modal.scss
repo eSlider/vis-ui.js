@@ -103,12 +103,15 @@
   }
   .form-group {
     > button.btn {
-      margin-right: -16px;
+      margin-right: 0px;
       height: 29px;
       margin-bottom: 5px;
       vertical-align: bottom;
       margin-left: -1px;
       display: inline-block;
+      &:first-child{
+        margin-left: 15px;
+      }
     }
   }
 }
