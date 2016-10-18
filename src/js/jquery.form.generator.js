@@ -487,38 +487,54 @@
                 input.dateSelector(item);
                 return inputHolder;
             },
-            colorPicker:  function(item, declarations, widget) {
-                var container = $('<div />');
+            colorPicker: function(item, declarations, widget) {
+                var container = $('<div class="form-group"/>');
                 var inputHolder = declarations.input(item, declarations, widget);
+                var label = inputHolder.find('> label');
+
                 inputHolder.append('<span class="input-group-addon"><i></i></span>');
                 inputHolder.addClass("input-group");
                 inputHolder.addClass("colorpicker-element");
                 inputHolder.addClass("colorpicker-component");
-                var label = inputHolder.find('> label');
+
                 container.prepend(label);
                 container.append(inputHolder);
                 inputHolder.find('> label').remove();
+
                 if (item.value) {
                     item.color = item.value;
                 }
+
                 inputHolder.colorpicker(item);
+                var input = inputHolder.find("input");
+                input.addClass("form-control");
+                input.on('change', function() {
+                    var clr = input.val();
+                    console.log("CHANGE COLOR", clr);
+                    inputHolder.colorpicker('setValue', clr);
+                });
+
                 return container;
             },
             slider: function(item, declarations, widget) {
+                var container = $('<div class="form-group input-group slider-holder"/>');
                 var inputHolder = declarations.input(item, declarations, widget);
                 var label = inputHolder.find('> label');
-                label.append('<span/>')
                 var input = inputHolder.find('> input');
-                var sliderrange = $('<div/>');
-                inputHolder.prepend(sliderrange);
+                var sliderRange = $('<div class="input-group"/>');
+
+                label.append('<span/>')
+
+                inputHolder.prepend(sliderRange);
                 inputHolder.find('> label').remove();
                 inputHolder.find('> input').attr('type', 'hidden');
-                var container = $('<div />');
+
                 container.prepend(label);
                 container.append(inputHolder);
 
                 label.find('> span').text(' ' + item.value);
-                sliderrange.slider($.extend({
+
+                sliderRange.slider($.extend({
                     range:  "max",
                     min:    1,
                     max:    10,
@@ -534,10 +550,10 @@
                     }
                 }, item));
 
-                input.on('change',function() {
+                input.on('change', function() {
                     var value = input.val();
                     label.find('> span').text(' ' + value);
-                    sliderrange.slider("value", value);
+                    sliderRange.slider("value", value);
                 });
 
                 return container;
