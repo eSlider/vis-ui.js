@@ -559,7 +559,14 @@
                 return container;
             },
             resultTable: function(item, declarations, widget) {
-                return $("<div/>")
+                var container = $("<div/>");
+                $.each(['name'], function(i, key) {
+                    if(has(item, key)) {
+                        container.attr(key, item[key]);
+                    }
+                });
+
+                return container
                     .data('declaration', item)
                     .resultTable($.extend({
                         lengthChange: false,
