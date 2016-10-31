@@ -676,6 +676,47 @@
                     })
                 }
                 return container;
+            },
+
+            /**
+             * Simple accordion
+             *
+             * @param item
+             * @param declarations
+             * @param widget
+             */
+            accordion: function(item, declarations, widget) {
+                var container = $('<div class="accordion"/>');
+                if(has(item, 'children')) {
+                    _.each(item.children, function(child, k) {
+                        var pageContainer = $("<div class='container' data-id='" + k + "'/>");
+                        var pageHeader = $("<h3 class='header' data-id='" + k + "'/>");
+
+                        if(has(child, 'head')) {
+                            pageHeader.append(widget.genElement(child.head));
+
+                            // if(has(child.head, 'title')) {
+                            //     pageHeader.append(widget.label(headItem));
+                            // }
+                            //
+                            // if(has(child.head, 'children')) {
+                            //     _.each(child.head.children, function(headItem) {
+                            //         pageHeader.append(widget.genElement(headItem));
+                            //     })
+                            // }
+                        }
+
+                        if(has(child, 'content')) {
+                            pageContainer.append(widget.genElement(child.content));
+                        }
+
+                        container.append(pageHeader);
+                        container.append(pageContainer);
+                    })
+                }
+                container.data('declaration', item);
+                container.accordion(item);
+                return container;
             }
 
         },
