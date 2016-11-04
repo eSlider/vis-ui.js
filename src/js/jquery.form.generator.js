@@ -811,4 +811,27 @@
         }
     });
 
+    /**
+     * Update existing select element
+     *
+     * @param values
+     * @param idKey
+     * @param valueKey
+     */
+    $.fn.updateSelect = function(values, idKey, valueKey) {
+        var select = this;
+        var val = select.val();
+        select.empty();
+
+        if(idKey && valueKey){
+            values = _.object(_.pluck(values, idKey), _.pluck(values, valueKey));
+        }
+
+        _.each(values, function(value, key) {
+            select.append('<option value="'+key+'">'+value+'</option>');
+        });
+
+        select.val(val);
+    };
+
 })(jQuery);
