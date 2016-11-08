@@ -25,6 +25,7 @@
       font-size: 12px;
       line-height: 11px;
       margin: 0;
+      margin-bottom: -1px;
       padding: 6px 8px;
       clear: both;
       height: auto;
@@ -45,6 +46,7 @@
           font-size: 0;
           margin: 0;
           height: auto;
+          margin-left: -1px;
           &:before{
             font-size: 12px;
           }
