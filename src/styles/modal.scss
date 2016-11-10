@@ -70,6 +70,10 @@
     }
   }
 
+  .form-group > .form-group {
+    margin-bottom: 0;
+  }
+
   .form-group, .checkbox {
     position: relative;
 
@@ -164,7 +168,7 @@
   .form-group {
     > button.btn {
       margin-right: 0px;
-      margin-bottom: 5px;
+      margin-bottom: 0px;
       vertical-align: bottom;
       margin-left: -1px;
       display: inline-block;
