@@ -493,10 +493,7 @@
                 var label = inputHolder.find('> label');
 
                 inputHolder.append('<span class="input-group-addon"><i></i></span>');
-                inputHolder.addClass("input-group");
-                inputHolder.addClass("colorpicker-element");
-                inputHolder.addClass("colorpicker-component");
-
+                inputHolder.addClass("input-group colorpicker-element colorpicker-component");
                 container.prepend(label);
                 container.append(inputHolder);
                 inputHolder.find('> label').remove();
@@ -505,12 +502,16 @@
                     item.color = item.value;
                 }
 
+                if(!item.hasOwnProperty("format")){
+                    item.format = "hex";
+                }
+
                 inputHolder.colorpicker(item);
+
                 var input = inputHolder.find("input");
                 input.addClass("form-control");
-                input.on('change', function() {
+                input.on('changeValue', function() {
                     var clr = input.val();
-                    console.log("CHANGE COLOR", clr);
                     inputHolder.colorpicker('setValue', clr);
                 });
 

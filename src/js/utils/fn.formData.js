@@ -74,6 +74,8 @@ $.fn.formData = function(values) {
                     default:
                         input.val(value);
                 }
+                input.trigger("changeValue");
+
             }
         });
         return form;
