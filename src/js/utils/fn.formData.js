@@ -71,6 +71,14 @@ $.fn.formData = function(values) {
                         input.val(value);
                         input.trigger('change');
                         break;
+
+                    case 'text':
+                        if(input.hasClass('hasDatepicker')){
+                            var dateFormat = input.datepicker( "option", "dateFormat" );
+                            value = $.datepicker.formatDate(dateFormat, new Date(value))
+                            input.datepicker( "setDate", value);
+                        }
+                        break;
                     default:
                         input.val(value);
                 }
@@ -156,4 +164,5 @@ $.fn.enableForm = function() {
         }
     })
 };
+
 
