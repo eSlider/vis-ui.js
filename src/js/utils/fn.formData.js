@@ -77,6 +77,8 @@ $.fn.formData = function(values) {
                             var dateFormat = input.datepicker( "option", "dateFormat" );
                             value = $.datepicker.formatDate(dateFormat, new Date(value))
                             input.datepicker( "setDate", value);
+                        }else{
+                            input.val(value);
                         }
                         break;
                     default:
