@@ -84,6 +84,10 @@ $.fn.formData = function(values) {
                     default:
                         input.val(value);
                 }
+                input.trigger('filled', {
+                    data:   values,
+                    value:  value
+                });
             }
         });
         return form;
