@@ -13,11 +13,12 @@
   ],
   "require-dev": {
     "components/normalize.css": "3.0.*",
-    "drmonty/leaflet": "1.0.*"
+    "drmonty/leaflet": "1.0.*",
+    "components/placeholdersjs": "*"
   },
   "require": {
     "robloach/component-installer": "0.2.*",
-    "components/font-awesome": "4.5.*",
+    "components/font-awesome": "4.x",
     "components/bootstrap": "3.*",
     "components/jquery": "1.* || 2.*",
     "components/jqueryui": "1.*",
@@ -26,7 +27,6 @@
     "rogeriopradoj/respond": "1.4.*",
     "components/jquerydialogextendjs": "*",
     "components/datatables": "1.10.*",
-    "components/placeholdersjs": "*",
     "medialize/jquery-context-menu": "1.*",
     "debugteam/bootstrap-colorpicker": "1.*"
   },
