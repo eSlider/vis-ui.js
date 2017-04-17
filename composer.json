@@ -25,10 +25,11 @@
     "afarkas/html5shiv": "3.*",
     "components/underscore": "1.8.*",
     "rogeriopradoj/respond": "1.4.*",
-    "components/jquerydialogextendjs": "*",
     "components/datatables": "1.10.*",
     "medialize/jquery-context-menu": "1.*",
-    "debugteam/bootstrap-colorpicker": "1.*"
+    "debugteam/bootstrap-colorpicker": "1.*",
+    "wg-rolf/placeholdersjs": "v1.0.0",
+    "wg-rolf/jquery-dialogextend": "v1.0.0"
   },
   "config": {
     "bin-dir": "bin",
@@ -46,43 +47,7 @@
       ]
     },
     "branch-alias": {
-	"dev-master": "0.0.x-dev"
+      "dev-master": "0.1.x-dev"
     }
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "components/placeholdersjs",
-        "type": "component",
-        "version": "4.0.1",
-        "dist": {
-          "url": "http://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
-          "type": "zip"
-        },
-        "extra": {
-          "component": {
-            "scripts": ["dist/placeholders.min.js","dist/placeholders.jquery.min.js"]
-          }
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "components/jquerydialogextendjs",
-        "type": "component",
-        "version": "2.0.4",
-        "dist": {
-          "url": "http://github.com/ROMB/jquery-dialogextend/archive/2.0.4.zip",
-          "type": "zip"
-        },
-        "extra": {
-          "component": {
-            "scripts": ["build/*.min.js"]
-          }
-        }
-      }
-    }
-  ]
+  }
 }
