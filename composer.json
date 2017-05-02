@@ -57,7 +57,7 @@
         "type": "component",
         "version": "4.0.1",
         "dist": {
-          "url": "http://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
+          "url": "https://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
           "type": "zip"
         },
         "extra": {
