@@ -328,7 +328,12 @@
                         if(isValuePack) {
                             value = title[0];
                             title = title[1];
+                        } else if(_.isObject(title)) {
+                            var a = _.toArray(title);
+                            value = a[0];
+                            title = a[1];
                         }
+
                         var option = $("<option/>");
                         option.attr('value', value);
                         option.html(title);
@@ -339,6 +344,9 @@
 
                 window.setTimeout(function() {
                     select.val(value);
+                    if(has(item, 'multiple') && item.multiple) {
+                        select.select2(item);
+                    }
                 }, 20);
 
                 return container;

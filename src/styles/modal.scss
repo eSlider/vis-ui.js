@@ -83,6 +83,17 @@
           right: auto;
         }
       }
+
+      .select2-container {
+        display: block;
+        width: auto !important;
+        > .selection {
+          > .select2-selection {
+            border: 1px solid #ccc;
+            border-radius: 0;
+          }
+        }
+      }
     }
     &.textarea-container{
       > a.infoText{
@@ -99,6 +110,26 @@
       right: inherit;
       margin-top: -4px;
       z-index: 1;
+    }
+  }
+}
+
+body > .select2-container {
+
+  * {
+    font-size: 11px;
+    color: #707070;
+  }
+
+  > .select2-dropdown {
+    border: 1px solid #ccc;
+    border-radius: 0;
+    > .select2-results {
+      > [role="tree"] {
+        > li[role="treeitem"]{
+
+        }
+      }
     }
   }
 }
