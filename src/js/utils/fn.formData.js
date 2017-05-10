@@ -48,10 +48,11 @@ $.fn.formData = function(values) {
 
                         if(type == 'text' && value ) {
                             var separator = declaration.separator ? declaration.separator : ',';
-                            var vals = $.isArray(value) ? value : value.split(separator);
-                            $.each(vals, function(i, optionValue) {
-                                $("option[value='" + optionValue + "']", input).prop("selected", true);
-                            });
+                            var vals = $.isArray(value) ? value : value.toString().split(separator);
+                            input.val(vals);
+                            if(input.select2){
+                                input.select2();
+                            }
                         } else {
                             input.val(value);
                         }
