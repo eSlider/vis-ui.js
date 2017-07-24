@@ -11,6 +11,11 @@
     -webkit-font-smoothing: antialiased;
 }
 
+.mb-element-popup-dialog .ui-dialog-titlebar-close:after {
+    content: "\f00d";
+}
+
+
 .ui-icon{
     font-size: 0;
     color: inherit;

@@ -48,8 +48,10 @@ $.fn.formData = function(values) {
 
                         if(type == 'text' && value ) {
                             var separator = declaration.separator ? declaration.separator : ',';
-                            var vals = $.isArray(value) ? value : value.toString().split(separator);
-                            input.val(vals);
+                            var vals = $.isArray(value) ? value : value.split(separator);
+                            $.each(vals, function(i, optionValue) {
+                                $("option[value='" + optionValue + "']", input).prop("selected", true);
+                            });
                             if(input.select2){
                                 input.select2();
                             }
@@ -89,6 +91,8 @@ $.fn.formData = function(values) {
                     data:   values,
                     value:  value
                 });
+                input.trigger("changeValue");
+
             }
         });
         return form;

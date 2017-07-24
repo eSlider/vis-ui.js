@@ -495,38 +495,55 @@
                 input.dateSelector(item);
                 return inputHolder;
             },
-            colorPicker:  function(item, declarations, widget) {
-                var container = $('<div />');
+            colorPicker: function(item, declarations, widget) {
+                var container = $('<div class="form-group"/>');
                 var inputHolder = declarations.input(item, declarations, widget);
-                inputHolder.append('<span class="input-group-addon"><i></i></span>');
-                inputHolder.addClass("input-group");
-                inputHolder.addClass("colorpicker-element");
-                inputHolder.addClass("colorpicker-component");
                 var label = inputHolder.find('> label');
+
+                inputHolder.append('<span class="input-group-addon"><i></i></span>');
+                inputHolder.addClass("input-group colorpicker-element colorpicker-component");
                 container.prepend(label);
                 container.append(inputHolder);
                 inputHolder.find('> label').remove();
+
                 if (item.value) {
                     item.color = item.value;
                 }
+
+                if(!item.hasOwnProperty("format")){
+                    item.format = "hex";
+                }
+
                 inputHolder.colorpicker(item);
+
+                var input = inputHolder.find("input");
+                input.addClass("form-control");
+                input.on('changeValue', function() {
+                    var clr = input.val();
+                    inputHolder.colorpicker('setValue', clr);
+                });
+
                 return container;
             },
             slider: function(item, declarations, widget) {
+                var container = $('<div class="form-group input-group slider-holder"/>');
                 var inputHolder = declarations.input(item, declarations, widget);
                 var label = inputHolder.find('> label');
-                label.append('<span/>')
                 var input = inputHolder.find('> input');
-                var sliderrange = $('<div/>');
-                inputHolder.prepend(sliderrange);
+                var sliderRange = $('<div class="input-group"/>');
+
+                label.append('<span/>')
+
+                inputHolder.prepend(sliderRange);
                 inputHolder.find('> label').remove();
                 inputHolder.find('> input').attr('type', 'hidden');
-                var container = $('<div />');
+
                 container.prepend(label);
                 container.append(inputHolder);
 
                 label.find('> span').text(' ' + item.value);
-                sliderrange.slider($.extend({
+
+                sliderRange.slider($.extend({
                     range:  "max",
                     min:    1,
                     max:    10,
@@ -542,16 +559,23 @@
                     }
                 }, item));
 
-                input.on('change',function() {
+                input.on('change', function() {
                     var value = input.val();
                     label.find('> span').text(' ' + value);
-                    sliderrange.slider("value", value);
+                    sliderRange.slider("value", value);
                 });
 
                 return container;
             },
             resultTable: function(item, declarations, widget) {
-                return $("<div/>")
+                var container = $("<div/>");
+                $.each(['name'], function(i, key) {
+                    if(has(item, key)) {
+                        container.attr(key, item[key]);
+                    }
+                });
+
+                return container
                     .data('declaration', item)
                     .resultTable($.extend({
                         lengthChange: false,
@@ -661,6 +685,47 @@
                     })
                 }
                 return container;
+            },
+
+            /**
+             * Simple accordion
+             *
+             * @param item
+             * @param declarations
+             * @param widget
+             */
+            accordion: function(item, declarations, widget) {
+                var container = $('<div class="accordion"/>');
+                if(has(item, 'children')) {
+                    _.each(item.children, function(child, k) {
+                        var pageContainer = $("<div class='container' data-id='" + k + "'/>");
+                        var pageHeader = $("<h3 class='header' data-id='" + k + "'/>");
+
+                        if(has(child, 'head')) {
+                            pageHeader.append(widget.genElement(child.head));
+
+                            // if(has(child.head, 'title')) {
+                            //     pageHeader.append(widget.label(headItem));
+                            // }
+                            //
+                            // if(has(child.head, 'children')) {
+                            //     _.each(child.head.children, function(headItem) {
+                            //         pageHeader.append(widget.genElement(headItem));
+                            //     })
+                            // }
+                        }
+
+                        if(has(child, 'content')) {
+                            pageContainer.append(widget.genElement(child.content));
+                        }
+
+                        container.append(pageHeader);
+                        container.append(pageContainer);
+                    })
+                }
+                container.data('declaration', item);
+                container.accordion(item);
+                return container;
             }
 
         },
@@ -754,5 +819,61 @@
             this._trigger('refresh');
         }
     });
+
+    /**
+     * Update existing select element
+     *
+     * @param values
+     * @param idKey
+     * @param valueKey
+     */
+    $.fn.updateSelect = function(values, idKey, valueKey) {
+        var select = this;
+        var val = select.val();
+        select.empty();
+
+        if(idKey && valueKey){
+            values = _.object(_.pluck(values, idKey), _.pluck(values, valueKey));
+        }
+
+        _.each(values, function(value, key) {
+            select.append('<option value="'+key+'">'+value+'</option>');
+        });
+
+        select.val(val);
+    };
+
+    /**
+     * Grabbed from here: http://jsfiddle.net/DkHyd/
+     */
+    $.fn.togglepanels = function(args) {
+        return this.each(function() {
+            $(this).addClass("ui-accordion ui-accordion-icons ui-widget ui-helper-reset")
+                .find("h3")
+                .addClass("ui-accordion-header ui-helper-reset ui-state-default ui-corner-top ui-corner-bottom")
+                .hover(function() {
+                    $(this).toggleClass("ui-state-hover");
+                })
+                .prepend('<span class="ui-icon ui-icon-triangle-1-e"></span>')
+                .click(function(e) {
+                    $(this)
+                        .toggleClass("ui-accordion-header-active ui-state-active ui-state-default ui-corner-bottom")
+                        .find("> .ui-icon").toggleClass("ui-icon-triangle-1-e ui-icon-triangle-1-s").end()
+                        .next().slideToggle(0);
+
+                    if(args.onChange) {
+                        var title = $(e.currentTarget);
+                        args.onChange(e, {
+                            'title':   title,
+                            'content': title.next()
+                        });
+                    }
+                    return false;
+                })
+                .next()
+                .addClass("ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom")
+                .hide();
+        });
+    };
 
 })(jQuery);

@@ -13,7 +13,21 @@
         options:           {
             layer:    null,
             // Open layer control events
-            controlEvents: []
+            controlEvents: [],
+            translations:{
+                drawPoint: "Draw point",
+                drawLine: "Draw line",
+                drawPolygon: "Draw polygon",
+                drawRectangle: "Draw rectangle",
+                drawCircle: "Draw circle",
+                drawEllipse: "Draw ellipse",
+                drawDonut: "Draw donut",
+                selectAndEditGeometry: "Select and edit geometry position/size",
+                moveGeometry: "Move geometry",
+                selectGeometry: "Select geometry",
+                removeSelected: "Remove selected geometries",
+                removeAll: "Remove all geometries"
+            }
         },
         controls:          null,
         _activeControls:   [],
@@ -28,10 +42,12 @@
             var widget = this;
             var mapElement = widget.getMapElement();
             var layer = widget.getLayer();
+            var options = widget.options;
+            var translations = options.translations;
 
             widget.controls = {
                 drawPoint:      {
-                    infoText: "Draw point",
+                    infoText: translations.drawPoint,
                     control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Point),
                     onClick: function(e) {
                         var el = $(e.currentTarget);
@@ -41,7 +57,7 @@
                     }
                 },
                 drawLine:       {
-                    infoText: "Draw line",
+                    infoText:   translations.drawLine,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -52,7 +68,7 @@
                     control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Path)
                 },
                 drawPolygon:    {
-                    infoText: "Draw polygone",
+                    infoText: translations.drawPolygon,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -65,7 +81,7 @@
                     control:  new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Polygon)
                 },
                 drawRectangle:  {
-                    infoText: "Draw rectangle",
+                    infoText: translations.drawRectangle,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -83,7 +99,7 @@
                     })
                 },
                 drawCircle:     {
-                    infoText: "Draw circle",
+                    infoText: translations.drawCircle,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -100,7 +116,7 @@
                     })
                 },
                 drawEllipse:    {
-                    infoText: "Draw ellipse",
+                    infoText: translations.drawEllipse,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -118,7 +134,7 @@
                     })
                 },
                 drawDonut:          {
-                    infoText: "Draw donut",
+                    infoText: translations.drawDonut,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -134,7 +150,7 @@
                     })
                 },
                 modifyFeature:           {
-                    infoText: "Select and edit geometry position/size",
+                    infoText: translations.selectAndEditGeometry,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -147,7 +163,7 @@
                     control:  new OpenLayers.Control.ModifyFeature(layer)
                 },
                 moveFeature:           {
-                    infoText: "Move geometry",
+                    infoText: translations.moveGeometry,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         if(widget.toggleController(el.data('control'))) {
@@ -167,7 +183,7 @@
                     })
                 },
                 selectFeature:         {
-                    infoText: "Select geometry",
+                    infoText: translations.selectGeometry,
                     onClick: function(e) {
                         var el = $(e.currentTarget);
                         widget.toggleController(el.data('control'));
@@ -185,14 +201,14 @@
                     })
                 },
                 removeSelected: {
-                    infoText: "Remove selected geometries",
+                    infoText: translations.removeSelected,
                     cssClass: 'critical',
                     onClick: function() {
                         layer.removeFeatures(layer.selectedFeatures);
                     }
                 },
                 removeAll:      {
-                    infoText: "Remove all geometries",
+                    infoText: translations.removeAll,
                     cssClass: 'critical',
                     onClick: function() {
                         layer.removeAllFeatures();
