@@ -1,8 +1,9 @@
 (function($) {
 
     // fake dialogExtend check for ui-dialog
+    this.orignalDialogFunc = $.fn["dialog"];
     $.fn["dialog"] = function(arg1, arg2) {
-        return this.hasClass('popup-dialog') ? this.popupDialog(arg1, arg2) : this.dialog(arg1, arg2);
+        return this.hasClass('popup-dialog') ? this.popupDialog(arg1, arg2) :  this.orignalDialogFunc(arg1, arg2);
     };
 
     /**
