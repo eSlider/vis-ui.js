@@ -17,6 +17,7 @@
                 changeMonth:       true,
                 changeYear:        true,
                 gotoCurrent:       true,
+                defaultDate:       null,
                 firstDay:          1, //showWeek:          true,
                 dayNamesMin:       ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
                 monthNamesShort:   ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"], //showButtonPanel: true,
