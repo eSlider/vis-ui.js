@@ -67,14 +67,16 @@
                 if(elm.hasClass("form-group")) {
                     elm = elm.find("input,.form-control");
                 }
-                if(k == "load"){
-                    $(elm).ready(function(e) {
-                        var el = elm;
-                        var result = false;
-                        eval(value);
-                        result && e.preventDefault();
-                        return result;
-                    });
+                if(k === 'load'){
+                    setTimeout(function(){
+                        $(elm).ready(function(e) {
+                            var el = elm;
+                            var result = false;
+                            eval(value);
+                            result && e.preventDefault();
+                            return result;
+                        });
+                    },1);
                 }else{
                     elm.on(k, function(e) {
                         var el = $(this);
