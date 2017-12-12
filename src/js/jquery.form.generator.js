@@ -404,10 +404,12 @@
                 var input = $('<input type="hidden"  />');
                 var fileInput = $('<input type="file" />');
                 var container = declarations.input(item, declarations, widget, input);
-                var textSpan = '<span>' + (has(item, 'text') ? item.text : "Select") + '</span>';
+                var defaultText = (has(item, 'text') ? item.text : "Select");
+                var textSpan = '<span class="upload-button-text"><i class="fa fa-upload" aria-hidden="true"/> ' + defaultText + '</span>';
                 var uploadButton = $('<span class="btn btn-success button fileinput-button">' + textSpan + '</span>');
                 var buttonContainer = $("<div/>");
                 var progressBar = $("<div class='progress-bar'/>");
+                var eventHandlers = item.on ? item.on : {};
 
                 if(has(item, 'accept')) {
                     fileInput.attr('accept', item.accept);
@@ -419,6 +421,16 @@
                 buttonContainer.append(uploadButton);
                 uploadButton.append(progressBar);
                 container.append(buttonContainer);
+
+                function truncate(n, len) {
+                    var ext = n.substring(n.lastIndexOf(".") + 1, n.length).toLowerCase();
+                    var filename = n.replace('.' + ext, '');
+                    if(filename.length <= len) {
+                        return n;
+                    }
+                    filename = filename.substr(0, len) + (n.length > len ? '[...]' : '');
+                    return filename + '.' + ext;
+                }
 
                 fileInput.fileupload({
                     dataType:    'json',
@@ -433,17 +445,42 @@
                         var progress = parseInt(data.loaded / data.total * 100, 10);
                         progressBar.css({width: progress + "%"});
                         //progressBar.html(progress + "%");
+                        if(eventHandlers.progressall){
+                            eval(eventHandlers.progressall);
+                        }
+                    },
+                    always:      function(e, data) {
+                        if(eventHandlers.always) {
+                            eval(eventHandlers.always);
+                        }
                     },
                     done:        function(e, data) {
+                        if(eventHandlers.done){
+                            eval(eventHandlers.done);
+                        }
                         progressBar.css({width: 0});
                     },
                     success:     function(result, textStatus, jqXHR) {
+                        if(eventHandlers.success){
+                            eval(eventHandlers.success);
+                        }
+
                         if(result.files && result.files[0]) {
                             var fileInfo = result.files[0];
                             var img = container.closest('form').find('img[name="' + item.name + '"]');
-                            //debugger;
+
+                            if(fileInfo.name) {
+                                buttonContainer.find('.upload-button-text').html('<i class="fa fa-check-circle-o" aria-hidden="true"/> ' + truncate(fileInfo.name, 10));
+                                var newUploadFileInput = container.find('input[type="file"]')
+                                    .attr('title', fileInfo.name)
+                                    .attr('alt', fileInfo.name)
+                                    .attr('label', fileInfo.name);
+                            }
+
+                            if(img.size()){
+                                img.attr('src', fileInfo.thumbnailUrl);
+                            }
                             input.val(fileInfo.url);
-                            img.attr('src', fileInfo.thumbnailUrl);
                         }
                     }
                 });
