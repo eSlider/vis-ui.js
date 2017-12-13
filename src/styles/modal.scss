@@ -101,16 +101,31 @@
       }
     }
 
-    > a.infoText {
+    > a.copy-to-clipboard{
       display: block;
-      position: absolute;
       bottom: -1px;
       right: 0px;
-      font-size: 0;
       color: #9999A9;
       opacity: 0.6;
       cursor: default;
       text-decoration: none;
+      padding-left: 2px;
+      padding-top: 1px;
+      &:hover{
+        opacity: 1;
+      }
+
+    }
+
+    > a.infoText {
+      display: block;
+      bottom: -1px;
+      right: 0px;
+      color: #9999A9;
+      opacity: 0.6;
+      cursor: default;
+      text-decoration: none;
+      width: 17px;
 
       &:hover{
         opacity: 1;
@@ -128,9 +143,10 @@
     }
 
     &.has-title {
+      > a.copy-to-clipboard,
       > a.infoText {
         display: inline-block;
-        position: absolute;
+        position: relative;
         bottom: inherit;
         right: inherit;
         &:after{
@@ -143,11 +159,13 @@
     }
 
     &.select-container{
+      > a.copy-to-clipboard,
       > a.infoText{
         bottom: inherit;
         right: 15px;
       }
       &.has-title{
+        > a.copy-to-clipboard,
         > a.infoText{
           right: auto;
         }
@@ -165,6 +183,7 @@
       }
     }
     &.textarea-container{
+      > a.copy-to-clipboard,
       > a.infoText{
         bottom: inherit;
       }
@@ -172,6 +191,7 @@
   }
 
   .checkbox{
+    > a.copy-to-clipboard,
     > a.infoText {
       display: inline-block;
       position: absolute;
