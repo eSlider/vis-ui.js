@@ -510,6 +510,11 @@
                             var fileInfo = result.files[0];
                             var img = container.closest('form').find('img[name="' + item.name + '"]');
 
+                            if(fileInfo.error) {
+                                $.notify(fileInfo.error, "error");
+                                return;
+                            }
+
                             if(fileInfo.name) {
                                 buttonContainer.find('.upload-button-text').html('<i class="fa fa-check-circle-o" aria-hidden="true"/> ' + truncate(fileInfo.name, 10));
                                 var newUploadFileInput = container.find('input[type="file"]')
