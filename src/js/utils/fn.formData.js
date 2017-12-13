@@ -132,7 +132,7 @@ $.fn.formData = function(values) {
                 value = null;
             }
 
-            if(declaration){
+            if(values !== false && declaration){
                 if(declaration.hasOwnProperty('mandatory') && declaration.mandatory ){
                     var isDataReady = false;
                     if(typeof declaration.mandatory === "function"){
