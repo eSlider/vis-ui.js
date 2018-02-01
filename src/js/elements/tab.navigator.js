@@ -78,7 +78,7 @@
             var el = this.element;
             var navigation = $("> .ui-tabs-nav",el);
             var id = item.hasOwnProperty('id') ? item.id : 'tabs-' + guid();
-            var href = location.href+'#'+id;
+            var href = location.origin + location.pathname+'#'+id;
             var label = $('<li><a role="tab" data-toggle="tab" href="' + href+ '">' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
             var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
 
