@@ -26,7 +26,7 @@
     "components/underscore": "1.8.*",
     "rogeriopradoj/respond": "1.4.*",
     "wheregroup/jquerydialogextendjs": "2.x",
-    "components/datatables": "1.10.*",
+    "datatables/datatables": "1.10.*",
     "medialize/jquery-context-menu": "1.*",
     "debugteam/bootstrap-colorpicker": "1.*",
     "select2/select2": "^4.0"
