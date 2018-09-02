@@ -23,14 +23,18 @@ $.fn.formData = function(values) {
             var textElement = $('.text', textElementContainer);
             var declaration = textElementContainer.data('item');
             if(declaration.hasOwnProperty('text')) {
-                var html = "";
-                try {
-                    var data = values;
-                    eval('html=' + declaration.text + ';');
-                } catch (e) {
-                    console.error("The defenition", declaration, " of ", textElement, ' is erroneous.', e);
+                if (typeof declaration.text === 'function') {
+                    textElement.html(declaration.text(values));
+                } else {
+                    var html = "";
+                    try {
+                        var data = values;
+                        eval('html=' + declaration.text + ';');
+                    } catch (e) {
+                        console.error("The defenition", declaration, " of ", textElement, ' is erroneous.', e);
+                    }
+                    textElement.html(html);
                 }
-                textElement.html(html);
             }
         });
 
