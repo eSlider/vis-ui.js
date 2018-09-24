@@ -380,7 +380,6 @@
                         var option = $("<option/>");
                         option.attr('value', value);
                         option.html(title);
-                        option.data(this);
                         select.append(option);
                     });
                 }
