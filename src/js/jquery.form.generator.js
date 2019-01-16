@@ -251,7 +251,7 @@
 
                 if(has(item, 'copyClipboard')) {
 
-                    var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard" aria-hidden="true"></i></a>');
+                    var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
                     copyButton.on('click', function(e) {
                         var button = $(e.currentTarget);
                         var data = container.formData(false);
@@ -515,7 +515,7 @@
                             }
 
                             if(fileInfo.name) {
-                                buttonContainer.find('.upload-button-text').html('<i class="fa fa-check-circle-o" aria-hidden="true"/> ' + truncate(fileInfo.name, 10));
+                                buttonContainer.find('.upload-button-text').html('<i class="fa fa-check-circle-o far-check-circle" aria-hidden="true"/> ' + truncate(fileInfo.name, 10));
                                 var newUploadFileInput = container.find('input[type="file"]')
                                     .attr('title', fileInfo.name)
                                     .attr('alt', fileInfo.name)
