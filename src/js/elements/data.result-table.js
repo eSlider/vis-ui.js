@@ -233,7 +233,7 @@
                         me.dispatch('change', list);
                         return this;
                     };
-                }, EventDispatcher);
+                }, widget._eventDispatcher);
             }
             return widget._selection;
         },
@@ -465,6 +465,48 @@
             var pageNumber = Math.floor(nodePosition / rowsOnOnePage);
             tableApi.page(pageNumber).draw( false );
             return pageNumber;
+        },
+        _eventDispatcher: {
+            _listeners: {},
+
+            on: function(name,callback){
+                if(!this._listeners[name]){
+                    this._listeners[name] = [];
+                }
+                this._listeners[name].push(callback);
+                return this;
+            },
+
+            off: function(name,callback){
+                if(!this._listeners[name]){
+                    return;
+                }
+                if(callback){
+                    var listeners = this._listeners[name];
+                    for(var i in listeners){
+                        if(callback == listeners[i]){
+                            listeners.splice(i,1);
+                            return;
+                        }
+                    }
+                }else{
+                    delete this._listeners[name];
+                }
+
+                return this;
+            },
+
+            dispatch: function(name,data){
+                if(!this._listeners[name]){
+                    return;
+                }
+
+                var listeners = this._listeners[name];
+                for(var i in listeners){
+                    listeners[i](data);
+                }
+                return this;
+            }
         }
     });
 
