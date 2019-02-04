@@ -31,6 +31,9 @@
     "debugteam/bootstrap-colorpicker": "1.*",
     "select2/select2": "^4.0"
   },
+  "conflict": {
+    "mapbender/digitizer": "<1.1.67"
+  },
   "config": {
     "bin-dir": "bin",
     "component-dir": "web/assets"

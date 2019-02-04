@@ -4,11 +4,9 @@
  */
 var requieredFiles = [
     'utils/DataUtil.js',
-    'utils/EventDispatcher.js',
     'utils/fn.formData.js',
     'elements/data.result-table.js',
     'elements/date.selector.js',
-    'elements/geo.toolset.js',
     'elements/popup.dialog.js',
     'elements/tab.navigator.js',
     'elements/confirm.dialog.js',
