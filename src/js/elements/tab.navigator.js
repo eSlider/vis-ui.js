@@ -78,7 +78,8 @@
             var el = this.element;
             var navigation = $("> .ui-tabs-nav",el);
             var id = item.hasOwnProperty('id') ? item.id : 'tabs-' + guid();
-            var href = location.origin + location.pathname+'#'+id;
+            //location.href alone will not work with html-base-tag in some cases, so we use this monstrosity here to be 100% safe
+            var href = location.origin + location.pathname + /\?.*/.exec(location.href)[0] +'#'+id;
             var label = $('<li><a role="tab" data-toggle="tab" href="' + href+ '">' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
             var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
 
