@@ -41,18 +41,6 @@
     }
 
     /**
-     * Get value from object by the key or return default given.
-     *
-     * @param obj
-     * @param key
-     * @param defaultValue
-     * @returns {*}
-     */
-    function getVal(obj, key, defaultValue) {
-        return has(obj, key) ? obj[key] : defaultValue;
-    }
-
-    /**
      * Add jquery events to element y declration
      *
      * @param element
@@ -689,56 +677,6 @@
              */
             breakLine: function(item, declarations, widget) {
                 return $("<hr class='break-line'/>");
-            },
-
-            /**
-             * Map eleemnt.
-             *
-             * @param item
-             * @param declarations
-             * @param widget
-             * @returns {*|HTMLElement}
-             */
-            map: function(item, declarations, widget) {
-                var container = $("<div><div class='leaflat-map'/></div>");
-                var tileLayerUrl = getVal(item, "tileLayerUrl", 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png');
-                var zoomLevel = getVal(item, 'zoomLevel', 13);
-                var viewPosition = getVal(item, 'viewPosition', [51.505, -0.09]);
-                var maxZoom = getVal(item, 'maxZoom', 20);
-                var popup = L.popup();
-                L.Icon.Default.imagePath = "../../components/leaflet/images/";
-
-                container.on('DOMNodeInsertedIntoDocument', function() {
-                    var mapContainer = container.find('.leaflat-map');
-                    mapContainer.css({
-                        height: "100%",
-                        width: '100%'
-                    });
-
-                    var map = window.lmap = L.map(mapContainer[0], {
-                        trackResize: true,
-                        inertia:     true
-                    }).setView(viewPosition, zoomLevel);
-                    L.tileLayer(tileLayerUrl, {
-                        maxZoom:     getVal(item, 'maxZoom', 20),
-                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                        id:          'examples.map-i875mjb7'
-                    }).addTo(map);
-                    L.marker(viewPosition).addTo(map);
-                    map.on('click', function(e) {
-                        console.log("You clicked the map at " + e.latlng.toString());
-                    });
-
-                    container.closest('.popup-dialog').bind('popupdialogresize', function(e) {
-                        map.invalidateSize();
-
-                        console.log("resized")
-                    });
-
-                });
-
-                container.data('declaration', item);
-                return container;
             },
 
             /**
