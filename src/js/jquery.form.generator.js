@@ -72,6 +72,7 @@
                         $(elm).ready(function(e) {
                             var el = elm;
                             var result = false;
+                            console.error("Using Javascript code in the configuration is deprecated",value);
                             eval(value);
                             result && e.preventDefault();
                             return result;
@@ -81,6 +82,7 @@
                     elm.on(k, function(e) {
                         var el = $(this);
                         var result = false;
+                        console.error("Using Javascript code in the configuration is deprecated",value);
                         eval(value);
                         result && e.preventDefault();
                         return result;
@@ -222,6 +224,7 @@
                         var isRegExp = item.mandatory !== true;
 
                         if(isRegExp){
+                            console.error("Using Javascript code in the configuration is deprecated",item.mandatory);
                             hasValue = eval(item.mandatory).exec(value) != null;
                         }
 
@@ -486,22 +489,26 @@
                         progressBar.css({width: progress + "%"});
                         //progressBar.html(progress + "%");
                         if(eventHandlers.progressall){
+                            console.error("Using Javascript code in the configuration is deprecated",eventHandlers.progressall);
                             eval(eventHandlers.progressall);
                         }
                     },
                     always:      function(e, data) {
                         if(eventHandlers.always) {
+                            console.error("Using Javascript code in the configuration is deprecated",eventHandlers.always);
                             eval(eventHandlers.always);
                         }
                     },
                     done:        function(e, data) {
                         if(eventHandlers.done){
+                            console.error("Using Javascript code in the configuration is deprecated",eventHandlers.done);
                             eval(eventHandlers.done);
                         }
                         progressBar.css({width: 0});
                     },
                     success:     function(result, textStatus, jqXHR) {
                         if(eventHandlers.success){
+                            console.error("Using Javascript code in the configuration is deprecated",eventHandlers.success);
                             eval(eventHandlers.success);
                         }
 
