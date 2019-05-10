@@ -28,6 +28,7 @@ $.fn.formData = function(values) {
                 } else {
                     var html = "";
                     try {
+                        console.error("Using Javascript code in the configuration is deprecated",declaration.text);
                         var data = values;
                         eval('html=' + declaration.text + ';');
                     } catch (e) {
