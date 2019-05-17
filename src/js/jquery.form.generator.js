@@ -224,8 +224,8 @@
                         var isRegExp = item.mandatory !== true;
 
                         if(isRegExp){
-                            console.error("Using Javascript code in the configuration is deprecated",item.mandatory);
-                            hasValue = eval(item.mandatory).exec(value) != null;
+                            console.error("Using Javascript code in the configuration is deprecated, but regular expression is ok",item.mandatory);
+                            hasValue = new RegExp(item.mandatory).exec(value) != null;
                         }
 
                         if(hasValue){
