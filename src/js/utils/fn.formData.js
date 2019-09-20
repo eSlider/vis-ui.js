@@ -50,7 +50,7 @@ $.fn.formData = function(values) {
                     case 'select-multiple':
                         //var declaration = input.data('declaration');
                         var type = declaration.fieldType ? declaration.fieldType : 'text';
-
+                        config = this.config ? this.config : {};
                         if(type == 'text' && value ) {
                             var separator = declaration.separator ? declaration.separator : ',';
                             var vals = $.isArray(value) ? value : value.split(separator);
@@ -58,7 +58,7 @@ $.fn.formData = function(values) {
                                 $("option[value='" + optionValue + "']", input).prop("selected", true);
                             });
                             if(input.select2){
-                                input.select2();
+                                input.select2(config);
                             }
                         } else {
                             input.val(value);
