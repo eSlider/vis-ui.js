@@ -25,9 +25,8 @@
          * @private
          */
         _create: function() {
-            var element = $(this.element);
-            var widget = this;
-
+            var element = this.element;
+            var hasDialogExtend = !!element.dialogExtend;
             element.addClass('popup-dialog');
 
             // overrides default options
@@ -63,19 +62,17 @@
                 e.stopPropagation();
             });
 
-            var result = this._super();
+            this._super();
 
-            // fake dialogExtend check for ui-dialog
-            element.data("ui-dialog",true);
-            element.dialogExtend($.extend(true, {
-                closable:    true,
-                maximizable: true,
-                resizible: true,
-                //dblclick: true,
-                //minimizable: true,
-                //modal: true,
-                collapsable: true
-            }, this.options));
+            if (hasDialogExtend) {
+                // fake dialogExtend check for ui-dialog
+                element.data("ui-dialog",true);
+                element.dialogExtend($.extend(true, {
+                    closable:    true,
+                    maximizable: true,
+                    collapsable: true
+                }, this.options));
+            }
 
             var dialog = element.closest('.ui-dialog');
             if(this.options.modal){
@@ -95,21 +92,22 @@
                 });
             }
 
-            // Fullscreen on double click
-            $(dialog).dblclick(function(event) {
-                var target = $(event.target);
-                if(!target.is('.ui-dialog-titlebar, .ui-dialog-title')){
-                    return;
-                }
+            if (hasDialogExtend) {
+                // Fullscreen on double click
+                // @todo: check effective 'maximizable' configuration?
+                $(dialog).dblclick(function(event) {
+                    var target = $(event.target);
+                    if(!target.is('.ui-dialog-titlebar, .ui-dialog-title')){
+                        return;
+                    }
 
-                if(element.dialogExtend('state') == 'normal'){
-                    element.dialogExtend('maximize');
-                }else{
-                    element.dialogExtend('restore');
-                }
-            });
-
-            return result;
+                    if(element.dialogExtend('state') == 'normal'){
+                        element.dialogExtend('maximize');
+                    }else{
+                        element.dialogExtend('restore');
+                    }
+                });
+            }
         },
 
         /**

@@ -390,16 +390,11 @@
                         select.append(option);
                     });
                 }
+                select.val(value);
+                if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
+                    select.select2(item);
+                }
 
-                window.setTimeout(function() {
-                    select.val(value);
-                    if(has(item, 'multiple') && item.multiple && (typeof select.select2 === 'function')) {
-                        select.select2(item);
-                    } else
-                    if (item.select2) {
-                        select.select2(item);
-                    }
-                }, 20);
 
                 return container;
             },
