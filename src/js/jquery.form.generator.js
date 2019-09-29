@@ -386,13 +386,10 @@
                         select.append(option);
                     });
                 }
-
-                window.setTimeout(function() {
-                    select.val(value);
-                    if(has(item, 'multiple') && item.multiple && (typeof select.select2 === 'function')) {
-                        select.select2(item);
-                    }
-                }, 20);
+                select.val(value);
+                if (item.multiple && (typeof select.select2 === 'function')) {
+                    select.select2(item);
+                }
 
                 return container;
             },
