@@ -11,10 +11,6 @@
       "email": "eslider@gmail.com"
     }
   ],
-  "require-dev": {
-    "components/normalize.css": "3.0.*",
-    "drmonty/leaflet": "1.0.*"
-  },
   "require": {
     "robloach/component-installer": "0.2.*",
     "components/font-awesome": "^3.0 || ^4.0 || ^5.0",
