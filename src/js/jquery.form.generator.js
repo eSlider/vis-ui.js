@@ -387,7 +387,7 @@
                     });
                 }
                 select.val(value);
-                if (item.multiple && (typeof select.select2 === 'function')) {
+                if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
                 }
 
