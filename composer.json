@@ -13,8 +13,7 @@
   ],
   "require-dev": {
     "components/normalize.css": "3.0.*",
-    "drmonty/leaflet": "1.0.*",
-    "components/placeholdersjs": "*"
+    "drmonty/leaflet": "1.0.*"
   },
   "require": {
     "robloach/component-installer": "0.2.*",
@@ -49,24 +48,5 @@
     "branch-alias": {
 	"dev-master": "0.0.x-dev"
     }
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "components/placeholdersjs",
-        "type": "component",
-        "version": "4.0.1",
-        "dist": {
-          "url": "https://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
-          "type": "zip"
-        },
-        "extra": {
-          "component": {
-            "scripts": ["dist/placeholders.min.js","dist/placeholders.jquery.min.js"]
-          }
-        }
-      }
-    }
-  ]
+  }
 }
