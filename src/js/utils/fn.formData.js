@@ -48,23 +48,16 @@ $.fn.formData = function(values) {
 
                 switch (this.type) {
                     case 'select-multiple':
-                        //var declaration = input.data('declaration');
                         var type = declaration.fieldType ? declaration.fieldType : 'text';
 
                         if(type == 'text' && value ) {
                             var separator = declaration.separator ? declaration.separator : ',';
-                            var vals = $.isArray(value) ? value : value.split(separator);
-                            $.each(vals, function(i, optionValue) {
-                                $("option[value='" + optionValue + "']", input).prop("selected", true);
-                            });
-                            if(input.select2){
-                                input.select2();
-                            }
+                            input.val($.isArray(value) ? value : value.split(separator));
                         } else {
                             input.val(value);
                         }
+                        input.trigger('change.select2');
                         break;
-
                     case 'checkbox':
                         input.prop('checked', value !== null && value);
                         break;
@@ -99,6 +92,8 @@ $.fn.formData = function(values) {
                         break;
                     default:
                         input.val(value);
+                        input.trigger('change.select2');
+                        break;
                 }
                 input.trigger('filled', {
                     data:   values,
