@@ -56,7 +56,6 @@ $.fn.formData = function(values) {
                         } else {
                             input.val(value);
                         }
-                        input.trigger('change.select2');
                         break;
                     case 'checkbox':
                         input.prop('checked', value !== null && value);
@@ -92,9 +91,11 @@ $.fn.formData = function(values) {
                         break;
                     default:
                         input.val(value);
-                        input.trigger('change.select2');
                         break;
                 }
+                // Use scoped events to visually update select2 / colorpicker, if initialized
+                // @todo: ... why exactly do we avoid triggering regular 'change', except for 'hidden'-type inputs?
+                input.trigger('change.select2');
                 input.trigger('change.colorpicker');
             }
         });
