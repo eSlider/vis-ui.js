@@ -95,10 +95,6 @@ $.fn.formData = function(values) {
                         input.trigger('change.select2');
                         break;
                 }
-                input.trigger('filled', {
-                    data:   values,
-                    value:  value
-                });
                 input.trigger('change.colorpicker');
             }
         });
