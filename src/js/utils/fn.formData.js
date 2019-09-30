@@ -99,8 +99,7 @@ $.fn.formData = function(values) {
                     data:   values,
                     value:  value
                 });
-                input.trigger("changeValue");
-
+                input.trigger('change.colorpicker');
             }
         });
         return form;

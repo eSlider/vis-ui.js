@@ -606,10 +606,6 @@
 
                 var input = inputHolder.find("input");
                 input.addClass("form-control");
-                input.on('changeValue', function() {
-                    var clr = input.val();
-                    inputHolder.colorpicker('setValue', clr);
-                });
 
                 return container;
             },
