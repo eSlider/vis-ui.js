@@ -109,9 +109,8 @@
         }
     }
 
-    $.widget('vis-ui-js.generateElements', {
-        options:      {},
-        declarations: {
+    // NOTE: bad indents deliberate to minimize diff
+    var defaultDeclarations = {
             popup: function(item, declarations, widget) {
                 var popup = $("<div/>");
                 if(has(item, 'children')) {
@@ -749,9 +748,9 @@
                 container.accordion(item);
                 return container;
             }
-
-        },
-
+    };
+    $.widget('vis-ui-js.generateElements', {
+        options:      {},
         /**
          * Constructor
          *
@@ -819,8 +818,11 @@
          *
          * @param options
          * @private
+         * @todo: this should be _create (minus options argument)
          */
         _setOptions: function(options) {
+            // always deep-copy to prevent monkey-patches affecting other instances
+            this.declarations = $.extend({}, defaultDeclarations, options.declarations);
             if (options.type && !options.children) {
                 console.warn("Invocation of generateElements (plural!) with single item is deprecated. Put your item in a list and pass it in the children property.");
                 this.genElements(this.element, [options]);
