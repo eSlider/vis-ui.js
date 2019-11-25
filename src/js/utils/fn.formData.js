@@ -96,6 +96,10 @@ $.fn.formData = function(values) {
                 // Use scoped events to visually update select2 / colorpicker, if initialized
                 // @todo: ... why exactly do we avoid triggering regular 'change', except for 'hidden'-type inputs?
                 input.trigger('change.select2');
+                input.trigger('filled', {
+                    data:   values,
+                    value:  value
+                });
                 input.trigger('change.colorpicker');
             }
         });
