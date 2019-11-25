@@ -892,8 +892,9 @@
                 widget.genElements(element, options.children);
             }
 
-            widget._super(options);
-            widget.refresh();
+            this.element.addClass('vis-ui');
+            this._super(options);
+            this.refresh();
         },
 
         /**
