@@ -769,8 +769,11 @@
         genElement: function(item) {
             var widget = this;
             var type = has(widget.declarations, item.type) ? item.type : 'html';
-            var declaration = widget.declarations[type];
-            var element = declaration(item, widget.declarations, widget);
+            // Use declarations object as this argument for handler function.
+            // Do not "beautify" this into discrete assignment of callable to variable followed by invocation, because
+            // THAT passes nothing of particular interest as the invoked method's this arg.
+            // see https://ecma-international.org/ecma-262/5.1/#sec-4.3.27
+            var element = (this.declarations[type])(item, this.declarations, this);
 
             if(has(item, 'cssClass')) {
                 element.addClass(item.cssClass);
