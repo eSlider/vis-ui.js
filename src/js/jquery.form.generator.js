@@ -883,13 +883,11 @@
          * @private
          */
         _setOptions: function(options) {
-            var widget = this;
-            var element = $(widget.element);
-
-            if(has(options, 'type')) {
-                element.append(widget.genElement(options));
+            if (options.type && !options.children) {
+                console.warn("Invocation of generateElements (plural!) with single item is deprecated. Put your item in a list and pass it in the children property.");
+                this.genElements(this.element, [options]);
             } else if(has(options, 'children')) {
-                widget.genElements(element, options.children);
+                this.genElements(this.element, options.children);
             }
 
             this.element.addClass('vis-ui');
