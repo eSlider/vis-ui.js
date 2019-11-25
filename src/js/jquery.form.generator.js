@@ -153,7 +153,7 @@
                 }
                 return container;
             },
-            html:      function(item, declarations) {
+            html: function(item) {
                 var container = $('<div class="html-element-container"/>');
                 if (typeof item === 'string'){
                     container.html(item);
@@ -164,25 +164,32 @@
                 }
                 return container;
             },
-            button:    function(item, declarations) {
+            button: function(item) {
                 var title = has(item, 'title') ? item.title : 'Submit';
                 var button = $('<button class="btn button">' + title + '</button>');
                 button.attr("title", title);
                 return button;
             },
-            submit:    function(item, declarations) {
-                var button = declarations.button(item, declarations);
+            submit: function(item) {
+                var button = this.button(item);
                 button.attr('type', 'submit');
                 return button;
             },
-            input:     function(item, declarations, widget, input) {
-                var type = has(declarations, 'type') ? declarations.type : 'text';
-                var inputField = input ? input : $('<input class="form-control" type="' + type + '"/>');
+            /**
+             * WRAPS the passed input into a form group
+             *
+             * @param {Object} item
+             * @param {jQuery} [input] manufactures a new text-type input if omitted
+             * @return {*|jQuery|HTMLElement}
+             */
+            input: function(item, input) {
+                var inputField = input;
+                if (!input) {
+                    var type = item.type || 'text';
+                    inputField = $('<input class="form-control" type="' + type + '"/>');
+                }
                 var container = $('<div class="form-group"/>');
-                var icon = '<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>';
 
-                // IE8 bug: type can't be changed...
-                /// inputField.attr('type', type);
                 inputField.data('declaration',item);
 
                 $.each(['name', 'rows', 'placeholder'], function(i, key) {
@@ -201,7 +208,7 @@
 
 
                 if(has(item, 'title')) {
-                    container.append(declarations.label(item, declarations));
+                    container.append(this.label(item));
                     container.addClass('has-title')
                 }
 
@@ -243,7 +250,6 @@
 
                     var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
                     copyButton.on('click', function(e) {
-                        var button = $(e.currentTarget);
                         var data = container.formData(false);
                         copyToClipboard(data[item.name]);
                     });
@@ -251,11 +257,10 @@
                 }
 
                 container.append(inputField);
-                //container.append(icon);
 
                 return container;
             },
-            label:     function(item, declarations) {
+            label: function(item) {
                 var label = $('<label/>');
                 if(_.has(item, 'text')) {
                     label.html(item.text);
@@ -323,7 +328,7 @@
             },
             radio: function(item, declarations, widget) {
                 var input = $('<input type="radio"/>');
-                var container = declarations.checkbox(item, declarations, widget, input);
+                var container = this.checkbox(item, declarations, widget, input);
                 container.addClass('radio');
                 return container;
             },
@@ -336,17 +341,17 @@
                 }
                 return container;
             },
-            textArea:  function(item, declarations, widget) {
+            textArea: function(item) {
                 var inputField = $('<textarea class="form-control" rows="3"/>');
-                var container =  declarations.input(item, declarations, widget, inputField);
+                var container = this.input(item, inputField);
                 container.addClass('textarea-container');
 
                 inputField.data('declaration',item);
                 return container;
             },
-            select:    function(item, declarations, widget) {
+            select: function(item) {
                 var select = $('<select class="form-control"/>');
-                var container = declarations.input(item, declarations, widget, select);
+                var container = this.input(item, select);
                 var value = has(item, 'value') ? item.value : null;
 
                 container.addClass('select-container');
@@ -380,10 +385,10 @@
 
                 return container;
             },
-            image: function(item, declarations, widget) {
+            image: function(item) {
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
                 var subContainer = $("<div class='sub-container'/>");
-                var container = declarations.input(item, declarations, widget, image);
+                var container = this.input(item, image);
 
                 container.append(subContainer.append(image.detach()));
                 container.addClass("image-container");
@@ -427,10 +432,10 @@
                 }
                 return container;
             },
-            file:      function(item, declarations, widget) {
+            file: function(item) {
                 var input = $('<input type="hidden"  />');
                 var fileInput = $('<input type="file" />');
-                var container = declarations.input(item, declarations, widget, input);
+                var container = this.input(item, input);
                 var defaultText = (has(item, 'text') ? item.text : "Select");
                 var textSpan = '<span class="upload-button-text"><i class="fa fa-upload" aria-hidden="true"/> ' + defaultText + '</span>';
                 var uploadButton = $('<span class="btn btn-success button fileinput-button">' + textSpan + '</span>');
@@ -545,8 +550,8 @@
             fieldSet: function(item, declarations, widget) {
                 var fieldSet = $("<fieldset class='form-group'/>");
 
-                if(has(item, 'title')) {
-                    fieldSet.append(declarations.label(item, declarations));
+                if (item.title) {
+                    fieldSet.append(this.label(item));
                 }
                 if(has(item, 'legend')) {
                     fieldSet.append("<legend>"+item.legend+"</legend>");
@@ -558,21 +563,21 @@
                     })
                 }
 
-                if(has(item, 'breakLine') && item.breakLine) {
-                    fieldSet.append(declarations.breakLine(item, declarations, widget));
+                if (item.breakLine) {
+                    fieldSet.append(this.breakLine(item));
                 }
 
                 return fieldSet;
             },
-            date: function(item, declarations, widget) {
-                var inputHolder = declarations.input(item, declarations, widget);
+            date: function(item) {
+                var inputHolder = this.input(item);
                 var input = inputHolder.find('> input');
                 input.dateSelector(item);
                 return inputHolder;
             },
-            colorPicker: function(item, declarations, widget) {
+            colorPicker: function(item) {
                 var container = $('<div class="form-group"/>');
-                var inputHolder = declarations.input(item, declarations, widget);
+                var inputHolder = this.input(item);
                 var label = inputHolder.find('> label');
 
                 inputHolder.append('<span class="input-group-addon"><i></i></span>');
@@ -596,9 +601,9 @@
 
                 return container;
             },
-            slider: function(item, declarations, widget) {
+            slider: function(item) {
                 var container = $('<div class="form-group input-group slider-holder"/>');
-                var inputHolder = declarations.input(item, declarations, widget);
+                var inputHolder = this.input(item);
                 var label = inputHolder.find('> label');
                 var input = inputHolder.find('> input');
                 var sliderRange = $('<div class="input-group"/>');
@@ -638,7 +643,7 @@
 
                 return container;
             },
-            resultTable: function(item, declarations, widget) {
+            resultTable: function(item) {
                 var container = $("<div/>");
                 $.each(['name'], function(i, key) {
                     if(has(item, key)) {
@@ -660,7 +665,7 @@
                         autoWidth:    false
                     }, item));
             },
-            digitizingToolSet: function(item, declarations, widget) {
+            digitizingToolSet: function(item) {
                 var $div = $("<div/>");
                 $div.data('declaration',item);
                 return $div.digitizingToolSet(item);
@@ -670,23 +675,19 @@
              * Break line
              *
              * @param item
-             * @param declarations
-             * @param widget
              * @return {*|HTMLElement}
              */
-            breakLine: function(item, declarations, widget) {
+            breakLine: function(item) {
                 return $("<hr class='break-line'/>");
             },
 
             /**
              *
              * @param item
-             * @param declarations
-             * @param widget
              */
-            text: function(item, declarations, widget) {
+            text: function(item) {
                 var text = $('<div class="text"/>');
-                var container = declarations.input(item, declarations, widget, text);
+                var container = this.input(item, text);
                 container.addClass('text');
                 return container;
             },
