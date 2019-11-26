@@ -17,7 +17,8 @@
         'keydown', 'keypress', 'keyup',
         'dragstart','ondrag','dragover','drop',
         'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup',
-        'touchstart', 'touchmove', 'touchend','touchcancel'
+        'touchstart', 'touchmove', 'touchend','touchcancel',
+        'filled'
     ];
 
     // extend jquery to fire event on "show" and "hide" calls
