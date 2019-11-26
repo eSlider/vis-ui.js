@@ -31,8 +31,14 @@
         };
     });
 
+    function isNode(x) {
+        // Minimum (DOM level 1) criteria for DOM Nodes or text nodes
+        // see https://www.w3.org/TR/REC-DOM-Level-1/ecma-script-language-binding.html
+        return x && x.nodeType && x.nodeName;
+    }
+
     /**
-     * Check if object has a key
+     * Check if typeof object[key] !== 'undefined'
      *
      * @param obj
      * @param key
@@ -43,6 +49,9 @@
     }
 
     function genElement_(declarations, item) {
+        if (isNode(item)) {
+            return item;
+        }
         // @todo: explicitly warn / err on undefined type (there will be an error on calling undefined as a function, but it won't be informative)
         // @todo: fallback to html should ONLY be allowed if the item is a plain string
         var type = has(declarations, item.type) ? item.type : 'html';
