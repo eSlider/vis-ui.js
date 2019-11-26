@@ -1,4 +1,4 @@
-# 0.1.78 (WIP)
+# 0.1.78
 * Add `vis-ui` CSS class to all top-level generated items to allow more specifically guided CSS rules
 * Support passing 'declarations' object to override generateElements individual tag-generating functions
 * Support passing already constructed dom nodes as child elements, these will be appended without modification
