@@ -22,6 +22,7 @@
     ];
 
     // extend jquery to fire event on "show" and "hide" calls
+    // @todo: this is bad practice and should be removed ASAP. Figure out who even uses this.
     $.each(['show', 'hide'], function (i, ev) {
         var el = $.fn[ev];
         $.fn[ev] = function () {
@@ -42,6 +43,8 @@
     }
 
     function genElement_(declarations, item) {
+        // @todo: explicitly warn / err on undefined type (there will be an error on calling undefined as a function, but it won't be informative)
+        // @todo: fallback to html should ONLY be allowed if the item is a plain string
         var type = has(declarations, item.type) ? item.type : 'html';
         // Use declarations object as this argument for handler function.
         // Do not "beautify" this into discrete assignment of callable to variable followed by invocation, because
@@ -218,6 +221,7 @@
              * @return {*|jQuery|HTMLElement}
              */
             input: function(item, input) {
+                // @todo: fold very apparent copy & paste between this method and "checkbox" method
                 var inputField = input;
                 if (!input) {
                     var type = item.type || 'text';
@@ -309,6 +313,7 @@
                 return label;
             },
             checkbox: function(item, input) {
+                // @todo: fold very apparent copy & paste between this method and "input" method
                 var container = $('<div class="form-group checkbox"/>');
                 var label = $('<label/>');
 
