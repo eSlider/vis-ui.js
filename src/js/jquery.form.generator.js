@@ -419,8 +419,9 @@
                         label = optionAsList[1];
                     }
                 }
+                var attr = $.extend({}, option.attr, {value: value});
                 var $option = $('<option/>')
-                    .attr({value: value})
+                    .attr(attr)
                     // Label has historically been set through .html instead of .text ...
                     // @todo: html seems super unsafe to use. Figure out why / if we really want HTML here instead of text
                     .html(label)
