@@ -380,6 +380,63 @@
                 inputField.data('declaration',item);
                 return container;
             },
+            selectOption: function(item, option) {
+                var label, value;
+                var labelAttribNames = ['label', '__label', 'title'];
+                var valueAttribNames = ['value', '___value', 'id'];
+                var noLabel = true;
+                var noValue = true;
+                var i = 0;
+                do {
+                    label = option[labelAttribNames[i]];
+                    noLabel = (typeof label === 'undefined');
+                    ++i;
+                } while (noLabel && i < labelAttribNames.length);
+                i = 0;
+                do {
+                    value = option[valueAttribNames[i]];
+                    noValue = (typeof value === 'undefined');
+                    ++i;
+                } while (noLabel && i < valueAttribNames.length);
+                if (noLabel || noValue) {
+                    var optionAsList = _.toArray(option);
+                    if (optionAsList.length < 2) {
+                        console.error("Invalid option input, need at least a label and a value", option);
+                        return null;    // will be skipped by $.append
+                    }
+                    if (_.isArray(option) && optionAsList.length > 2) {
+                        console.warn("List-style option with more than two entries, results unpredictable. Use an object with 'value' and 'label' instead", option);
+                    }
+                    if (noValue) {
+                        value = optionAsList[0];
+                    }
+                    if (noLabel) {
+                        label = optionAsList[1];
+                    }
+                }
+                var $option = $('<option/>')
+                    .attr({value: value})
+                    // Label has historically been set through .html instead of .text ...
+                    // @todo: html seems super unsafe to use. Figure out why / if we really want HTML here instead of text
+                    .html(label)
+                ;
+                return $option;
+            },
+            selectOptionList: function(item) {
+                var options = item.options || [];
+                if (!_.isArray(options)) {
+                    console.warn("Passing an option mapping is deprecated (order cannot be guaranteed). Use a list.", options);
+                    // legacy fun time: keys are used as labels, mapped values used as submit values
+                    options = _.map(options, function(x, key) {
+                        return {value: x, label: key};
+                    });
+                }
+                var optionElements = [];
+                for (var i = 0; i < options.length; ++i) {
+                    optionElements.push(this.selectOption(item, options[i]));
+                }
+                return optionElements;
+            },
             select: function(item) {
                 var select = $('<select class="form-control"/>');
                 var container = this.input(item, select);
@@ -390,25 +447,7 @@
                 if(has(item, 'multiple') && item.multiple) {
                     select.attr('multiple', 'multiple');
                 }
-
-                if(has(item, 'options')) {
-                    var isValuePack = _.isArray(_.first(item.options)) && _.size(_.first(item.options)) == 2;
-                    _.each(item.options, function(title, value) {
-                        if(isValuePack) {
-                            value = title[0];
-                            title = title[1];
-                        } else if(_.isObject(title)) {
-                            var a = _.toArray(title);
-                            value = a[0];
-                            title = a[1];
-                        }
-
-                        var option = $("<option/>");
-                        option.attr('value', value);
-                        option.html(title);
-                        select.append(option);
-                    });
-                }
+                select.append(this.selectOptionList(item));
                 select.val(value);
                 if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
