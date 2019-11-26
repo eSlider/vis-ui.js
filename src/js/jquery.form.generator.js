@@ -40,6 +40,56 @@
         return typeof obj[key] !== 'undefined';
     }
 
+    function genElement_(declarations, item) {
+        var type = has(declarations, item.type) ? item.type : 'html';
+        // Use declarations object as this argument for handler function.
+        // Do not "beautify" this into discrete assignment of callable to variable followed by invocation, because
+        // THAT passes nothing of particular interest as the invoked method's this arg.
+        // see https://ecma-international.org/ecma-262/5.1/#sec-4.3.27
+        var element = (declarations[type])(item);
+
+        if(has(item, 'cssClass')) {
+            element.addClass(item.cssClass);
+        }
+
+        if(has(item, 'attr')) {
+            $.each(item.attr, function(key, val) {
+                element.attr(key,val);
+            });
+        }
+
+        if(typeof item == "object") {
+            addEvents(element, item);
+        }
+
+        if(has(item, 'css')) {
+
+            element.css(item.css);
+        }
+
+        element.data('item', item);
+
+        if(has(item, 'mandatory')){
+            element.addClass('has-warning');
+        }
+
+        return element;
+    }
+
+    function genElements_(declarations, items) {
+        var items_;
+        if (!_.isArray(items)) {
+            // @todo: warn, deprecate
+            items_ = _.toArray(items);
+        } else {
+            items_ = items;
+        }
+        var elements = [];
+        for (var i = 0; i < items_.length; ++i) {
+            elements.push(genElement_(declarations, items_[i]));
+        }
+        return elements;
+    }
     /**
      * Add jquery events to element y declration
      *
@@ -111,46 +161,30 @@
 
     // NOTE: bad indents deliberate to minimize diff
     var defaultDeclarations = {
-            popup: function(item, declarations, widget) {
+            popup: function(item) {
                 var popup = $("<div/>");
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        popup.append(widget.genElement(item));
-                    });
-                }
+                popup.append(genElements_(this, item.children || []));
                 window.setTimeout(function() {
                     popup.popupDialog(item)
                 }, 1);
 
                 return popup;
             },
-            form: function(item, declarations, widget) {
+            form: function(item) {
                 var form = $('<form/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        form.append(widget.genElement(item));
-                    })
-                }
+                form.append(genElements_(this, item.children || []));
                 return form;
             },
-            fluidContainer: function(item, declarations, widget) {
+            fluidContainer: function(item) {
                 var container = $('<div class="container-fluid"/>');
                 var hbox = $('<div class="row"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        hbox.append(widget.genElement(item));
-                    })
-                }
+                hbox.append(genElements_(this, item.children || []));
                 container.append(hbox);
                 return container;
             },
-            inline: function(item, declarations, widget) {
+            inline: function(item) {
                 var container = $('<div class="form-inline"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
-                    })
-                }
+                container.append(genElements_(this, item.children || []));
                 return container;
             },
             html: function(item) {
@@ -273,7 +307,7 @@
                 }
                 return label;
             },
-            checkbox: function(item, declarations, widget, input) {
+            checkbox: function(item, input) {
                 var container = $('<div class="form-group checkbox"/>');
                 var label = $('<label/>');
 
@@ -326,19 +360,15 @@
 
                 return container;
             },
-            radio: function(item, declarations, widget) {
+            radio: function(item) {
                 var input = $('<input type="radio"/>');
-                var container = this.checkbox(item, declarations, widget, input);
+                var container = this.checkbox(item, input);
                 container.addClass('radio');
                 return container;
             },
-            formGroup: function(item, declarations, widget) {
+            formGroup: function(item) {
                 var container = $('<div class="form-group"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
-                    });
-                }
+                container.append(genElements_(this, item.children || []));
                 return container;
             },
             textArea: function(item) {
@@ -528,12 +558,13 @@
 
                 return container;
             },
-            tabs: function(item, declarations, widget) {
+            tabs: function(item) {
                 var container = $('<div/>');
+                var declarations = this;
                 var tabs = [];
                 if(has(item, 'children') ) {
                     $.each(item.children, function(k, subItem) {
-                        var htmlElement = widget.genElement(subItem);
+                        var htmlElement = genElement_(declarations, subItem);
                         var tab = {
                             html: htmlElement
                         };
@@ -547,7 +578,7 @@
                 container.tabNavigator({children: tabs});
                 return container;
             },
-            fieldSet: function(item, declarations, widget) {
+            fieldSet: function(item) {
                 var fieldSet = $("<fieldset class='form-group'/>");
 
                 if (item.title) {
@@ -556,12 +587,7 @@
                 if(has(item, 'legend')) {
                     fieldSet.append("<legend>"+item.legend+"</legend>");
                 }
-
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        fieldSet.append(widget.genElement(item));
-                    })
-                }
+                fieldSet.append(genElements_(this, item.children || []));
 
                 if (item.breakLine) {
                     fieldSet.append(this.breakLine(item));
@@ -696,16 +722,10 @@
              * Simple container
              *
              * @param item
-             * @param declarations
-             * @param widget
              */
-            container: function(item, declarations, widget) {
+            container: function(item) {
                 var container = $('<div class="form-group"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
-                    })
-                }
+                container.append(genElements_(this, item.children || []));
                 return container;
             },
 
@@ -713,10 +733,9 @@
              * Simple accordion
              *
              * @param item
-             * @param declarations
-             * @param widget
              */
-            accordion: function(item, declarations, widget) {
+            accordion: function(item) {
+                var declarations = this;
                 var container = $('<div class="accordion"/>');
                 if(has(item, 'children')) {
                     _.each(item.children, function(child, k) {
@@ -724,7 +743,7 @@
                         var pageHeader = $("<h3 class='header' data-id='" + k + "'/>");
 
                         if(has(child, 'head')) {
-                            pageHeader.append(widget.genElement(child.head));
+                            pageHeader.append(genElement_(declarations, child.head));
 
                             // if(has(child.head, 'title')) {
                             //     pageHeader.append(widget.label(headItem));
@@ -738,7 +757,7 @@
                         }
 
                         if(has(child, 'content')) {
-                            pageContainer.append(widget.genElement(child.content));
+                            pageContainer.append(genElement_(declarations, child.content));
                         }
 
                         container.append(pageHeader);
@@ -768,40 +787,7 @@
          * @return jquery html object
          */
         genElement: function(item) {
-            var widget = this;
-            var type = has(widget.declarations, item.type) ? item.type : 'html';
-            // Use declarations object as this argument for handler function.
-            // Do not "beautify" this into discrete assignment of callable to variable followed by invocation, because
-            // THAT passes nothing of particular interest as the invoked method's this arg.
-            // see https://ecma-international.org/ecma-262/5.1/#sec-4.3.27
-            var element = (this.declarations[type])(item, this.declarations, this);
-
-            if(has(item, 'cssClass')) {
-                element.addClass(item.cssClass);
-            }
-
-            if(has(item, 'attr')) {
-                $.each(item.attr, function(key, val) {
-                    element.attr(key,val);
-                });
-            }
-
-            if(typeof item == "object") {
-                addEvents(element, item);
-            }
-
-            if(has(item, 'css')) {
-
-                element.css(item.css);
-            }
-
-            element.data('item', item);
-
-            if(has(item, 'mandatory')){
-                element.addClass('has-warning');
-            }
-
-            return element;
+            return genElement_(this.declarations, item);
         },
 
         /**
@@ -811,10 +797,7 @@
          * @param children declarations
          */
         genElements: function(element, children) {
-            var widget = this;
-            $.each(children, function(k, item) {
-                element.append(widget.genElement(item));
-            })
+            element.append(genElements_(this.declarations, children));
         },
 
         /**
