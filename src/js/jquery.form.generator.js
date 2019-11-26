@@ -190,43 +190,48 @@
                 return popup;
             },
             form: function(item) {
-                var form = $('<form/>');
+                var form = $('<form/>').attr(item.attr || {});
                 form.append(this.genElements_(this, item.children || []));
                 return form;
             },
             fluidContainer: function(item) {
-                var container = $('<div class="container-fluid"/>');
-                var hbox = $('<div class="row"/>');
+                var container = $('<div/>').attr(item.attr || {}).addClass('container-fluid');
+                var hbox = $('<div/>').attr(item.rowAttr || {}).addClass('row');
                 hbox.append(this.genElements_(this, item.children || []));
                 container.append(hbox);
                 return container;
             },
             inline: function(item) {
-                var container = $('<div class="form-inline"/>');
+                var container = $('<div/>').attr(item.attr || {}).addClass('form-inline');
                 container.append(this.genElements_(this, item.children || []));
                 return container;
             },
             html: function(item) {
-                var container = $('<div class="html-element-container"/>');
+                var container = $('<div/>').attr(item.attr || {}).addClass('html-element-container');
                 if (typeof item === 'string'){
                     container.html(item);
-                }else if(has(item,'html')){
+                } else if (typeof item.html !== 'undefined') {
                     container.html(item.html);
                 }else{
+                    // WHAT?
                     container.html(JSON.stringify(item));
                 }
                 return container;
             },
             button: function(item) {
                 var title = has(item, 'title') ? item.title : 'Submit';
-                var button = $('<button class="btn button">' + title + '</button>');
+                // @todo: use .text for escaping (unless it's HTML again :\)
+                var button = $('<button>' + title + '</button>').attr(item.attr || {}).addClass('btn button');
                 button.attr("title", title);
                 return button;
             },
             submit: function(item) {
-                var button = this.button(item);
-                button.attr('type', 'submit');
-                return button;
+                var item_ = $.extend({}, item, {
+                    attr: $.extend({}, (item. attr || {}), {
+                        type: 'submit'
+                    })
+                });
+                return this.button(item_);
             },
             /**
              * WRAPS the passed input into a form group
@@ -738,7 +743,7 @@
                 return container;
             },
             resultTable: function(item) {
-                var container = $("<div/>");
+                var container = $("<div/>").attr(item.attr || {});
                 $.each(['name'], function(i, key) {
                     if(has(item, key)) {
                         container.attr(key, item[key]);
@@ -761,7 +766,7 @@
                     }, item));
             },
             digitizingToolSet: function(item) {
-                var $div = $("<div/>");
+                var $div = $("<div/>").attr(item.attr || {});
                 // @todo: remove excessive data bindings
                 $div.data('declaration',item);
                 return $div.digitizingToolSet(item);
@@ -774,7 +779,7 @@
              * @return {*|HTMLElement}
              */
             breakLine: function(item) {
-                return $("<hr class='break-line'/>");
+                return $("<hr/>").attr(item.attr || {}).addClass('break-line');
             },
 
             /**
@@ -782,7 +787,7 @@
              * @param item
              */
             text: function(item) {
-                var text = $('<div class="text"/>');
+                var text = $('<div/>').attr(item.attr || {}).addClass('text');
                 var container = this.input(item, text);
                 container.addClass('text');
                 return container;
@@ -794,7 +799,7 @@
              * @param item
              */
             container: function(item) {
-                var container = $('<div class="form-group"/>');
+                var container = $('<div/>').attr(item.attr || {}).addClass('form-group');
                 container.append(this.genElements_(this, item.children || []));
                 return container;
             },
