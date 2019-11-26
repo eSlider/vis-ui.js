@@ -80,6 +80,7 @@
             element.css(item.css);
         }
 
+        // @todo: remove excessive data bindings
         element.data('item', item);
 
         if(has(item, 'mandatory')){
@@ -243,6 +244,7 @@
                 }
                 var container = $('<div class="form-group"/>');
 
+                // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
 
                 $.each(['name', 'rows', 'placeholder'], function(i, key) {
@@ -266,6 +268,8 @@
                 }
 
                 if(has(item, 'mandatory') && item.mandatory) {
+                    // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
+                    //        HTML5 validation already does most of this without custom logic
                     inputField.data('warn',function(value){
                         var hasValue = $.trim(value) != '';
                         var isRegExp = item.mandatory !== true;
@@ -333,6 +337,7 @@
 
                 input = input ? input : $('<input type="checkbox"/>');
 
+                // @todo: remove excessive data bindings
                 input.data('declaration',item);
 
                 label.append(input);
@@ -354,6 +359,8 @@
                 }
 
                 if(has(item, 'mandatory') && item.mandatory) {
+                    // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
+                    //        HTML5 validation already does most of this without custom logic
                     input.data('warn',function(){
                         var isChecked = input.is(':checked');
                         if(isChecked){
@@ -396,6 +403,7 @@
                 var container = this.input(item, inputField);
                 container.addClass('textarea-container');
 
+                // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
                 return container;
             },
@@ -738,6 +746,7 @@
                 });
 
                 return container
+                    // @todo: remove excessive data bindings
                     .data('declaration', item)
                     .resultTable($.extend({
                         lengthChange: false,
@@ -753,6 +762,7 @@
             },
             digitizingToolSet: function(item) {
                 var $div = $("<div/>");
+                // @todo: remove excessive data bindings
                 $div.data('declaration',item);
                 return $div.digitizingToolSet(item);
             },
@@ -824,6 +834,7 @@
                         container.append(pageContainer);
                     })
                 }
+                // @todo: remove excessive data bindings
                 container.data('declaration', item);
                 container.accordion(item);
                 return container;
