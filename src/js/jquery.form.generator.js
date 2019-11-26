@@ -632,7 +632,7 @@
                 var tabs = [];
                 if(has(item, 'children') ) {
                     $.each(item.children, function(k, subItem) {
-                        var htmlElement = this.genElement_(declarations, subItem);
+                        var htmlElement = declarations.genElement_(declarations, subItem);
                         var tab = {
                             html: htmlElement
                         };
@@ -813,7 +813,7 @@
                         var pageHeader = $("<h3 class='header' data-id='" + k + "'/>");
 
                         if(has(child, 'head')) {
-                            pageHeader.append(this.genElement_(declarations, child.head));
+                            pageHeader.append(declarations.genElement_(declarations, child.head));
 
                             // if(has(child.head, 'title')) {
                             //     pageHeader.append(widget.label(headItem));
