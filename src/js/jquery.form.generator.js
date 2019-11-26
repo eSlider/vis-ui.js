@@ -162,12 +162,17 @@
             }
         }
     }
+    var readOnlyDeclarations = {
+        genElement_: genElement_,
+        genElements_: genElements_
+    };
 
     // NOTE: bad indents deliberate to minimize diff
-    var defaultDeclarations = {
+    var defaultDeclarations = $.extend({}, readOnlyDeclarations, {
+            copyToClipboard: copyToClipboard,
             popup: function(item) {
                 var popup = $("<div/>");
-                popup.append(genElements_(this, item.children || []));
+                popup.append(this.genElements_(this, item.children || []));
                 window.setTimeout(function() {
                     popup.popupDialog(item)
                 }, 1);
@@ -176,19 +181,19 @@
             },
             form: function(item) {
                 var form = $('<form/>');
-                form.append(genElements_(this, item.children || []));
+                form.append(this.genElements_(this, item.children || []));
                 return form;
             },
             fluidContainer: function(item) {
                 var container = $('<div class="container-fluid"/>');
                 var hbox = $('<div class="row"/>');
-                hbox.append(genElements_(this, item.children || []));
+                hbox.append(this.genElements_(this, item.children || []));
                 container.append(hbox);
                 return container;
             },
             inline: function(item) {
                 var container = $('<div class="form-inline"/>');
-                container.append(genElements_(this, item.children || []));
+                container.append(this.genElements_(this, item.children || []));
                 return container;
             },
             html: function(item) {
@@ -290,7 +295,7 @@
                     var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
                     copyButton.on('click', function(e) {
                         var data = container.formData(false);
-                        copyToClipboard(data[item.name]);
+                        this.copyToClipboard(data[item.name]);
                     });
                     container.append(copyButton);
                 }
@@ -374,7 +379,7 @@
             },
             formGroup: function(item) {
                 var container = $('<div class="form-group"/>');
-                container.append(genElements_(this, item.children || []));
+                container.append(this.genElements_(this, item.children || []));
                 return container;
             },
             textArea: function(item) {
@@ -610,7 +615,7 @@
                 var tabs = [];
                 if(has(item, 'children') ) {
                     $.each(item.children, function(k, subItem) {
-                        var htmlElement = genElement_(declarations, subItem);
+                        var htmlElement = this.genElement_(declarations, subItem);
                         var tab = {
                             html: htmlElement
                         };
@@ -633,7 +638,7 @@
                 if(has(item, 'legend')) {
                     fieldSet.append("<legend>"+item.legend+"</legend>");
                 }
-                fieldSet.append(genElements_(this, item.children || []));
+                fieldSet.append(this.genElements_(this, item.children || []));
 
                 if (item.breakLine) {
                     fieldSet.append(this.breakLine(item));
@@ -771,7 +776,7 @@
              */
             container: function(item) {
                 var container = $('<div class="form-group"/>');
-                container.append(genElements_(this, item.children || []));
+                container.append(this.genElements_(this, item.children || []));
                 return container;
             },
 
@@ -789,7 +794,7 @@
                         var pageHeader = $("<h3 class='header' data-id='" + k + "'/>");
 
                         if(has(child, 'head')) {
-                            pageHeader.append(genElement_(declarations, child.head));
+                            pageHeader.append(this.genElement_(declarations, child.head));
 
                             // if(has(child.head, 'title')) {
                             //     pageHeader.append(widget.label(headItem));
@@ -803,7 +808,7 @@
                         }
 
                         if(has(child, 'content')) {
-                            pageContainer.append(genElement_(declarations, child.content));
+                            pageContainer.append(this.genElement_(declarations, child.content));
                         }
 
                         container.append(pageHeader);
@@ -814,7 +819,7 @@
                 container.accordion(item);
                 return container;
             }
-    };
+    });
     $.widget('vis-ui-js.generateElements', {
         options:      {},
         /**
@@ -855,7 +860,8 @@
          */
         _setOptions: function(options) {
             // always deep-copy to prevent monkey-patches affecting other instances
-            this.declarations = $.extend({}, defaultDeclarations, options.declarations);
+            // Re-add readOnlyDeclarations on top to prevent overrides.
+            this.declarations = $.extend({}, defaultDeclarations, options.declarations, readOnlyDeclarations);
             if (options.type && !options.children) {
                 console.warn("Invocation of generateElements (plural!) with single item is deprecated. Put your item in a list and pass it in the children property.");
                 this.genElements(this.element, [options]);
