@@ -17,10 +17,12 @@
         'keydown', 'keypress', 'keyup',
         'dragstart','ondrag','dragover','drop',
         'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup',
-        'touchstart', 'touchmove', 'touchend','touchcancel'
+        'touchstart', 'touchmove', 'touchend','touchcancel',
+        'filled'
     ];
 
     // extend jquery to fire event on "show" and "hide" calls
+    // @todo: this is bad practice and should be removed ASAP. Figure out who even uses this.
     $.each(['show', 'hide'], function (i, ev) {
         var el = $.fn[ev];
         $.fn[ev] = function () {
@@ -29,8 +31,14 @@
         };
     });
 
+    function isNode(x) {
+        // Minimum (DOM level 1) criteria for DOM Nodes or text nodes
+        // see https://www.w3.org/TR/REC-DOM-Level-1/ecma-script-language-binding.html
+        return x && x.nodeType && x.nodeName;
+    }
+
     /**
-     * Check if object has a key
+     * Check if typeof object[key] !== 'undefined'
      *
      * @param obj
      * @param key
@@ -40,18 +48,62 @@
         return typeof obj[key] !== 'undefined';
     }
 
-    /**
-     * Get value from object by the key or return default given.
-     *
-     * @param obj
-     * @param key
-     * @param defaultValue
-     * @returns {*}
-     */
-    function getVal(obj, key, defaultValue) {
-        return has(obj, key) ? obj[key] : defaultValue;
+    function genElement_(declarations, item) {
+        if (isNode(item)) {
+            return item;
+        }
+        // @todo: explicitly warn / err on undefined type (there will be an error on calling undefined as a function, but it won't be informative)
+        // @todo: fallback to html should ONLY be allowed if the item is a plain string
+        var type = has(declarations, item.type) ? item.type : 'html';
+        // Use declarations object as this argument for handler function.
+        // Do not "beautify" this into discrete assignment of callable to variable followed by invocation, because
+        // THAT passes nothing of particular interest as the invoked method's this arg.
+        // see https://ecma-international.org/ecma-262/5.1/#sec-4.3.27
+        var element = (declarations[type])(item);
+
+        if(has(item, 'cssClass')) {
+            element.addClass(item.cssClass);
+        }
+
+        if(has(item, 'attr')) {
+            $.each(item.attr, function(key, val) {
+                element.attr(key,val);
+            });
+        }
+
+        if(typeof item == "object") {
+            addEvents(element, item);
+        }
+
+        if(has(item, 'css')) {
+
+            element.css(item.css);
+        }
+
+        // @todo: remove excessive data bindings
+        element.data('item', item);
+
+        if(has(item, 'mandatory')){
+            element.addClass('has-warning');
+        }
+
+        return element;
     }
 
+    function genElements_(declarations, items) {
+        var items_;
+        if (!_.isArray(items)) {
+            // @todo: warn, deprecate
+            items_ = _.toArray(items);
+        } else {
+            items_ = items;
+        }
+        var elements = [];
+        for (var i = 0; i < items_.length; ++i) {
+            elements.push(genElement_(declarations, items_[i]));
+        }
+        return elements;
+    }
     /**
      * Add jquery events to element y declration
      *
@@ -120,82 +172,84 @@
             }
         }
     }
+    var readOnlyDeclarations = {
+        genElement_: genElement_,
+        genElements_: genElements_
+    };
 
-    $.widget('vis-ui-js.generateElements', {
-        options:      {},
-        declarations: {
-            popup: function(item, declarations, widget) {
+    // NOTE: bad indents deliberate to minimize diff
+    var defaultDeclarations = $.extend({}, readOnlyDeclarations, {
+            copyToClipboard: copyToClipboard,
+            popup: function(item) {
                 var popup = $("<div/>");
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        popup.append(widget.genElement(item));
-                    });
-                }
+                popup.append(this.genElements_(this, item.children || []));
                 window.setTimeout(function() {
                     popup.popupDialog(item)
                 }, 1);
 
                 return popup;
             },
-            form: function(item, declarations, widget) {
-                var form = $('<form/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        form.append(widget.genElement(item));
-                    })
-                }
+            form: function(item) {
+                var form = $('<form/>').attr(item.attr || {});
+                form.append(this.genElements_(this, item.children || []));
                 return form;
             },
-            fluidContainer: function(item, declarations, widget) {
-                var container = $('<div class="container-fluid"/>');
-                var hbox = $('<div class="row"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        hbox.append(widget.genElement(item));
-                    })
-                }
+            fluidContainer: function(item) {
+                var container = $('<div/>').attr(item.attr || {}).addClass('container-fluid');
+                var hbox = $('<div/>').attr(item.rowAttr || {}).addClass('row');
+                hbox.append(this.genElements_(this, item.children || []));
                 container.append(hbox);
                 return container;
             },
-            inline: function(item, declarations, widget) {
-                var container = $('<div class="form-inline"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
-                    })
-                }
+            inline: function(item) {
+                var container = $('<div/>').attr(item.attr || {}).addClass('form-inline');
+                container.append(this.genElements_(this, item.children || []));
                 return container;
             },
-            html:      function(item, declarations) {
-                var container = $('<div class="html-element-container"/>');
+            html: function(item) {
+                var container = $('<div/>').attr(item.attr || {}).addClass('html-element-container');
                 if (typeof item === 'string'){
                     container.html(item);
-                }else if(has(item,'html')){
+                } else if (typeof item.html !== 'undefined') {
                     container.html(item.html);
                 }else{
+                    // WHAT?
                     container.html(JSON.stringify(item));
                 }
                 return container;
             },
-            button:    function(item, declarations) {
+            button: function(item) {
                 var title = has(item, 'title') ? item.title : 'Submit';
-                var button = $('<button class="btn button">' + title + '</button>');
+                // @todo: use .text for escaping (unless it's HTML again :\)
+                var button = $('<button>' + title + '</button>').attr(item.attr || {}).addClass('btn button');
                 button.attr("title", item.hover || title);
                 return button;
             },
-            submit:    function(item, declarations) {
-                var button = declarations.button(item, declarations);
-                button.attr('type', 'submit');
-                return button;
+            submit: function(item) {
+                var item_ = $.extend({}, item, {
+                    attr: $.extend({}, (item. attr || {}), {
+                        type: 'submit'
+                    })
+                });
+                return this.button(item_);
             },
-            input:     function(item, declarations, widget, input) {
-                var type = has(declarations, 'type') ? declarations.type : 'text';
-                var inputField = input ? input : $('<input class="form-control" type="' + type + '"/>');
+            /**
+             * WRAPS the passed input into a form group
+             *
+             * @param {Object} item
+             * @param {jQuery} [input] manufactures a new text-type input if omitted
+             * @return {*|jQuery|HTMLElement}
+             */
+            input: function(item, input) {
+                // @todo: fold very apparent copy & paste between this method and "checkbox" method
+                var inputField = input;
+                if (!input) {
+                    var type = item.type || 'text';
+                    inputField = $('<input class="form-control" type="' + type + '"/>');
+                }
                 var container = $('<div class="form-group"/>');
-                var icon = '<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>';
 
-                // IE8 bug: type can't be changed...
-                /// inputField.attr('type', type);
+                // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
 
                 $.each(['name', 'rows', 'placeholder'], function(i, key) {
@@ -214,11 +268,13 @@
 
 
                 if(has(item, 'title')) {
-                    container.append(declarations.label(item, declarations));
+                    container.append(this.label(item));
                     container.addClass('has-title')
                 }
 
                 if(has(item, 'mandatory') && item.mandatory) {
+                    // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
+                    //        HTML5 validation already does most of this without custom logic
                     inputField.data('warn',function(value){
                         var hasValue = $.trim(value) != '';
                         var isRegExp = item.mandatory !== true;
@@ -256,19 +312,17 @@
 
                     var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
                     copyButton.on('click', function(e) {
-                        var button = $(e.currentTarget);
                         var data = container.formData(false);
-                        copyToClipboard(data[item.name]);
+                        this.copyToClipboard(data[item.name]);
                     });
                     container.append(copyButton);
                 }
 
                 container.append(inputField);
-                //container.append(icon);
 
                 return container;
             },
-            label:     function(item, declarations) {
+            label: function(item) {
                 var label = $('<label/>');
                 if(_.has(item, 'text')) {
                     label.html(item.text);
@@ -281,12 +335,14 @@
                 }
                 return label;
             },
-            checkbox: function(item, declarations, widget, input) {
+            checkbox: function(item, input) {
+                // @todo: fold very apparent copy & paste between this method and "input" method
                 var container = $('<div class="form-group checkbox"/>');
                 var label = $('<label/>');
 
                 input = input ? input : $('<input type="checkbox"/>');
 
+                // @todo: remove excessive data bindings
                 input.data('declaration',item);
 
                 label.append(input);
@@ -308,6 +364,8 @@
                 }
 
                 if(has(item, 'mandatory') && item.mandatory) {
+                    // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
+                    //        HTML5 validation already does most of this without custom logic
                     input.data('warn',function(){
                         var isChecked = input.is(':checked');
                         if(isChecked){
@@ -338,32 +396,87 @@
 
                 return container;
             },
-            radio: function(item, declarations, widget) {
+            radio: function(item) {
                 var input = $('<input type="radio"/>');
-                var container = declarations.checkbox(item, declarations, widget, input);
+                var container = this.checkbox(item, input);
                 container.addClass('radio');
                 return container;
             },
-            formGroup: function(item, declarations, widget) {
+            formGroup: function(item) {
                 var container = $('<div class="form-group"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
-                    });
-                }
+                container.append(this.genElements_(this, item.children || []));
                 return container;
             },
-            textArea:  function(item, declarations, widget) {
+            textArea: function(item) {
                 var inputField = $('<textarea class="form-control" rows="3"/>');
-                var container =  declarations.input(item, declarations, widget, inputField);
+                var container = this.input(item, inputField);
                 container.addClass('textarea-container');
 
+                // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
                 return container;
             },
-            select:    function(item, declarations, widget) {
+            selectOption: function(item, option) {
+                var label, value;
+                var labelAttribNames = ['label', '__label', 'title'];
+                var valueAttribNames = ['value', '___value', 'id'];
+                var noLabel = true;
+                var noValue = true;
+                var i = 0;
+                do {
+                    label = option[labelAttribNames[i]];
+                    noLabel = (typeof label === 'undefined');
+                    ++i;
+                } while (noLabel && i < labelAttribNames.length);
+                i = 0;
+                do {
+                    value = option[valueAttribNames[i]];
+                    noValue = (typeof value === 'undefined');
+                    ++i;
+                } while (noLabel && i < valueAttribNames.length);
+                if (noLabel || noValue) {
+                    var optionAsList = _.toArray(option);
+                    if (optionAsList.length < 2) {
+                        console.error("Invalid option input, need at least a label and a value", option);
+                        return null;    // will be skipped by $.append
+                    }
+                    if (_.isArray(option) && optionAsList.length > 2) {
+                        console.warn("List-style option with more than two entries, results unpredictable. Use an object with 'value' and 'label' instead", option);
+                    }
+                    if (noValue) {
+                        value = optionAsList[0];
+                    }
+                    if (noLabel) {
+                        label = optionAsList[1];
+                    }
+                }
+                var attr = $.extend({}, option.attr, {value: value});
+                var $option = $('<option/>')
+                    .attr(attr)
+                    // Label has historically been set through .html instead of .text ...
+                    // @todo: html seems super unsafe to use. Figure out why / if we really want HTML here instead of text
+                    .html(label)
+                ;
+                return $option;
+            },
+            selectOptionList: function(item) {
+                var options = item.options || [];
+                if (!_.isArray(options)) {
+                    console.warn("Passing an option mapping is deprecated (order cannot be guaranteed). Use a list.", options);
+                    // legacy fun time: keys are used as labels, mapped values used as submit values
+                    options = _.map(options, function(x, key) {
+                        return {value: x, label: key};
+                    });
+                }
+                var optionElements = [];
+                for (var i = 0; i < options.length; ++i) {
+                    optionElements.push(this.selectOption(item, options[i]));
+                }
+                return optionElements;
+            },
+            select: function(item) {
                 var select = $('<select class="form-control"/>');
-                var container = declarations.input(item, declarations, widget, select);
+                var container = this.input(item, select);
                 var value = has(item, 'value') ? item.value : null;
 
                 container.addClass('select-container');
@@ -371,25 +484,7 @@
                 if(has(item, 'multiple') && item.multiple) {
                     select.attr('multiple', 'multiple');
                 }
-
-                if(has(item, 'options')) {
-                    var isValuePack = _.isArray(_.first(item.options)) && _.size(_.first(item.options)) == 2;
-                    _.each(item.options, function(title, value) {
-                        if(isValuePack) {
-                            value = title[0];
-                            title = title[1];
-                        } else if(_.isObject(title)) {
-                            var a = _.toArray(title);
-                            value = a[0];
-                            title = a[1];
-                        }
-
-                        var option = $("<option/>");
-                        option.attr('value', value);
-                        option.html(title);
-                        select.append(option);
-                    });
-                }
+                select.append(this.selectOptionList(item));
                 select.val(value);
                 if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
@@ -398,10 +493,10 @@
 
                 return container;
             },
-            image: function(item, declarations, widget) {
+            image: function(item) {
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
                 var subContainer = $("<div class='sub-container'/>");
-                var container = declarations.input(item, declarations, widget, image);
+                var container = this.input(item, image);
 
                 container.append(subContainer.append(image.detach()));
                 container.addClass("image-container");
@@ -445,10 +540,10 @@
                 }
                 return container;
             },
-            file:      function(item, declarations, widget) {
+            file: function(item) {
                 var input = $('<input type="hidden"  />');
                 var fileInput = $('<input type="file" />');
-                var container = declarations.input(item, declarations, widget, input);
+                var container = this.input(item, input);
                 var defaultText = (has(item, 'text') ? item.text : "Select");
                 var textSpan = '<span class="upload-button-text"><i class="fa fa-upload" aria-hidden="true"/> ' + defaultText + '</span>';
                 var uploadButton = $('<span class="btn btn-success button fileinput-button">' + textSpan + '</span>');
@@ -541,12 +636,13 @@
 
                 return container;
             },
-            tabs: function(item, declarations, widget) {
+            tabs: function(item) {
                 var container = $('<div/>');
+                var declarations = this;
                 var tabs = [];
                 if(has(item, 'children') ) {
                     $.each(item.children, function(k, subItem) {
-                        var htmlElement = widget.genElement(subItem);
+                        var htmlElement = declarations.genElement_(declarations, subItem);
                         var tab = {
                             html: htmlElement
                         };
@@ -560,37 +656,32 @@
                 container.tabNavigator({children: tabs});
                 return container;
             },
-            fieldSet: function(item, declarations, widget) {
+            fieldSet: function(item) {
                 var fieldSet = $("<fieldset class='form-group'/>");
 
-                if(has(item, 'title')) {
-                    fieldSet.append(declarations.label(item, declarations));
+                if (item.title) {
+                    fieldSet.append(this.label(item));
                 }
                 if(has(item, 'legend')) {
                     fieldSet.append("<legend>"+item.legend+"</legend>");
                 }
+                fieldSet.append(this.genElements_(this, item.children || []));
 
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        fieldSet.append(widget.genElement(item));
-                    })
-                }
-
-                if(has(item, 'breakLine') && item.breakLine) {
-                    fieldSet.append(declarations.breakLine(item, declarations, widget));
+                if (item.breakLine) {
+                    fieldSet.append(this.breakLine(item));
                 }
 
                 return fieldSet;
             },
-            date: function(item, declarations, widget) {
-                var inputHolder = declarations.input(item, declarations, widget);
+            date: function(item) {
+                var inputHolder = this.input(item);
                 var input = inputHolder.find('> input');
                 input.dateSelector(item);
                 return inputHolder;
             },
-            colorPicker: function(item, declarations, widget) {
+            colorPicker: function(item) {
                 var container = $('<div class="form-group"/>');
-                var inputHolder = declarations.input(item, declarations, widget);
+                var inputHolder = this.input(item);
                 var label = inputHolder.find('> label');
 
                 inputHolder.append('<span class="input-group-addon"><i></i></span>');
@@ -614,9 +705,9 @@
 
                 return container;
             },
-            slider: function(item, declarations, widget) {
+            slider: function(item) {
                 var container = $('<div class="form-group input-group slider-holder"/>');
-                var inputHolder = declarations.input(item, declarations, widget);
+                var inputHolder = this.input(item);
                 var label = inputHolder.find('> label');
                 var input = inputHolder.find('> input');
                 var sliderRange = $('<div class="input-group"/>');
@@ -656,8 +747,8 @@
 
                 return container;
             },
-            resultTable: function(item, declarations, widget) {
-                var container = $("<div/>");
+            resultTable: function(item) {
+                var container = $("<div/>").attr(item.attr || {});
                 $.each(['name'], function(i, key) {
                     if(has(item, key)) {
                         container.attr(key, item[key]);
@@ -665,6 +756,7 @@
                 });
 
                 return container
+                    // @todo: remove excessive data bindings
                     .data('declaration', item)
                     .resultTable($.extend({
                         lengthChange: false,
@@ -678,8 +770,9 @@
                         autoWidth:    false
                     }, item));
             },
-            digitizingToolSet: function(item, declarations, widget) {
-                var $div = $("<div/>");
+            digitizingToolSet: function(item) {
+                var $div = $("<div/>").attr(item.attr || {});
+                // @todo: remove excessive data bindings
                 $div.data('declaration',item);
                 return $div.digitizingToolSet(item);
             },
@@ -688,73 +781,19 @@
              * Break line
              *
              * @param item
-             * @param declarations
-             * @param widget
              * @return {*|HTMLElement}
              */
-            breakLine: function(item, declarations, widget) {
-                return $("<hr class='break-line'/>");
-            },
-
-            /**
-             * Map eleemnt.
-             *
-             * @param item
-             * @param declarations
-             * @param widget
-             * @returns {*|HTMLElement}
-             */
-            map: function(item, declarations, widget) {
-                var container = $("<div><div class='leaflat-map'/></div>");
-                var tileLayerUrl = getVal(item, "tileLayerUrl", 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png');
-                var zoomLevel = getVal(item, 'zoomLevel', 13);
-                var viewPosition = getVal(item, 'viewPosition', [51.505, -0.09]);
-                var maxZoom = getVal(item, 'maxZoom', 20);
-                var popup = L.popup();
-                L.Icon.Default.imagePath = "../../components/leaflet/images/";
-
-                container.on('DOMNodeInsertedIntoDocument', function() {
-                    var mapContainer = container.find('.leaflat-map');
-                    mapContainer.css({
-                        height: "100%",
-                        width: '100%'
-                    });
-
-                    var map = window.lmap = L.map(mapContainer[0], {
-                        trackResize: true,
-                        inertia:     true
-                    }).setView(viewPosition, zoomLevel);
-                    L.tileLayer(tileLayerUrl, {
-                        maxZoom:     getVal(item, 'maxZoom', 20),
-                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                        id:          'examples.map-i875mjb7'
-                    }).addTo(map);
-                    L.marker(viewPosition).addTo(map);
-                    map.on('click', function(e) {
-                        console.log("You clicked the map at " + e.latlng.toString());
-                    });
-
-                    container.closest('.popup-dialog').bind('popupdialogresize', function(e) {
-                        map.invalidateSize();
-
-                        console.log("resized")
-                    });
-
-                });
-
-                container.data('declaration', item);
-                return container;
+            breakLine: function(item) {
+                return $("<hr/>").attr(item.attr || {}).addClass('break-line');
             },
 
             /**
              *
              * @param item
-             * @param declarations
-             * @param widget
              */
-            text: function(item, declarations, widget) {
-                var text = $('<div class="text"/>');
-                var container = declarations.input(item, declarations, widget, text);
+            text: function(item) {
+                var text = $('<div/>').attr(item.attr || {}).addClass('text');
+                var container = this.input(item, text);
                 container.addClass('text');
                 return container;
             },
@@ -763,16 +802,10 @@
              * Simple container
              *
              * @param item
-             * @param declarations
-             * @param widget
              */
-            container: function(item, declarations, widget) {
-                var container = $('<div class="form-group"/>');
-                if(has(item, 'children')) {
-                    $.each(item.children, function(k, item) {
-                        container.append(widget.genElement(item));
-                    })
-                }
+            container: function(item) {
+                var container = $('<div/>').attr(item.attr || {}).addClass('form-group');
+                container.append(this.genElements_(this, item.children || []));
                 return container;
             },
 
@@ -780,10 +813,9 @@
              * Simple accordion
              *
              * @param item
-             * @param declarations
-             * @param widget
              */
-            accordion: function(item, declarations, widget) {
+            accordion: function(item) {
+                var declarations = this;
                 var container = $('<div class="accordion"/>');
                 if(has(item, 'children')) {
                     _.each(item.children, function(child, k) {
@@ -791,7 +823,7 @@
                         var pageHeader = $("<h3 class='header' data-id='" + k + "'/>");
 
                         if(has(child, 'head')) {
-                            pageHeader.append(widget.genElement(child.head));
+                            pageHeader.append(declarations.genElement_(declarations, child.head));
 
                             // if(has(child.head, 'title')) {
                             //     pageHeader.append(widget.label(headItem));
@@ -805,20 +837,21 @@
                         }
 
                         if(has(child, 'content')) {
-                            pageContainer.append(widget.genElement(child.content));
+                            pageContainer.append(this.genElement_(declarations, child.content));
                         }
 
                         container.append(pageHeader);
                         container.append(pageContainer);
                     })
                 }
+                // @todo: remove excessive data bindings
                 container.data('declaration', item);
                 container.accordion(item);
                 return container;
             }
-
-        },
-
+    });
+    $.widget('vis-ui-js.generateElements', {
+        options:      {},
         /**
          * Constructor
          *
@@ -835,37 +868,7 @@
          * @return jquery html object
          */
         genElement: function(item) {
-            var widget = this;
-            var type = has(widget.declarations, item.type) ? item.type : 'html';
-            var declaration = widget.declarations[type];
-            var element = declaration(item, widget.declarations, widget);
-
-            if(has(item, 'cssClass')) {
-                element.addClass(item.cssClass);
-            }
-
-            if(has(item, 'attr')) {
-                $.each(item.attr, function(key, val) {
-                    element.attr(key,val);
-                });
-            }
-
-            if(typeof item == "object") {
-                addEvents(element, item);
-            }
-
-            if(has(item, 'css')) {
-
-                element.css(item.css);
-            }
-
-            element.data('item', item);
-
-            if(has(item, 'mandatory')){
-                element.addClass('has-warning');
-            }
-
-            return element;
+            return genElement_(this.declarations, item);
         },
 
         /**
@@ -875,10 +878,7 @@
          * @param children declarations
          */
         genElements: function(element, children) {
-            var widget = this;
-            $.each(children, function(k, item) {
-                element.append(widget.genElement(item));
-            })
+            element.append(genElements_(this.declarations, children));
         },
 
         /**
@@ -886,19 +886,22 @@
          *
          * @param options
          * @private
+         * @todo: this should be _create (minus options argument)
          */
         _setOptions: function(options) {
-            var widget = this;
-            var element = $(widget.element);
-
-            if(has(options, 'type')) {
-                element.append(widget.genElement(options));
+            // always deep-copy to prevent monkey-patches affecting other instances
+            // Re-add readOnlyDeclarations on top to prevent overrides.
+            this.declarations = $.extend({}, defaultDeclarations, options.declarations, readOnlyDeclarations);
+            if (options.type && !options.children) {
+                console.warn("Invocation of generateElements (plural!) with single item is deprecated. Put your item in a list and pass it in the children property.");
+                this.genElements(this.element, [options]);
             } else if(has(options, 'children')) {
-                widget.genElements(element, options.children);
+                this.genElements(this.element, options.children);
             }
 
-            widget._super(options);
-            widget.refresh();
+            this.element.addClass('vis-ui');
+            this._super(options);
+            this.refresh();
         },
 
         /**
