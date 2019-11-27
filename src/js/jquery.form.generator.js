@@ -245,7 +245,7 @@
                 var title = has(item, 'title') ? item.title : 'Submit';
                 // @todo: use .text for escaping (unless it's HTML again :\)
                 var button = $('<button>' + title + '</button>').attr(item.attr || {}).addClass('btn button');
-                button.attr("title", title);
+                button.attr("title", (item.attr || {}).title || item.hover || title);
                 return button;
             },
             submit: function(item) {
