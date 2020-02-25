@@ -691,6 +691,10 @@
                         value = '';
                     }
                 }
+                if (item.mandatory && !value) {
+                    value = (new Date()).toISOString().slice(0, 10);
+                }
+
                 if (browserSupportsHtml5Date) {
                     return this.input($.extend({}, item, {
                         type: 'date',
