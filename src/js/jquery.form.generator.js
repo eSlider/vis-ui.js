@@ -177,6 +177,15 @@
         genElements_: genElements_
     };
 
+    var browserSupportsHtml5Date = (function() {
+        // detect support for HTML5 date input; see https://stackoverflow.com/a/10199306
+        var dateInput = document.createElement('input');
+        var invalidDate = 'not-a-date';
+        dateInput.setAttribute('type', 'date');
+        dateInput.setAttribute('value', invalidDate);
+        return dateInput.value !== invalidDate;
+    })();
+
     // NOTE: bad indents deliberate to minimize diff
     var defaultDeclarations = $.extend({}, readOnlyDeclarations, {
             copyToClipboard: copyToClipboard,
@@ -669,10 +678,32 @@
                 return fieldSet;
             },
             date: function(item) {
-                var inputHolder = this.input(item);
-                var input = inputHolder.find('> input');
-                input.dateSelector(item);
-                return inputHolder;
+                var value = item.value;
+                if (item.dateFormat && item.dateFormat !== 'yy-mm-dd') {
+                    console.warn("Ignoring invalid dateFormat setting. The only possible value is 'yy-mm-dd'. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date", item);
+                }
+                if (value === null || (typeof value === 'undefined')) {
+                    value = '';
+                }
+                if (value !== '' && !(typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}$/))) {
+                    if (!(typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}$/))) {
+                        console.error("Invalid value for date input, ignoring", value);
+                        value = '';
+                    }
+                }
+                if (browserSupportsHtml5Date) {
+                    return this.input($.extend({}, item, {
+                        type: 'date',
+                        value: value
+                    }));
+                } else {
+                    var textInput = this.input($.extend({}, item, {
+                        type: 'text',
+                        value: value
+                    }));
+                    textInput.dateSelector();
+                    return textInput;
+                }
             },
             colorPicker: function(item) {
                 var container = $('<div class="form-group"/>');
