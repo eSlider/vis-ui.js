@@ -1,3 +1,7 @@
+# 0.2.2
+* Fix date type input cross-browser behaviour
+* Preinitialize required (`mandatory`) date inputs to current date
+
 # 0.2.1
 * Support initializing select2 on simple selects
 * Support `.hover` value on `button`-type item for a custom tooltip text, also supoort `attr.title`
@@ -25,6 +29,10 @@
   Putting a Leaflet map on top of an OpenLayers-based Mapbender Application is asking for trouble. If you want a
   Leaflet map, follow [the tutorial](https://leafletjs.com/examples/quick-start/).
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
+
+# 0.1.79
+* Fix date type input cross-browser behaviour
+* Preinitialize required (`mandatory`) date inputs to current date
 
 # 0.1.78
 * Add `vis-ui` CSS class to all top-level generated items to allow more specifically guided CSS rules
