@@ -124,7 +124,6 @@ $.fn.formData = function(values) {
         $.each(inputs, function() {
             var input = $(this);
             var value;
-            var declaration = input.data('declaration');
 
             if(this.name == ""){
                 return;
@@ -148,12 +147,10 @@ $.fn.formData = function(values) {
             var validationCallback = input.data('warn');
 
             if (values !== false && (typeof validationCallback === 'function')) {
-                if (declaration.hasOwnProperty('mandatory') && declaration.mandatory ){
-                    var isDataReady = validationCallback(value);
-                    if(!isDataReady && !firstInput && input.is(":visible")){
-                        firstInput = input;
-                        input.focus();
-                    }
+                var isDataReady = validationCallback(value);
+                if(!isDataReady && !firstInput && input.is(":visible")){
+                    firstInput = input;
+                    input.focus();
                 }
             }
             values[this.name] = value;
