@@ -38,6 +38,20 @@
     }
 
     /**
+     * @param {String} expr
+     * @return {RegExp|null}
+     */
+    function expressionToRegex(expr) {
+        // for valid flags see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags
+        var matches = expr.match(/^[/](.*?)[/]([gimsuy]*)$/);
+        if (matches) {
+            return new RegExp(matches[1], matches[2]);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Check if typeof object[key] !== 'undefined'
      *
      * @param obj
@@ -281,19 +295,33 @@
                     container.addClass('has-title')
                 }
 
-                if(has(item, 'mandatory') && item.mandatory) {
+                if (item.mandatory) {
+                    var validationCallback;
+                    if (item.mandatory === true) {
+                        validationCallback = function(value) {
+                            return $.trim(value).length;
+                        };
+                    } else if (typeof item.mandatory === 'string') {
+                        // legacy fun fact: string runs through eval, but result of eval can only be used
+                        // if it happens to have an method named .exec accepting a single parameter
+                        // => this was never compatible with anything but regex literals
+                        var rxp = expressionToRegex(item.mandatory);
+                        if (rxp) {
+                            validationCallback = function(value) {
+                                return rxp.test(value);
+                            }
+                        }
+                    }
+                    if (!validationCallback) {
+                        console.error("Invalid value in item.mandatory. Use boolean true or a regex literal.", item.mandatory, item);
+                        throw new Error("Invalid value in item.mandatory. Use boolean true or a regex literal.");
+                    }
                     // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
                     //        HTML5 validation already does most of this without custom logic
-                    inputField.data('warn',function(value){
-                        var hasValue = $.trim(value) != '';
-                        var isRegExp = item.mandatory !== true;
-
-                        if(isRegExp){
-                            console.error("Using Javascript code in the configuration is deprecated",item.mandatory);
-                            hasValue = eval(item.mandatory).exec(value) != null;
-                        }
-
-                        if(hasValue){
+                    inputField.data('warn', function(value) {
+                        var isValid = validationCallback(value);
+                        // @todo: separate validation logic from visual updates
+                        if (isValid) {
                             container.removeClass('has-error');
                         }else{
                             if(inputField.is(":visible")){
@@ -302,7 +330,7 @@
                             }
                             container.addClass('has-error');
                         }
-                        return hasValue;
+                        return isValid;
                     });
                 }
 
