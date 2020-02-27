@@ -145,25 +145,18 @@ $.fn.formData = function(values) {
             if(value === ""){
                 value = null;
             }
+            var validationCallback = input.data('warn');
 
-            if(values !== false && declaration){
-                if(declaration.hasOwnProperty('mandatory') && declaration.mandatory ){
-                    var isDataReady = false;
-                    if(typeof declaration.mandatory === "function"){
-                        isDataReady = declaration.mandatory(input, declaration, value);
-                    } else{
-                        isDataReady = input.data('warn')(value);
-                    }
+            if (values !== false && (typeof validationCallback === 'function')) {
+                if (declaration.hasOwnProperty('mandatory') && declaration.mandatory ){
+                    var isDataReady = validationCallback(value);
                     if(!isDataReady && !firstInput && input.is(":visible")){
                         firstInput = input;
                         input.focus();
                     }
                 }
-                values[this.name] = value;
-            }else{
-                values[this.name] = value;
             }
-
+            values[this.name] = value;
         });
         return values;
     }
