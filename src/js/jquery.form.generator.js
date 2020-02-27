@@ -318,20 +318,10 @@
                     }
                     // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
                     //        HTML5 validation already does most of this without custom logic
-                    inputField.data('warn', function(value) {
-                        var isValid = validationCallback(value);
-                        // @todo: separate validation logic from visual updates
-                        if (isValid) {
-                            container.removeClass('has-error');
-                        }else{
-                            if(inputField.is(":visible")){
-                                var text = item.hasOwnProperty('mandatoryText')? item.mandatoryText: "Please, check!";
-                                $.notify( inputField, text, { position:"top right", autoHideDelay: 2000});
-                            }
-                            container.addClass('has-error');
-                        }
-                        return isValid;
-                    });
+                    inputField.data('warn', validationCallback);
+                }
+                if (item.mandatoryText) {
+                    inputField.attr('data-custom-error-message', item.mandatoryText);
                 }
 
                 if(has(item, 'infoText')) {
@@ -403,19 +393,8 @@
                 if(has(item, 'mandatory') && item.mandatory) {
                     // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
                     //        HTML5 validation already does most of this without custom logic
-                    input.data('warn',function(){
-                        var isChecked = input.is(':checked');
-                        if(isChecked){
-                            container.removeClass('has-error');
-                        }else{
-                            container.addClass('has-error');
-                            if(input.is(':visible')){
-                                var text = item.hasOwnProperty('mandatoryText') ? item.mandatoryText : "Please confirm!";
-                                $.notify( input, text, { position:"top left", autoHideDelay: 2000});
-                            }
-
-                        }
-                        return isChecked;
+                    input.data('warn', function() {
+                        return input.is('checked');
                     });
                 }
 
