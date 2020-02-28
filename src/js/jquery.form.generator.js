@@ -349,7 +349,7 @@
                 }
                 if (item.infoText) {
                     var $icon = $('<i/>')
-                        .addClass('fa fas fa-info-circle -visui-infotext')
+                        .addClass('fa fa-info-circle -visui-infotext')
                         .attr('title', item.infoText)
                     ;
                     label.html(label.html() + '&nbsp;');
