@@ -289,9 +289,10 @@
                     inputField.attr('disabled','');
                 }
 
-
-                if(has(item, 'title')) {
-                    container.append(this.label(item));
+                var label;
+                if (item.title) {
+                    label = this.label(item);
+                    container.append(label);
                     container.addClass('has-title')
                 }
 
@@ -324,14 +325,11 @@
                     inputField.attr('data-custom-error-message', item.mandatoryText);
                 }
 
-                if(has(item, 'copyClipboard')) {
-
-                    var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
-                    copyButton.on('click', function(e) {
-                        var data = container.formData(false);
-                        this.copyToClipboard(data[item.name]);
-                    });
-                    container.append(copyButton);
+                if (label && item.copyClipboard) {
+                    label.append('&nbsp;', $('<i/>')
+                        .addClass('fa fa-clipboard far-clipboard -visui-copytoclipboard')
+                        .attr('aria-hidden', 'true')
+                    );
                 }
 
                 container.append(inputField);
@@ -927,6 +925,10 @@
             this.element.addClass('vis-ui');
             this.element.on('click touch press', '.-visui-infotext[title]', function() {
                 $.notify($(this).attr('title'), 'info');
+            });
+            this.element.on('click', '.-visui-copytoclipboard', function() {
+                var $input = $('input, select, textarea', $(this).closest('.form-group'));
+                copyToClipboard($input.val());
             });
 
             this._super(options);
