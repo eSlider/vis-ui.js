@@ -74,24 +74,8 @@
                 }, this.options));
             }
 
+
             var dialog = element.closest('.ui-dialog');
-            if(this.options.modal){
-                var modal = $('<div class="mb-element-modal-dialog"><div class="background" unselectable="on"></div></div>');
-
-                modal.insertBefore(dialog);
-                modal.prepend(dialog);
-                modal.find('> .background').on('click mousemove mouseout mouseover',function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                });
-                element.bind('popupdialogclose',function(){
-                    modal.fadeOut(function(){
-                        modal.remove();
-                    });
-                });
-            }
-
             if (hasDialogExtend) {
                 // Fullscreen on double click
                 // @todo: check effective 'maximizable' configuration?
@@ -145,7 +129,10 @@
                 dialog.css('z-index',1);
             }
 
-            return this._super();
+            this._super();
+            if (this.overlay) {
+                this.overlay.addClass('mb-element-modal-dialog');
+            }
         }
     });
 
