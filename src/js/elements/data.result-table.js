@@ -30,7 +30,7 @@
             var isSelectable = _.has(options, 'selectable') && options.selectable;
             var hasBottomNavigation = _.has(options, 'bottomNavigation') && _.isArray(options.bottomNavigation);
             var hasRowButtons = options.hasOwnProperty('buttons');
-            var dataTableContainer = null;
+            var dataTableContainer;
 
             el.append(table);
             el.addClass('mapbender-element-result-table');
@@ -159,13 +159,15 @@
                         html.append(element.html);
                         break;
                     case 'button':
-                        var title = element.title?element.title:(element.text?element.text:'');
-                        var button = $('<button class="button" title="' + title + '">' + title + '</button>');
-                        if(_.has(element,'cssClass')){
-                             button.addClass(element.cssClass);
-                        }
+                        var button = $('<button/>');
+                        button.attr({
+                            'class': 'button',
+                            title: element.title || null
+                        });
+                        button.text(element.text || null);
+                        button.addClass(element.cssClass || null);
                         if(_.has(element,'className')){
-                            button.addClass("icon-"+element.className);
+                            button.addClass("icon-"+element.className);     // why?
                             button.addClass( element.className);
                         }
 

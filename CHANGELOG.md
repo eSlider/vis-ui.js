@@ -30,6 +30,12 @@
   Leaflet map, follow [the tutorial](https://leafletjs.com/examples/quick-start/).
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
 
+# 0.1.80
+* Error for unsupported values for `.mandatory` is now thrown immediately on rendering, instead of later during form data extraction
+* No longer generate invalid `<input type="input" ...`, use proper type `"text"` instead
+* Suppress resultTable column button text unless explicitly passed in `.text` property (obviates the need for CSS hacks)
+* Respect `maximizable` option also for double-click handling on popup title
+
 # 0.1.79
 * Fix date type input cross-browser behaviour
 * Preinitialize required (`mandatory`) date inputs to current date

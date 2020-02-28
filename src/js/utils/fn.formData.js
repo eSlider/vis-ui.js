@@ -123,7 +123,6 @@ $.fn.formData = function(values) {
         $.each(inputs, function() {
             var input = $(this);
             var value;
-            var declaration = input.data('declaration');
 
             if(this.name == ""){
                 return;
@@ -144,25 +143,18 @@ $.fn.formData = function(values) {
             if(value === ""){
                 value = null;
             }
-
-            if(values !== false && declaration){
-                if(declaration.hasOwnProperty('mandatory') && declaration.mandatory ){
-                    var isDataReady = false;
-                    if(typeof declaration.mandatory === "function"){
-                        isDataReady = declaration.mandatory(input, declaration, value);
-                    } else{
-                        isDataReady = input.data('warn')(value);
-                    }
-                    if(!isDataReady && !firstInput && input.is(":visible")){
-                        firstInput = input;
-                        input.focus();
-                    }
+            var validationCallback = input.data('warn');
+            var isValid = !validationCallback || validationCallback(value);
+            input.parent('.form-group').toggleClass('has-error', !isValid);
+            if (!isValid && input.is(":visible")) {
+                var text = input.attr('data-custom-error-message') || "Please, check!";
+                $.notify(input, text, {position: "top right", autoHideDelay: 2000});
+                if (!firstInput) {
+                    firstInput = input;
+                    input.focus();
                 }
-                values[this.name] = value;
-            }else{
-                values[this.name] = value;
             }
-
+            values[this.name] = value;
         });
         return values;
     }

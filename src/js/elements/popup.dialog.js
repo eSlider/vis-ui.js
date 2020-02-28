@@ -65,48 +65,24 @@
             this._super();
 
             if (hasDialogExtend) {
-                // fake dialogExtend check for ui-dialog
-                element.data("ui-dialog",true);
-                element.dialogExtend($.extend(true, {
+                // NOTE: no widget-level options defaults for these
+                var extendableOptions = $.extend(true, {
                     closable:    true,
                     maximizable: true,
                     collapsable: true
-                }, this.options));
-            }
+                }, this.options);
 
-            var dialog = element.closest('.ui-dialog');
-            if(this.options.modal){
-                var modal = $('<div class="mb-element-modal-dialog"><div class="background" unselectable="on"></div></div>');
-
-                modal.insertBefore(dialog);
-                modal.prepend(dialog);
-                modal.find('> .background').on('click mousemove mouseout mouseover',function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                });
-                element.bind('popupdialogclose',function(){
-                    modal.fadeOut(function(){
-                        modal.remove();
+                element.data("ui-dialog",true);
+                element.dialogExtend(extendableOptions);
+                if (extendableOptions.maximizable) {
+                    $('.ui-dialog-titlebar, .ui-dialog.title', this.element.closest('.ui-dialog')).dblclick(function() {
+                        if (element.dialogExtend('state') === 'normal'){
+                            element.dialogExtend('maximize');
+                        }else{
+                            element.dialogExtend('restore');
+                        }
                     });
-                });
-            }
-
-            if (hasDialogExtend) {
-                // Fullscreen on double click
-                // @todo: check effective 'maximizable' configuration?
-                $(dialog).dblclick(function(event) {
-                    var target = $(event.target);
-                    if(!target.is('.ui-dialog-titlebar, .ui-dialog-title')){
-                        return;
-                    }
-
-                    if(element.dialogExtend('state') == 'normal'){
-                        element.dialogExtend('maximize');
-                    }else{
-                        element.dialogExtend('restore');
-                    }
-                });
+                }
             }
         },
 
@@ -145,7 +121,10 @@
                 dialog.css('z-index',1);
             }
 
-            return this._super();
+            this._super();
+            if (this.overlay) {
+                this.overlay.addClass('mb-element-modal-dialog');
+            }
         }
     });
 
