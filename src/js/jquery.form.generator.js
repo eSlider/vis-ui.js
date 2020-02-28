@@ -324,17 +324,6 @@
                     inputField.attr('data-custom-error-message', item.mandatoryText);
                 }
 
-                if(has(item, 'infoText')) {
-                    var infoButton = $('<a class="infoText"></a>');
-                    infoButton.on('click touch press',function(e){
-                       var button = $(e.currentTarget);
-                        $.notify(button.attr('title'),'info');
-                    });
-                    infoButton.attr('title', item.infoText);
-                    container.append(infoButton);
-                }
-
-
                 if(has(item, 'copyClipboard')) {
 
                     var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
@@ -360,19 +349,28 @@
                 if(_.has(item, 'name')) {
                     label.attr('for', item.name);
                 }
+                if (item.infoText) {
+                    var $icon = $('<i/>')
+                        .addClass('fa fas fa-info-circle -visui-infotext')
+                        .attr('title', item.infoText)
+                    ;
+                    label.html(label.html() + '&nbsp;');
+                    label.append($icon);
+                }
+
                 return label;
             },
             checkbox: function(item, input) {
                 // @todo: fold very apparent copy & paste between this method and "input" method
                 var container = $('<div class="form-group checkbox"/>');
-                var label = $('<label/>');
+                var label = this.label(item);
 
                 input = input ? input : $('<input type="checkbox"/>');
 
                 // @todo: remove excessive data bindings
                 input.data('declaration',item);
 
-                label.append(input);
+                label.prepend(input);
 
                 if(has(item, 'name')) {
                     input.attr('name', item.name);
@@ -380,10 +378,6 @@
 
                 if(has(item, 'value')) {
                     input.val(item.value);
-                }
-
-                if(has(item, 'title')) {
-                    label.append(item.title);
                 }
 
                 if(has(item, 'checked') && item.checked) {
@@ -399,16 +393,6 @@
                 }
 
                 container.append(label);
-
-                if(has(item, 'infoText')) {
-                    var infoButton = $('<a class="infoText"></a>');
-                    infoButton.on('click touch press',function(e){
-                        var button = $(e.currentTarget);
-                        $.notify(button.attr('title'),'info');
-                    });
-                    infoButton.attr('title', item.infoText);
-                    container.append(infoButton);
-                }
 
                 return container;
             },
@@ -941,6 +925,10 @@
             }
 
             this.element.addClass('vis-ui');
+            this.element.on('click touch press', '.-visui-infotext[title]', function() {
+                $.notify($(this).attr('title'), 'info');
+            });
+
             this._super(options);
             this.refresh();
         },

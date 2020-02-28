@@ -35,6 +35,8 @@
 * No longer generate invalid `<input type="input" ...`, use proper type `"text"` instead
 * Suppress resultTable column button text unless explicitly passed in `.text` property (obviates the need for CSS hacks)
 * Respect `maximizable` option also for double-click handling on popup title
+* Fix inconsistent `.infoText` on checkboxes
+* Fix Fontawesome 5 conflicts in `.infoText` markup
 
 # 0.1.79
 * Fix date type input cross-browser behaviour
