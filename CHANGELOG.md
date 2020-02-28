@@ -7,6 +7,7 @@
 * No longer generate invalid `<input type="input" ...`, use proper type `"text"` instead
 * Suppress resultTable column button text unless explicitly passed in `.text` property (obviates the need for CSS hacks)
 * Respect `maximizable` option also for double-click handling on popup title
+* Support `.hover` value on `button`-type item for a custom tooltip text, also supoort `attr.title`
 * Fix inconsistent `.infoText` on checkboxes
 * Fix Fontawesome 5 conflicts in `.infoText` markup
 
@@ -38,3 +39,7 @@
 * [fringe Break] remove demo-only Leaflet map. This is incoherent with our desired use cases.  
   Putting a Leaflet map on top of an OpenLayers-based Mapbender Application is asking for trouble. If you want a
   Leaflet map, follow [the tutorial](https://leafletjs.com/examples/quick-start/).
+
+# 0.1.77
+* Support initializing select2 on simple selects
+* Make jquerydialogextendjs functionally optional (popup still opens, without maximize / collapse interactions)
