@@ -815,11 +815,30 @@
              * @param item
              */
             text: function(item) {
+                var callback;
                 if (!item.text) {
                     console.error('Missing value property .text for type "text" item', item);
                     throw new Error('Missing value property .text for type "text" item');
                 }
                 var text = $('<div/>').attr(item.attr || {}).addClass('text -visui-text-callback');
+                if (typeof item.text === 'function') {
+                    callback = function(values) {
+                        return (item.text)(values);
+                    };
+                } else {
+                    console.warn("Using eval'd JavaScript code for item type text is deprecated. Supply a function.", item);
+                    callback = function(values) {
+                        try {
+                            var data = values;  // for eval scope
+                            var declaration = item; // for eval scope
+                            return eval(item.text);
+                        } catch (e) {
+                            console.error('Failed to evaluate text type item content', item.text, item, values);
+                            throw new Error('Failed to evaluate text type item content');
+                        }
+                    };
+                }
+                text.data('visui-text-callback', callback);
                 var container = this.input(item, text);
                 container.addClass('text');
                 return container;

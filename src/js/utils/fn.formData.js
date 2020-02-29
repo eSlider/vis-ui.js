@@ -13,30 +13,13 @@ $.fn.formData = function(values) {
     var form = $(this);
     var inputs = $(':input', form).get();
     var hasNewValues = typeof values == 'object';
-    var textElements = $(".form-group.text", form);
-
 
     if (hasNewValues) {
-
-        $.each(textElements, function() {
-            var textElementContainer = $(this);
-            var textElement = $('.text', textElementContainer);
-            var declaration = textElementContainer.data('item');
-            if(declaration.hasOwnProperty('text')) {
-                if (typeof declaration.text === 'function') {
-                    textElement.html(declaration.text(values));
-                } else {
-                    var html = "";
-                    try {
-                        console.error("Using Javascript code in the configuration is deprecated",declaration.text);
-                        var data = values;
-                        eval('html=' + declaration.text + ';');
-                    } catch (e) {
-                        console.error("The defenition", declaration, " of ", textElement, ' is erroneous.', e);
-                    }
-                    textElement.html(html);
-                }
-            }
+        $('.-visui-text-callback', form).each(function() {
+            var textElement = $(this);
+            var callback = textElement.data('visui-text-callback');
+            /** @todo: why .html? .text would be safer */
+            textElement.html(callback.call(null, values));
         });
 
         $.each(inputs, function() {
