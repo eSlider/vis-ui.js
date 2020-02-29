@@ -26,11 +26,9 @@ $.fn.formData = (function() {
 
                 switch (this.type) {
                     case 'select-multiple':
-                        var type = declaration.fieldType ? declaration.fieldType : 'text';
-
-                        if(type == 'text' && value ) {
+                        if (value && !$.isArray(value)) {
                             var separator = declaration.separator ? declaration.separator : ',';
-                            input.val($.isArray(value) ? value : value.split(separator));
+                            input.val(value.split(separator));
                         } else {
                             input.val(value);
                         }
