@@ -842,8 +842,10 @@
              * Simple accordion
              *
              * @param item
+             * @todo v0.2.x: remove this
              */
             accordion: function(item) {
+                console.warn("Generating a type: accordion via vis-ui.js is deprecated and will be removed in v0.2", item);
                 var declarations = this;
                 var container = $('<div class="accordion"/>');
                 if(has(item, 'children')) {
@@ -853,16 +855,6 @@
 
                         if(has(child, 'head')) {
                             pageHeader.append(declarations.genElement_(declarations, child.head));
-
-                            // if(has(child.head, 'title')) {
-                            //     pageHeader.append(widget.label(headItem));
-                            // }
-                            //
-                            // if(has(child.head, 'children')) {
-                            //     _.each(child.head.children, function(headItem) {
-                            //         pageHeader.append(widget.genElement(headItem));
-                            //     })
-                            // }
                         }
 
                         if(has(child, 'content')) {
