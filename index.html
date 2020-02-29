@@ -101,10 +101,7 @@
                             buttons:     [{
                                 text:  "OK",
                                 click: function(e) {
-                                    var popup = $(e.currentTarget).closest(".ui-").find(".popup-");
-                                    console.log(popup.formData());
-                                    return;
-                                    popup.popup('close');
+                                    console.log($div.formData());
                                 }
                             }]
                         });
