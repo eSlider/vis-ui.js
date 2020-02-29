@@ -49,14 +49,9 @@ $.fn.formData = (function() {
 
                     case 'text':
                         if(input.hasClass('hasDatepicker')) {
-                            var dateFormat = input.datepicker("option", "dateFormat");
-
                             if(value === '' || value === 0 || value === '0') {
                                 value = null;
                             }
-                            // if(value !== null) {
-                                // value = $.datepicker.formatDate(dateFormat, $.datepicker.parseDate(dateFormat, value))
-                            // }
 
                             input.datepicker("setDate", value);
                             input.datepicker("refresh");
