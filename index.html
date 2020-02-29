@@ -20,12 +20,13 @@
 
     <!-- Underscore -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+    <script src="src/js/utils/fn.formData.js" type="text/javascript"></script>
+    <script src="src/js/elements/date.selector.js" type="text/javascript"></script>
+    <script src="src/js/elements/popup.dialog.js" type="text/javascript"></script>
+    <script src="src/js/jquery.form.generator.js" type="text/javascript"></script>
 
     <script type="application/javascript">
-        $(function() {
-            jQuery.getScript("src/js/loader.js?ver=" + Math.random(), function() {
-                loadElements(function() {
-
+        (function($) {
                     var nameFields = [{
                         type:    "select",
                         title:   "Title",
@@ -114,9 +115,7 @@
                         });
                     })()
 
-                });
-            })
-        });
+                })(jQuery);
     </script>
 
     <style type="text/css" media="all">
