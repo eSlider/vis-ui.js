@@ -30,10 +30,16 @@
                     var nameFields = [{
                         type:    "select",
                         title:   "Title",
-                        options: {
-                            mr: "Mr.",
-                            ms: "Ms."
-                        },
+                        options: [
+                            {
+                                label: "Mr.",
+                                value: "mr"
+                            },
+                            {
+                                label: "Ms.",
+                                value: "ms"
+                            }
+                        ],
                         css:     {width: "20%"}
                     }, {
                         type:        "input",
