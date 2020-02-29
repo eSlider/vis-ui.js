@@ -475,15 +475,22 @@
             select: function(item) {
                 var select = $('<select class="form-control"/>');
                 var container = this.input(item, select);
-                var value = has(item, 'value') ? item.value : null;
+                var value = item.value;
 
                 container.addClass('select-container');
 
-                if(has(item, 'multiple') && item.multiple) {
-                    select.attr('multiple', 'multiple');
-                }
                 select.append(this.selectOptionList(item));
-                select.val(value);
+                if (item.multiple) {
+                    select.prop('multiple', true);
+                    var separator = item.separator || ',';
+                    if (value && !$.isArray(value)) {
+                        value = value.split(separator);
+                    }
+                    select.attr('data-visui-multiselect-separator', separator);
+                    select.val(value || null);
+                } else {
+                    select.val(value || "");
+                }
                 if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
                 }

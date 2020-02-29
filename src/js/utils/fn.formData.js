@@ -20,14 +20,13 @@ $.fn.formData = (function() {
         $(':input[name]', form).each(function() {
             var input = $(this);
             var value = values[this.name];
-            var declaration = input.data('declaration');
 
             if(values.hasOwnProperty(this.name)) {
 
                 switch (this.type) {
                     case 'select-multiple':
                         if (value && !$.isArray(value)) {
-                            var separator = declaration.separator ? declaration.separator : ',';
+                            var separator = input.attr('data-visui-multiselect-separator') || ',';
                             input.val(value.split(separator));
                         } else {
                             input.val(value);
