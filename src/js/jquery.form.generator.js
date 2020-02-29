@@ -829,8 +829,10 @@
              * Simple container
              *
              * @param item
+             * @todo v0.2.x: remove this
              */
             container: function(item) {
+                console.warn("Generating a type: container via vis-ui.js is deprecated and will be removed in v0.2", item);
                 var container = $('<div/>').attr(item.attr || {}).addClass('form-group');
                 container.append(this.genElements_(this, item.children || []));
                 return container;
