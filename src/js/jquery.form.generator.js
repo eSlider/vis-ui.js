@@ -377,18 +377,10 @@
                 if(has(item, 'value')) {
                     input.val(item.value);
                 }
-
-                if(has(item, 'checked') && item.checked) {
-                    input.attr('checked', "checked");
-                }
-
-                if(has(item, 'mandatory') && item.mandatory) {
-                    // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
-                    //        HTML5 validation already does most of this without custom logic
-                    input.data('warn', function() {
-                        return input.is('checked');
-                    });
-                }
+                input.prop({
+                    required: !!item.mandatory,
+                    checked: !!item.checked
+                });
 
                 container.append(label);
 

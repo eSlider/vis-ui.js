@@ -107,7 +107,7 @@ $.fn.formData = (function() {
                     if(values.hasOwnProperty(this.name) && values[this.name] != null){
                         return;
                     }
-                    value = input.is(':checked') ? input.val() : null;
+                    value = input.is(':checked') && input.val();
                     break;
                 default:
                     value = input.val();
@@ -117,8 +117,8 @@ $.fn.formData = (function() {
                 value = null;
             }
             var validationCallback = input.data('warn');
-            var isValid = !validationCallback || validationCallback(value);
-            input.parent('.form-group').toggleClass('has-error', !isValid);
+            var isValid = (!validationCallback || validationCallback(value)) && input.is(':valid');
+            input.closest('.form-group').toggleClass('has-error', !isValid);
             if (!isValid && input.is(":visible")) {
                 var text = input.attr('data-visui-validation-message') || "Please, check!";
                 $.notify(input, text, {position: "top right", autoHideDelay: 2000});
