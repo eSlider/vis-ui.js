@@ -148,7 +148,7 @@ $.fn.formData = function(values) {
             var isValid = !validationCallback || validationCallback(value);
             input.parent('.form-group').toggleClass('has-error', !isValid);
             if (!isValid && input.is(":visible")) {
-                var text = input.attr('data-custom-error-message') || "Please, check!";
+                var text = input.attr('data-visui-validation-message') || "Please, check!";
                 $.notify(input, text, {position: "top right", autoHideDelay: 2000});
                 if (!firstInput) {
                     firstInput = input;

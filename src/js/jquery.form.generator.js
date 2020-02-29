@@ -322,7 +322,7 @@
                     inputField.data('warn', validationCallback);
                 }
                 if (item.mandatoryText) {
-                    inputField.attr('data-custom-error-message', item.mandatoryText);
+                    inputField.attr('data-visui-validation-message', item.mandatoryText);
                 }
 
                 if (label && item.copyClipboard) {
