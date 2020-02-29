@@ -9,20 +9,15 @@
  * @copyright 02.02.2015 by WhereGroup GmbH & Co. KG
  *
  */
-$.fn.formData = function(values) {
-    var form = $(this);
-    var inputs = $(':input', form).get();
-    var hasNewValues = typeof values == 'object';
-
-    if (hasNewValues) {
+$.fn.formData = (function() {
+    function setValues(form, values) {
         $('.-visui-text-callback', form).each(function() {
             var textElement = $(this);
             var callback = textElement.data('visui-text-callback');
             /** @todo: why .html? .text would be safer */
             textElement.html(callback.call(null, values));
         });
-
-        $.each(inputs, function() {
+        $(':input[name]', form).each(function() {
             var input = $(this);
             var value = values[this.name];
             var declaration = input.data('declaration');
@@ -101,16 +96,13 @@ $.fn.formData = function(values) {
             }
         });
         return form;
-    } else {
-        values = {};
+    }
+    function getValues(form) {
+        var values = {};
         var firstInput;
-        $.each(inputs, function() {
+        $(':input[name]', form).each(function() {
             var input = $(this);
             var value;
-
-            if(this.name == ""){
-                return;
-            }
 
             switch (this.type) {
                 case 'checkbox':
@@ -142,7 +134,15 @@ $.fn.formData = function(values) {
         });
         return values;
     }
-};
+    function handleArgs(values) {
+        if (values) {
+            return setValues($(this), values);
+        } else {
+            return getValues($(this));
+        }
+    }
+    return handleArgs;
+})();
 
 $.fn.disableForm = function() {
     var form = this;
