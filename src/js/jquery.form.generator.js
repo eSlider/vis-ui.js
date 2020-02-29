@@ -815,7 +815,11 @@
              * @param item
              */
             text: function(item) {
-                var text = $('<div/>').attr(item.attr || {}).addClass('text');
+                if (!item.text) {
+                    console.error('Missing value property .text for type "text" item', item);
+                    throw new Error('Missing value property .text for type "text" item');
+                }
+                var text = $('<div/>').attr(item.attr || {}).addClass('text -visui-text-callback');
                 var container = this.input(item, text);
                 container.addClass('text');
                 return container;
