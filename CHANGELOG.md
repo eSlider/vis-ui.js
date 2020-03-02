@@ -2,6 +2,13 @@
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
 * Remove digitizing toolset code, this is now moved to the Mapbender Digitizer repository
 
+# 0.1.81
+* Fix copyToClipboard regression
+* Fix checkbox validation state visualization
+* Fix inconsistent scalar value handling in multi-select initialization
+* Throw an error for missing required property `.text` on `type: "text"` item
+* Fix cross-origin violations and misc internal deprecations on demo page
+
 # 0.1.80
 * Error for unsupported values for `.mandatory` is now thrown immediately on rendering, instead of later during form data extraction
 * No longer generate invalid `<input type="input" ...`, use proper type `"text"` instead

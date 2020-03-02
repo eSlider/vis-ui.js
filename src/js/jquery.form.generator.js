@@ -269,6 +269,7 @@
                 if (!input) {
                     var type = (item.type !== 'input' && item.type) || 'text';
                     inputField = $('<input class="form-control" type="' + type + '"/>');
+                    inputField.attr(item.attr || {});
                 }
                 var container = $('<div class="form-group"/>');
 
@@ -289,10 +290,10 @@
                     inputField.attr('disabled','');
                 }
 
-
-                if(has(item, 'title')) {
-                    container.append(this.label(item));
-                    container.addClass('has-title')
+                var label;
+                if (item.title) {
+                    label = this.label(item);
+                    container.append(label);
                 }
 
                 if (item.mandatory) {
@@ -321,17 +322,14 @@
                     inputField.data('warn', validationCallback);
                 }
                 if (item.mandatoryText) {
-                    inputField.attr('data-custom-error-message', item.mandatoryText);
+                    inputField.attr('data-visui-validation-message', item.mandatoryText);
                 }
 
-                if(has(item, 'copyClipboard')) {
-
-                    var copyButton = $('<a class="copy-to-clipboard"><i class="fa fa-clipboard far-clipboard" aria-hidden="true"></i></a>');
-                    copyButton.on('click', function(e) {
-                        var data = container.formData(false);
-                        this.copyToClipboard(data[item.name]);
-                    });
-                    container.append(copyButton);
+                if (label && item.copyClipboard) {
+                    label.append('&nbsp;', $('<i/>')
+                        .addClass('fa fa-clipboard far-clipboard -visui-copytoclipboard')
+                        .attr('aria-hidden', 'true')
+                    );
                 }
 
                 container.append(inputField);
@@ -351,11 +349,10 @@
                 }
                 if (item.infoText) {
                     var $icon = $('<i/>')
-                        .addClass('fa fas fa-info-circle -visui-infotext')
+                        .addClass('fa fa-info-circle -visui-infotext')
                         .attr('title', item.infoText)
                     ;
-                    label.html(label.html() + '&nbsp;');
-                    label.append($icon);
+                    label.append('&nbsp;', $icon);
                 }
 
                 return label;
@@ -371,26 +368,14 @@
                 input.data('declaration',item);
 
                 label.prepend(input);
-
-                if(has(item, 'name')) {
-                    input.attr('name', item.name);
-                }
-
-                if(has(item, 'value')) {
-                    input.val(item.value);
-                }
-
-                if(has(item, 'checked') && item.checked) {
-                    input.attr('checked', "checked");
-                }
-
-                if(has(item, 'mandatory') && item.mandatory) {
-                    // @todo: why in the world is this a data attribute? Validation belongs in a form submit handler.
-                    //        HTML5 validation already does most of this without custom logic
-                    input.data('warn', function() {
-                        return input.is('checked');
-                    });
-                }
+                input.attr({
+                    name: item.name || null,
+                    value: item.value || null
+                });
+                input.prop({
+                    required: !!item.mandatory,
+                    checked: !!item.checked
+                });
 
                 container.append(label);
 
@@ -477,15 +462,22 @@
             select: function(item) {
                 var select = $('<select class="form-control"/>');
                 var container = this.input(item, select);
-                var value = has(item, 'value') ? item.value : null;
+                var value = item.value;
 
                 container.addClass('select-container');
 
-                if(has(item, 'multiple') && item.multiple) {
-                    select.attr('multiple', 'multiple');
-                }
                 select.append(this.selectOptionList(item));
-                select.val(value);
+                if (item.multiple) {
+                    select.prop('multiple', true);
+                    var separator = item.separator || ',';
+                    if (value && !$.isArray(value)) {
+                        value = value.split(separator);
+                    }
+                    select.attr('data-visui-multiselect-separator', separator);
+                    select.val(value || null);
+                } else {
+                    select.val(value || "");
+                }
                 if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
                 }
@@ -817,7 +809,30 @@
              * @param item
              */
             text: function(item) {
-                var text = $('<div/>').attr(item.attr || {}).addClass('text');
+                var callback;
+                if (!item.text) {
+                    console.error('Missing value property .text for type "text" item', item);
+                    throw new Error('Missing value property .text for type "text" item');
+                }
+                var text = $('<div/>').attr(item.attr || {}).addClass('text -visui-text-callback');
+                if (typeof item.text === 'function') {
+                    callback = function(values) {
+                        return (item.text)(values);
+                    };
+                } else {
+                    console.warn("Using eval'd JavaScript code for item type text is deprecated. Supply a function.", item);
+                    callback = function(values) {
+                        try {
+                            var data = values;  // for eval scope
+                            var declaration = item; // for eval scope
+                            return eval(item.text);
+                        } catch (e) {
+                            console.error('Failed to evaluate text type item content', item.text, item, values);
+                            throw new Error('Failed to evaluate text type item content');
+                        }
+                    };
+                }
+                text.data('visui-text-callback', callback);
                 var container = this.input(item, text);
                 container.addClass('text');
                 return container;
@@ -827,8 +842,10 @@
              * Simple container
              *
              * @param item
+             * @todo v0.2.x: remove this
              */
             container: function(item) {
+                console.warn("Generating a type: container via vis-ui.js is deprecated and will be removed in v0.2", item);
                 var container = $('<div/>').attr(item.attr || {}).addClass('form-group');
                 container.append(this.genElements_(this, item.children || []));
                 return container;
@@ -838,8 +855,10 @@
              * Simple accordion
              *
              * @param item
+             * @todo v0.2.x: remove this
              */
             accordion: function(item) {
+                console.warn("Generating a type: accordion via vis-ui.js is deprecated and will be removed in v0.2", item);
                 var declarations = this;
                 var container = $('<div class="accordion"/>');
                 if(has(item, 'children')) {
@@ -849,16 +868,6 @@
 
                         if(has(child, 'head')) {
                             pageHeader.append(declarations.genElement_(declarations, child.head));
-
-                            // if(has(child.head, 'title')) {
-                            //     pageHeader.append(widget.label(headItem));
-                            // }
-                            //
-                            // if(has(child.head, 'children')) {
-                            //     _.each(child.head.children, function(headItem) {
-                            //         pageHeader.append(widget.genElement(headItem));
-                            //     })
-                            // }
                         }
 
                         if(has(child, 'content')) {
@@ -927,6 +936,10 @@
             this.element.addClass('vis-ui');
             this.element.on('click touch press', '.-visui-infotext[title]', function() {
                 $.notify($(this).attr('title'), 'info');
+            });
+            this.element.on('click', '.-visui-copytoclipboard', function() {
+                var $input = $('input, select, textarea', $(this).closest('.form-group'));
+                copyToClipboard($input.val());
             });
 
             this._super(options);
