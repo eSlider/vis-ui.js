@@ -1,3 +1,10 @@
+# 0.2.81
+* Fix copyToClipboard regression
+* Fix checkbox validation state visualization
+* Fix inconsistent scalar value handling in multi-select initialization
+* Throw an error for missing required property `.text` on `type: "text"` item
+* Fix cross-origin violations and misc internal deprecations on demo page
+
 # 0.2.0
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
 * Remove digitizing toolset code, this is now moved to the Mapbender Digitizer repository
