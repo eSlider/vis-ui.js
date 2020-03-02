@@ -269,6 +269,7 @@
                 if (!input) {
                     var type = (item.type !== 'input' && item.type) || 'text';
                     inputField = $('<input class="form-control" type="' + type + '"/>');
+                    inputField.attr(item.attr || {});
                 }
                 var container = $('<div class="form-group"/>');
 
