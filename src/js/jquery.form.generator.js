@@ -351,8 +351,7 @@
                         .addClass('fa fa-info-circle -visui-infotext')
                         .attr('title', item.infoText)
                     ;
-                    label.html(label.html() + '&nbsp;');
-                    label.append($icon);
+                    label.append('&nbsp;', $icon);
                 }
 
                 return label;
@@ -368,14 +367,10 @@
                 input.data('declaration',item);
 
                 label.prepend(input);
-
-                if(has(item, 'name')) {
-                    input.attr('name', item.name);
-                }
-
-                if(has(item, 'value')) {
-                    input.val(item.value);
-                }
+                input.attr({
+                    name: item.name || null,
+                    value: item.value || null
+                });
                 input.prop({
                     required: !!item.mandatory,
                     checked: !!item.checked
