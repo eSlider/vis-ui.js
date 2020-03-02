@@ -293,7 +293,6 @@
                 if (item.title) {
                     label = this.label(item);
                     container.append(label);
-                    container.addClass('has-title')
                 }
 
                 if (item.mandatory) {
