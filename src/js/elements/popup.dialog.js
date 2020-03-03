@@ -85,11 +85,7 @@
             }
             // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
             var header = $('.ui-widget-header', this.uiDialog);
-            var dialogBottomPane = $('.ui-dialog-buttonpane', this.uiDialog);
-
-            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
-            dialogBottomPane.addClass('modal-footer');
-            $('.ui-dialog-buttonset > .ui-button', dialogBottomPane).addClass('button btn');
+            $('.ui-dialog-buttonpane', this.uiDialog).addClass('modal-footer');
             header.addClass('modal-header');
             // @todo Mapbender: resolve Mapbender css dependency on generally not advantageous bootstrap .close class
             //                  to generate consistent close button vs jquerydialogextend not-really-button visuals
@@ -106,6 +102,12 @@
             this._super();
             // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
             this.uiDialog.addClass('modal-content mb-element-popup-dialog');
+        },
+        _createButtons: function() {
+            this._super();
+            $('button', this.uiButtonSet).each(function() {
+                $(this).addClass('button btn');
+            });
         }
     });
 
