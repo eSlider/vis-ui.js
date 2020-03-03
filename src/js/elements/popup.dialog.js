@@ -1,11 +1,16 @@
 (function($) {
-
     // fake dialogExtend check for ui-dialog
-    $.fn.orignalDialogFunc = $.fn.dialog;
-
-    $.fn["dialog"] = function(arg1, arg2) {
-        return this.hasClass('popup-dialog') ? this.popupDialog(arg1, arg2) :  this.orignalDialogFunc(arg1, arg2);
-    };
+    if (!$.fn.orignalDialogFunc) {
+        // sic!
+        $.fn.orignalDialogFunc = $.fn.dialog;
+    }
+    var $doc = $(document);
+    if (!$doc.data('visui-monkeypatch-uidialog')) {
+        $.fn["dialog"] = function(arg1, arg2) {
+            return this.hasClass('popup-dialog') ? this.popupDialog(arg1, arg2) :  this.orignalDialogFunc(arg1, arg2);
+        };
+        $doc.data('visui-monkeypatch-uidialog', true);
+    }
 
     /**
      * jQuery dialog with bootstrap styles
