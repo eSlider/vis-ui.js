@@ -106,7 +106,12 @@
         _createButtons: function() {
             this._super();
             $('button', this.uiButtonSet).each(function() {
-                $(this).addClass('button btn');
+                var $b = $(this);
+                // leave fully formed Bootstrap buttons alone; add Mapbender .button (for default color) plus
+                // Bootstrap .btn (for margin) otherwise
+                if (!$b.hasClass('btn')) {
+                    $(this).addClass('button btn');
+                }
             });
         }
     });
