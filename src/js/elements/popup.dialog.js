@@ -19,13 +19,7 @@
      * @copyright 05.11.2014 by WhereGroup GmbH & Co. KG
      */
     $.widget("vis-ui-js.popupDialog", $.ui.dialog, {
-
-        // track if window is opened
-        isOpened: false,
-
         /**
-         * Constructor, runs only if the object wasn't created before
-         *
          * @return {*}
          * @private
          */
@@ -96,13 +90,11 @@
          * @return {}
          */
         open: function() {
-            if(this.isOpened){
-                return
+            if (this._isOpen) {
+                return this._super();
             }
-            this.isOpened = true;
 
-            var content = $(this.element);
-            var dialog = content.closest('.ui-dialog');
+            var dialog = this.element.closest('.ui-dialog');
             var header = $('.ui-widget-header', dialog);
             var closeButton = $('.ui-dialog-titlebar-close', header);
             var dialogBody = $('.ui-dialog-content', dialog);
@@ -120,11 +112,6 @@
             // Set as mapbender element
             dialog.addClass('mb-element-popup-dialog');
             dialogBottomButtons.addClass('btn');
-
-            // Fix switch between windows
-            if(dialog.css('z-index') == "auto"){
-                dialog.css('z-index',1);
-            }
 
             this._super();
             if (this.overlay) {
