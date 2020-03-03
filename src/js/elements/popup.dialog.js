@@ -17,6 +17,8 @@
      *
      * @author Andriy Oblivantsev <eslider@gmail.com>
      * @copyright 05.11.2014 by WhereGroup GmbH & Co. KG
+     * @todo: Get this over into a separate repository (WITH a working stylesheet) or into Mapbender (current location of required stylesheet)
+     *        it makes no sense to have markup generation and css class modifiers here, separate from the stylesheets that make it work
      */
     $.widget("vis-ui-js.popupDialog", $.ui.dialog, {
         /**
