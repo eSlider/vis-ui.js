@@ -13,7 +13,7 @@
     }
 
     /**
-     * jQuery dialog with bootstrap styles
+     * jQueryui dialog with unholy mix of bootstrap and Mapbender custom styles
      *
      * @author Andriy Oblivantsev <eslider@gmail.com>
      * @copyright 05.11.2014 by WhereGroup GmbH & Co. KG
@@ -83,40 +83,29 @@
                     });
                 }
             }
-        },
+            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
+            var header = $('.ui-widget-header', this.uiDialog);
+            var dialogBottomPane = $('.ui-dialog-buttonpane', this.uiDialog);
 
-        /**
-         * Overrides default open method, but adds some Bootstrap classes to the dialog
-         * @return {}
-         */
-        open: function() {
-            if (this._isOpen) {
-                return this._super();
-            }
-
-            var dialog = this.element.closest('.ui-dialog');
-            var header = $('.ui-widget-header', dialog);
-            var closeButton = $('.ui-dialog-titlebar-close', header);
-            var dialogBody = $('.ui-dialog-content', dialog);
-            var dialogBottomPane = $('.ui-dialog-buttonpane', dialog);
-            var dialogBottomButtons = $('.ui-dialog-buttonset > .ui-button', dialogBottomPane);
-
-            // Marriage of jQuery UI and Bootstrap
-            dialog.addClass('modal-content');
+            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
             dialogBottomPane.addClass('modal-footer');
-            dialogBottomButtons.addClass('button');
+            $('.ui-dialog-buttonset > .ui-button', dialogBottomPane).addClass('button btn');
             header.addClass('modal-header');
-            closeButton.addClass('close');
-            dialogBody.addClass('modal-body');
-
-            // Set as mapbender element
-            dialog.addClass('mb-element-popup-dialog');
-            dialogBottomButtons.addClass('btn');
-
+            // @todo Mapbender: resolve Mapbender css dependency on generally not advantageous bootstrap .close class
+            //                  to generate consistent close button vs jquerydialogextend not-really-button visuals
+            $('.ui-dialog-titlebar-close', header).addClass('close');
+            $('.ui-dialog-content', this.uiDialog).addClass('modal-body');
+        },
+        open: function() {
             this._super();
             if (this.overlay) {
                 this.overlay.addClass('mb-element-modal-dialog');
             }
+        },
+        _createWrapper: function() {
+            this._super();
+            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
+            this.uiDialog.addClass('modal-content mb-element-popup-dialog');
         }
     });
 
