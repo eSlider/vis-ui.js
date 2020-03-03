@@ -25,7 +25,9 @@
          */
         _create: function() {
             var element = this.element;
+            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
             element.addClass('popup-dialog');
+            element.addClass('modal-body');
 
             // overrides default options
             $.extend(this.options, {
@@ -61,13 +63,6 @@
             });
 
             this._super();
-
-            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
-            var header = $('.ui-widget-header', this.uiDialog);
-            $('.ui-dialog-buttonpane', this.uiDialog).addClass('modal-footer');
-            // @todo Mapbender: resolve Mapbender css dependency on generally not advantageous bootstrap .close class
-            //                  to generate consistent close button vs jquerydialogextend not-really-button visuals
-            $('.ui-dialog-content', this.uiDialog).addClass('modal-body');
         },
         _createTitlebar: function() {
             this._super();
@@ -88,6 +83,8 @@
             }
             // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
             this.uiDialogTitlebar.addClass('modal-header');
+            // @todo Mapbender: resolve Mapbender css dependency on generally not advantageous bootstrap .close class
+            //                  to generate consistent close button vs jquerydialogextend not-really-button visuals
             $('.ui-dialog-titlebar-close', this.uiDialogTitlebar).addClass('close');
         },
         open: function() {
@@ -100,6 +97,11 @@
             this._super();
             // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
             this.uiDialog.addClass('modal-content mb-element-popup-dialog');
+        },
+        _createButtonPane: function() {
+            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
+            this._super();
+            this.uiDialogButtonPane.addClass('modal-footer');
         },
         _createButtons: function() {
             this._super();
