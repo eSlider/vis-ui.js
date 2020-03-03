@@ -1,3 +1,10 @@
+# 0.1.82
+* Monkey-patch $.fn.dialog only once
+* Leave proper Bootstrap buttons in dialog button sets unchanged
+* Fix "null" fallback text on resultTable buttons
+* Fix initialization integration issues with jqueryui dialog
+* Respect `dblclick` jquerydialogextendjs option if passed in; only default to maximize if option omitted
+
 # 0.1.81
 * Fix copyToClipboard regression
 * Fix checkbox validation state visualization
