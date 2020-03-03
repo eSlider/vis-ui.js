@@ -25,7 +25,6 @@
          */
         _create: function() {
             var element = this.element;
-            var hasDialogExtend = !!element.dialogExtend;
             element.addClass('popup-dialog');
 
             // overrides default options
@@ -63,7 +62,16 @@
 
             this._super();
 
-            if (hasDialogExtend) {
+            // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
+            var header = $('.ui-widget-header', this.uiDialog);
+            $('.ui-dialog-buttonpane', this.uiDialog).addClass('modal-footer');
+            // @todo Mapbender: resolve Mapbender css dependency on generally not advantageous bootstrap .close class
+            //                  to generate consistent close button vs jquerydialogextend not-really-button visuals
+            $('.ui-dialog-content', this.uiDialog).addClass('modal-body');
+        },
+        _createTitlebar: function() {
+            this._super();
+            if (this.element.dialogExtend) {
                 // NOTE: no widget-level options defaults for these
                 var extendableOptions = $.extend(true, {
                     closable:    true,
@@ -71,26 +79,16 @@
                     collapsable: true
                 }, this.options);
 
-                element.data("ui-dialog",true);
-                element.dialogExtend(extendableOptions);
-                if (extendableOptions.maximizable) {
-                    $('.ui-dialog-titlebar, .ui-dialog.title', this.element.closest('.ui-dialog')).dblclick(function() {
-                        if (element.dialogExtend('state') === 'normal'){
-                            element.dialogExtend('maximize');
-                        }else{
-                            element.dialogExtend('restore');
-                        }
-                    });
+                this.element.data("ui-dialog", true);
+                if (extendableOptions.maximizable && (typeof this.options.dblclick === 'undefined')) {
+                    extendableOptions.dblclick = 'maximize';
                 }
+
+                this.element.dialogExtend(extendableOptions);
             }
             // Unholy mix of jQuery UI and Bootstrap and Mapbender CSS
-            var header = $('.ui-widget-header', this.uiDialog);
-            $('.ui-dialog-buttonpane', this.uiDialog).addClass('modal-footer');
-            header.addClass('modal-header');
-            // @todo Mapbender: resolve Mapbender css dependency on generally not advantageous bootstrap .close class
-            //                  to generate consistent close button vs jquerydialogextend not-really-button visuals
-            $('.ui-dialog-titlebar-close', header).addClass('close');
-            $('.ui-dialog-content', this.uiDialog).addClass('modal-body');
+            this.uiDialogTitlebar.addClass('modal-header');
+            $('.ui-dialog-titlebar-close', this.uiDialogTitlebar).addClass('close');
         },
         open: function() {
             this._super();
