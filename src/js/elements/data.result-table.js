@@ -10,6 +10,8 @@
      info:         false,
      columns:      [{data: 'id', title: 'ID'}, {data: 'label', title: 'Title'}],
      data:         [{id: 1, label: 'example'}]
+     * @todo: Get this over into a separate repository (WITH a working stylesheet) or into Mapbender (current location of required stylesheet)
+     *        it makes no sense to have markup generation and css class modifiers here, separate from the stylesheets that make it work
      */
     $.widget("vis-ui-js.resultTable", {
 
@@ -164,7 +166,7 @@
                             'class': 'button',
                             title: element.title || null
                         });
-                        button.text(element.text || null);
+                        button.text(element.text || undefined);
                         button.addClass(element.cssClass || null);
                         if(_.has(element,'className')){
                             button.addClass("icon-"+element.className);     // why?
