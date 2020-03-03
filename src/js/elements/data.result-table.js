@@ -164,7 +164,7 @@
                             'class': 'button',
                             title: element.title || null
                         });
-                        button.text(element.text || null);
+                        button.text(element.text || undefined);
                         button.addClass(element.cssClass || null);
                         if(_.has(element,'className')){
                             button.addClass("icon-"+element.className);     // why?
