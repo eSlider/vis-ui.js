@@ -628,22 +628,22 @@
                 return container;
             },
             tabs: function(item) {
-                var $tabList = $('<ul/>').addClass('nav nav-tabs');
+                var $tabList = $('<ul/>');
                 var container = $('<div/>').append($tabList);
-                var tcProto = $['vis-ui-js']['tabNavigator'].prototype;
                 var children = item.children || [];
-                var declarations = this;
                 for (var i = 0; i < children.length; ++i) {
                     var subItem = children[i];
-                    var panelContent = declarations.genElement_(declarations, subItem);
-                    var $panel = tcProto._renderPanel(panelContent);
-                    var $tabHeader = tcProto._renderTab($panel, subItem.title);
+                    var panelContent = this.genElement_(this, subItem);
+                    var $panel = $('<div>').uniqueId().append(panelContent);
+                    var $tabHeader = $('<li>').append($('<a>').attr('href', '#' + $panel.attr('id')).text(subItem.title));
                     $tabList.append($tabHeader);
                     container.append($panel);
                 }
                 container.tabs({
                     classes: {
-                        "ui-tabs": "ui-tabs mapbender-element-tab-navigator"
+                        "ui-tabs": "ui-tabs mapbender-element-tab-navigator",
+                        "ui-tabs-nav": "ui-tabs-nav nav nav-tabs",
+                        "ui-tabs-panel": "ui-tabs-panel tab-content"
                     }
                 });
                 return container;
