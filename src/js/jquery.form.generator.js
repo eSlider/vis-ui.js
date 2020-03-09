@@ -628,23 +628,20 @@
                 return container;
             },
             tabs: function(item) {
-                var container = $('<div/>');
+                var $tabList = $('<ul/>');
+                var container = $('<div/>').append($tabList);
+                var tcProto = $['vis-ui-js']['tabNavigator'].prototype;
+                var children = item.children || [];
                 var declarations = this;
-                var tabs = [];
-                if(has(item, 'children') ) {
-                    $.each(item.children, function(k, subItem) {
-                        var htmlElement = declarations.genElement_(declarations, subItem);
-                        var tab = {
-                            html: htmlElement
-                        };
-
-                        if(has(subItem, 'title')) {
-                            tab.title = subItem.title;
-                        }
-                        tabs.push(tab);
-                    });
+                for (var i = 0; i < children.length; ++i) {
+                    var subItem = children[i];
+                    var panelContent = declarations.genElement_(declarations, subItem);
+                    var $panel = tcProto._renderPanel(panelContent);
+                    var $tabHeader = tcProto._renderTab($panel, subItem.title);
+                    $tabList.append($tabHeader);
+                    container.append($panel);
                 }
-                container.tabNavigator({children: tabs});
+                container.tabNavigator();
                 return container;
             },
             fieldSet: function(item) {

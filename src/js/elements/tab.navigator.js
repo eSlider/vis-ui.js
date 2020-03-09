@@ -1,7 +1,8 @@
 (function($) {
 
     /**
-     * jQuery tabs with bootstrap styles
+     * jQuery tabs with bootstrap styles and auto-generation of tab headers and content panels
+     * Internally unreachable
      */
     $.widget("vis-ui-js.tabNavigator", $.ui.tabs, {
         options: {
@@ -18,6 +19,7 @@
             el.addClass('mapbender-element-tab-navigator');
 
             if(options.hasOwnProperty('children')){
+                // internally unreachable path
                 $.each(options.children,function(){
                     var $tab = widget._add(this);
                     $tab.data('item', this);
