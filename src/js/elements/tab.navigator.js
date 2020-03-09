@@ -34,19 +34,24 @@
         },
 
         _add: function (item){
+            var $panel = $("<div>")
+                .uniqueId()
+                .addClass('tab-content')
+                .append(item.html)
+            ;
+            var $anchor = $('<a>')
+                .attr('href', '#' + $panel.attr('id'))
+                .html(item.title)
+            ;
+            var $tab = $('<li>')
+                .append($anchor)
+            ;
 
-            var el = this.element;
-            var id = 'tabs-' + guid();
-            var href = '#' + id;
-            var label = $('<li><a href="' + href+ '">' + item.title + '</a></li>');
-            var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
+            $tab.data('item', item); // ...only for tabnavigatoractive event?
 
-            label.data('item',item);
-
-            this._getList().append(label);
-            contentHolder.append(item.html);
-            el.append(contentHolder);
-            return contentHolder;
+            this._getList().append($tab);
+            this.element.append($panel);
+            return $panel;
         },
 
         add: function(title, htmlElement, activate) {
@@ -65,14 +70,4 @@
             return this.tabs.length;
         }
     });
-
-    var guid = (function() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-
-        return function() {
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-        };
-    })();
 })(jQuery);
