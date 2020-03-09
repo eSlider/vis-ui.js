@@ -628,7 +628,7 @@
                 return container;
             },
             tabs: function(item) {
-                var $tabList = $('<ul/>');
+                var $tabList = $('<ul/>').addClass('nav nav-tabs');
                 var container = $('<div/>').append($tabList);
                 var tcProto = $['vis-ui-js']['tabNavigator'].prototype;
                 var children = item.children || [];
@@ -641,7 +641,11 @@
                     $tabList.append($tabHeader);
                     container.append($panel);
                 }
-                container.tabNavigator();
+                container.tabs({
+                    classes: {
+                        "ui-tabs": "ui-tabs mapbender-element-tab-navigator"
+                    }
+                });
                 return container;
             },
             fieldSet: function(item) {
