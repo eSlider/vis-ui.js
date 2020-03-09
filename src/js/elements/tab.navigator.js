@@ -10,12 +10,11 @@
             var widget = this;
             var options = widget.options;
             var el = widget.element;
-            var ul = $('<ul class="nav nav-tabs" role="tablist"/>');
+            if (!this._getList().length) {
+                this.element.prepend('<ul/>');
+            }
+            this._getList().addClass('nav nav-tabs');
 
-            el.append(ul);
-
-
-            //var wrapper = navigation.closest('.ui-tabs');
             el.addClass('mapbender-element-tab-navigator');
 
             if(options.hasOwnProperty('children')){
