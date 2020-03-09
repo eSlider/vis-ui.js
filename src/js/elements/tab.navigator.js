@@ -20,16 +20,17 @@
 
             if(options.hasOwnProperty('children')){
                 $.each(options.children,function(){
-                    widget._add(this);
+                    var $tab = widget._add(this);
+                    $tab.data('item', this);
+                });
+                el.on('tabnavigatoractivate',function(e,ui) {
+                    var item = $(ui.newTab).data('item');
+                    if(item.hasOwnProperty('active')){
+                        item.active(e,ui);
+                    }
                 });
             }
 
-            el.on('tabnavigatoractivate',function(e,ui){
-                var item = $(ui.newTab).data('item');
-                if(item.hasOwnProperty('active')){
-                    item.active(e,ui);
-                }
-            });
             return this._super();
         },
 
@@ -47,11 +48,9 @@
                 .append($anchor)
             ;
 
-            $tab.data('item', item); // ...only for tabnavigatoractive event?
-
             this._getList().append($tab);
             this.element.append($panel);
-            return $panel;
+            return $tab;
         },
 
         add: function(title, htmlElement, activate) {
