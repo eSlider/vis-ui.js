@@ -38,7 +38,7 @@
             var el = this.element;
             var id = 'tabs-' + guid();
             var href = '#' + id;
-            var label = $('<li><a role="tab" data-toggle="tab" href="' + href+ '">' + item.title + '</a></li>');
+            var label = $('<li><a href="' + href+ '">' + item.title + '</a></li>');
             var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
 
             label.data('item',item);
@@ -62,7 +62,7 @@
         },
 
         size: function() {
-            return $(">ul>li", this.element).size();
+            return this.tabs.length;
         }
     });
 
