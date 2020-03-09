@@ -41,7 +41,7 @@
             ;
             var $anchor = $('<a>')
                 .attr('href', '#' + $panel.attr('id'))
-                .html(item.title)
+                .text(item.title)
             ;
             var $tab = $('<li>')
                 .append($anchor)
