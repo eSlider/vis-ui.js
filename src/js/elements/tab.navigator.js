@@ -36,41 +36,7 @@
                 widget.option('active', activeTab);
             }
 
-            if(widget.isClosable()) {
-                ul.delegate('>li> a > span.close', 'click', function(e) {
-                    var closeButton = $(this);
-                    widget.close(closeButton.closest('li').attr('aria-labelledby'));
-                    e.stopPropagation();
-                    e.preventDefault();
-                });
-            }
-
             return r;
-        },
-
-        close: function(uuid) {
-            var widget = this;
-            var li = $('>ul>li[aria-labelledby="' + uuid + '"]', $(widget.element));
-            var uuid = li.attr('aria-labelledby');
-            var tabs = li.closest('.ui-tabs');
-            var div = tabs.find('>div[aria-labelledby="' + uuid + '"]');
-
-            li.remove();
-            div.remove();
-            widget.refresh();
-
-            widget._trigger('close',div);
-        },
-
-        closeAll: function() {
-            var widget = this;
-            $.each($('>ul>li', $(widget.element)), function() {
-                widget.close($(this).attr('aria-labelledby'));
-            });
-        },
-
-        isClosable: function() {
-            return this.options.hasOwnProperty('closable') && this.options.closable;
         },
 
         _add: function (item){
@@ -82,7 +48,7 @@
             var queryStringMatch = /\?.*/.exec(location.href);
             var queryString = queryStringMatch && queryStringMatch[0] || '';
             var href = location.origin + location.pathname + queryString +'#'+id;
-            var label = $('<li><a role="tab" data-toggle="tab" href="' + href+ '">' + item.title + (this.isClosable() ? '<span class="close">Close</span>' : '') + '</a></li>');
+            var label = $('<li><a role="tab" data-toggle="tab" href="' + href+ '">' + item.title + '</a></li>');
             var contentHolder = $("<div id='" + id + "' class='tab-content'/>");
 
             label.data('item',item);
