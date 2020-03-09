@@ -32,21 +32,36 @@
 
             return this._super();
         },
-
-        _add: function (item){
-            var $panel = $("<div>")
-                .uniqueId()
-                .addClass('tab-content')
-                .append(item.html)
-            ;
+        /**
+         * Static (no this context)
+         * @param {jQuery} $panel
+         * @param {String} title
+         * @return {jQuery}
+         */
+        _renderTab: function($panel, title) {
             var $anchor = $('<a>')
                 .attr('href', '#' + $panel.attr('id'))
-                .text(item.title)
+                .text(title)
             ;
-            var $tab = $('<li>')
+            return $('<li>')
                 .append($anchor)
             ;
-
+        },
+        /**
+         * Static (no this context)
+         * @param {(jQuery|String)} content
+         * @private
+         */
+        _renderPanel: function(content) {
+            return $("<div>")
+                .uniqueId()
+                .addClass('tab-content')
+                .append(content)
+            ;
+        },
+        _add: function (item){
+            var $panel = this._renderPanel(item.html);
+            var $tab = this._renderTab($panel, item.title);
             this._getList().append($tab);
             this.element.append($panel);
             return $tab;
