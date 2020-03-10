@@ -16,6 +16,12 @@
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
 * Remove digitizing toolset code, this is now moved to the Mapbender Digitizer repository
 
+# 0.1.83
+* When validating a form with tabs, activate the tab containing the first invalid input
+* Fix tabNavigator tab title encoding
+* Fix tabNavigator incompatibility with base widget
+* Fix tabNavigator incompatibility with Bootstrap script
+
 # 0.1.82
 * Monkey-patch $.fn.dialog only once
 * Leave proper Bootstrap buttons in dialog button sets unchanged
