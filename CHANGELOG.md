@@ -1,3 +1,9 @@
+# 0.2.83
+* When validating a form with tabs, activate the tab containing the first invalid input
+* Fix tabNavigator tab title encoding
+* Fix tabNavigator incompatibility with base widget
+* Fix tabNavigator incompatibility with Bootstrap script
+
 # 0.2.82
 * Monkey-patch $.fn.dialog only once
 * Leave proper Bootstrap buttons in dialog button sets unchanged
