@@ -27,6 +27,7 @@ window.VisUi.validateInput = function(input) {
     var isValid = (!validationCallback || validationCallback(value)) && $input.is(':valid') || $input.get(0).type === 'hidden';
     var $formGroup = input.closest('.form-group');
     $formGroup.toggleClass('has-error', !isValid);
+    $formGroup.toggleClass('has-success', isValid);
     var $messageContainer = $('.invalid-feedback', $formGroup);
     if (!isValid && input.is(":visible")) {
         if (!$messageContainer.length) {
