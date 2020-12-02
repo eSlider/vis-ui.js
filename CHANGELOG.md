@@ -22,6 +22,10 @@
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
 * Remove digitizing toolset code, this is now moved to the Mapbender Digitizer repository
 
+# 0.1.84 (WIP @ e13ad5e)
+* Fix infotext and clipboard event handlers running multiple times in nested generateElements DOM
+* Fix validation marking hidden (file input integration) inputs as invalid
+
 # 0.1.83
 * When validating a form with tabs, activate the tab containing the first invalid input
 * Fix tabNavigator tab title encoding
