@@ -112,7 +112,9 @@ $.fn.formData = (function() {
                 value = null;
             }
             var validationCallback = input.data('warn');
-            var isValid = (!validationCallback || validationCallback(value)) && input.is(':valid');
+            // NOTE: hidden inputs must be explicitly excluded from jQuery validation
+            //       see https://stackoverflow.com/questions/51534473/jquery-validate-not-working-on-hidden-input
+            var isValid = (!validationCallback || validationCallback(value)) && input.is(':valid') || input.get(0).type === 'hidden';
             input.closest('.form-group').toggleClass('has-error', !isValid);
             if (!isValid && !firstInput) {
                 var $tabElement = input.closest('.ui-tabs');
