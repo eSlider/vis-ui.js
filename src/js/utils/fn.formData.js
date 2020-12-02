@@ -25,10 +25,23 @@ window.VisUi.validateInput = function(input) {
     // NOTE: hidden inputs must be explicitly excluded from jQuery validation
     //       see https://stackoverflow.com/questions/51534473/jquery-validate-not-working-on-hidden-input
     var isValid = (!validationCallback || validationCallback(value)) && $input.is(':valid') || $input.get(0).type === 'hidden';
-    input.closest('.form-group').toggleClass('has-error', !isValid);
-    if (!isValid && input.is(":visible") && $.notify) {
+    var $formGroup = input.closest('.form-group');
+    $formGroup.toggleClass('has-error', !isValid);
+    var $messageContainer = $('.invalid-feedback', $formGroup);
+    if (!isValid && input.is(":visible")) {
+        if (!$messageContainer.length) {
+            $messageContainer = $(document.createElement('div')).addClass('help-block invalid-feedback');
+            $formGroup.append($messageContainer);
+        }
         var text = input.attr('data-visui-validation-message') || "Please, check!";
-        $.notify(input, text, {position: "top right", autoHideDelay: 2000});
+        $messageContainer.text(text);
+    }
+    $messageContainer.toggle(!isValid);
+    if (!isValid) {
+        // Re-validate once on change, to make error message disappear
+        $input.one('change', function() {
+            VisUi.validateInput(input);
+        });
     }
     return isValid;
 };
