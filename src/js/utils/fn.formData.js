@@ -9,6 +9,30 @@
  * @copyright 02.02.2015 by WhereGroup GmbH & Co. KG
  *
  */
+window.VisUi = window.VisUi || {};
+window.VisUi.validateInput = function(input) {
+    var $input = $(input);
+    var isValid = $input.is(':valid') || $input.get(0).type === 'hidden';
+    var validationCallback = input.data('warn');
+    if (isValid && validationCallback) {
+        var value = $input.val();
+        if (value === '') {
+            isValid = validationCallback(null);
+        } else {
+            isValid = validationCallback(value);
+        }
+    }
+    // NOTE: hidden inputs must be explicitly excluded from jQuery validation
+    //       see https://stackoverflow.com/questions/51534473/jquery-validate-not-working-on-hidden-input
+    var isValid = (!validationCallback || validationCallback(value)) && $input.is(':valid') || $input.get(0).type === 'hidden';
+    input.closest('.form-group').toggleClass('has-error', !isValid);
+    if (!isValid && input.is(":visible") && $.notify) {
+        var text = input.attr('data-visui-validation-message') || "Please, check!";
+        $.notify(input, text, {position: "top right", autoHideDelay: 2000});
+    }
+    return isValid;
+};
+
 $.fn.formData = (function() {
     function setValues(form, values) {
         $('.-visui-text-callback', form).each(function() {
@@ -111,11 +135,7 @@ $.fn.formData = (function() {
             if(value === ""){
                 value = null;
             }
-            var validationCallback = input.data('warn');
-            // NOTE: hidden inputs must be explicitly excluded from jQuery validation
-            //       see https://stackoverflow.com/questions/51534473/jquery-validate-not-working-on-hidden-input
-            var isValid = (!validationCallback || validationCallback(value)) && input.is(':valid') || input.get(0).type === 'hidden';
-            input.closest('.form-group').toggleClass('has-error', !isValid);
+            var isValid = VisUi.validateInput(input);
             if (!isValid && !firstInput) {
                 var $tabElement = input.closest('.ui-tabs');
                 var tabIndex = $tabElement.length && input.closest('.ui-tabs-panel').index('.ui-tabs-panel');
@@ -126,10 +146,6 @@ $.fn.formData = (function() {
                 input.focus();
             }
 
-            if (!isValid && input.is(":visible") && $.notify) {
-                var text = input.attr('data-visui-validation-message') || "Please, check!";
-                $.notify(input, text, {position: "top right", autoHideDelay: 2000});
-            }
             values[this.name] = value;
         });
         return values;
