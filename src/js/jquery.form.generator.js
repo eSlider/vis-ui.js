@@ -892,7 +892,17 @@
          *
          * @private
          */
-        _create:      function() {
+        _create: function() {
+            this.element.addClass('vis-ui');
+            this.element.on('click touch press', '.-visui-infotext[title]', function(evt) {
+                evt.stopPropagation();
+                $.notify($(this).attr('title'), 'info');
+            });
+            this.element.on('click', '.-visui-copytoclipboard', function(evt) {
+                evt.stopPropagation();
+                var $input = $('input, select, textarea', $(this).closest('.form-group'));
+                copyToClipboard($input.val());
+            });
             this._setOptions(this.options);
         },
 
@@ -933,16 +943,6 @@
             } else if(has(options, 'children')) {
                 this.genElements(this.element, options.children);
             }
-
-            this.element.addClass('vis-ui');
-            this.element.on('click touch press', '.-visui-infotext[title]', function() {
-                $.notify($(this).attr('title'), 'info');
-            });
-            this.element.on('click', '.-visui-copytoclipboard', function() {
-                var $input = $('input, select, textarea', $(this).closest('.form-group'));
-                copyToClipboard($input.val());
-            });
-
             this._super(options);
             this.refresh();
         },
