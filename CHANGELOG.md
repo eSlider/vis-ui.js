@@ -1,3 +1,7 @@
+# 0.2.84 (WIP @ d0c2185)
+* Fix infotext and clipboard event handlers running multiple times in nested generateElements DOM
+* Fix validation marking hidden (file input integration) inputs as invalid
+
 # 0.2.83
 * When validating a form with tabs, activate the tab containing the first invalid input
 * Fix tabNavigator tab title encoding
