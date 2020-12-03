@@ -226,10 +226,10 @@
         });
     };
     var setTextInputProps = function(input, item) {
+        var attr = item.attr || {};
         setBaseInputProps(input, item);
         input.attr({
-            name: item.name || null,
-            placeholder: item.placeholder || null
+            placeholder: attr.placeholder || item.placeholder || null
         });
 
         if (typeof(item.value) !== 'undefined') {
