@@ -302,10 +302,9 @@
                 // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
 
-                $.each(['name', 'rows', 'placeholder'], function(i, key) {
-                    if(has(item, key)) {
-                        inputField.attr(key, item[key]);
-                    }
+                inputField.attr({
+                    name: item.name || null,
+                    placeholder: item.placeholder || null
                 });
 
                 if(has(item, 'value')) {
@@ -416,8 +415,8 @@
                 var container = this.input(item, inputField);
                 container.addClass('textarea-container');
 
-                // @todo: remove excessive data bindings
-                inputField.data('declaration',item);
+                inputField.attr('rows', item.rows || 3);
+
                 return container;
             },
             selectOption: function(item, option) {
