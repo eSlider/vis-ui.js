@@ -225,6 +225,17 @@
             disabled: item.disabled
         });
     };
+    var setTextInputProps = function(input, item) {
+        setBaseInputProps(input, item);
+        input.attr({
+            name: item.name || null,
+            placeholder: item.placeholder || null
+        });
+
+        if (typeof(item.value) !== 'undefined') {
+            input.val(item.value);
+        }
+    };
 
     // NOTE: bad indents deliberate to minimize diff
     var defaultDeclarations = $.extend({}, readOnlyDeclarations, {
@@ -297,28 +308,13 @@
                     inputField = $('<input class="form-control" type="' + type + '"/>');
                     inputField.attr(item.attr || {});
                 }
-                var container = $('<div class="form-group"/>');
-
                 // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
-
-                inputField.attr({
-                    name: item.name || null,
-                    placeholder: item.placeholder || null
-                });
-
-                if(has(item, 'value')) {
-                    inputField.val(item.value);
-                }
-
-                if(has(item, 'disabled') && item.disabled) {
-                    inputField.attr('disabled','');
-                }
+                setTextInputProps(inputField, item);
 
                 var label;
                 if (item.title) {
                     label = this.label(item);
-                    container.append(label);
                 }
 
                 if (item.mandatory) {
@@ -356,10 +352,7 @@
                         .attr('aria-hidden', 'true')
                     );
                 }
-
-                container.append(inputField);
-
-                return container;
+                return wrapGroup([label, inputField], isValidatingInput(item));
             },
             label: function(item) {
                 var label = $('<label/>');
