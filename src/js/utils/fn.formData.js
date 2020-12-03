@@ -141,16 +141,22 @@ $.fn.formData = (function() {
             var input = $(this);
             var value;
 
+            // Ignore unchecked radios to avoid replacing previous checked radio value with the same name attribute
+            // NOTE: vis-ui itself makes it possible to generate radio button groups where no radio button is checked
+            //       For these cases, we cannot skip all unchecked radios. We have to evaluate at least one, to generate
+            //       an empty value.
+            if (this.type === 'radio' && values[this.name] && !this.checked) {
+                return;
+            }
+
             switch (this.type) {
                 case 'checkbox':
                 case 'radio':
-                    if(values.hasOwnProperty(this.name) && values[this.name] != null){
-                        return;
-                    }
                     value = input.is(':checked') && input.val();
                     break;
                 default:
                     value = input.val();
+                    break;
             }
 
             if(value === ""){
