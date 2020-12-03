@@ -199,6 +199,14 @@
         dateInput.setAttribute('value', invalidDate);
         return dateInput.value !== invalidDate;
     })();
+    var isValidatingInput = function(item) {
+        var attr = item.attr || {};
+        return item.name && item.type !== 'radio' && (item.mandatory || attr.required || attr.pattern);
+    };
+    var isRequiredInput = function(item) {
+        var attr = item.attr || {};
+        return item.name && item.type !== 'radio' && (item.mandatory || attr.required);
+    };
     var wrapGroup = function(contents, required) {
         var container = $('<div class="form-group"/>');
         if (required) {
@@ -498,7 +506,9 @@
                     select.attr('data-visui-multiselect-separator', separator);
                     select.val(value || null);
                 } else {
-                    select.val(value || "");
+                    if (value || !isRequiredInput(item)) {
+                        select.val(value || "");
+                    }
                 }
                 if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
