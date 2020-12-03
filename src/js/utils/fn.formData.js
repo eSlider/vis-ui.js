@@ -39,6 +39,9 @@ window.VisUi.validateInput = function(input) {
     }
     $messageContainer.toggle(!isValid);
     if (!isValid) {
+        // .has-warning is set initially to required inputs but its styling conflicts with .has-error / .has-success.
+        // After validation, we always either .has-error or .has-success, so .has-warning needs to go
+        $formGroup.removeClass('has-warning');
         // Re-validate once on change, to make error message disappear
         $input.one('change', function() {
             VisUi.validateInput(input);
