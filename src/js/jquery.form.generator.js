@@ -199,6 +199,23 @@
         dateInput.setAttribute('value', invalidDate);
         return dateInput.value !== invalidDate;
     })();
+    var wrapGroup = function(contents, required) {
+        var container = $('<div class="form-group"/>');
+        if (required) {
+            container.addClass('has-warning');
+        }
+        container.append(contents);
+        return container;
+    };
+    var setBaseInputProps = function(input, item) {
+        $(input).attr({
+            type: $(input).attr('type') || (item.type !== 'input' && item.type) || 'text',
+            name: item.name || null
+        });
+        $(input).prop({
+            disabled: item.disabled
+        });
+    };
 
     // NOTE: bad indents deliberate to minimize diff
     var defaultDeclarations = $.extend({}, readOnlyDeclarations, {
@@ -383,7 +400,12 @@
             },
             radio: function(item) {
                 var input = $('<input type="radio"/>');
-                var container = this.checkbox(item, input);
+                var $label = this.label(item);
+                setBaseInputProps(input, item);
+                input.prop('checked', !!item.checked);
+                input.attr('value', item.value || null);
+                $label.prepend(input);
+                var container = wrapGroup([$label], false);
                 container.addClass('radio');
                 return container;
             },

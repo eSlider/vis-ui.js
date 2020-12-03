@@ -12,6 +12,10 @@
 window.VisUi = window.VisUi || {};
 window.VisUi.validateInput = function(input) {
     var $input = $(input);
+    if ($input.attr('type') === 'radio') {
+        // Individual radio buttons cannot be invalid and cannot be validated
+        return;
+    }
     var isValid = $input.is(':valid') || $input.get(0).type === 'hidden';
     var validationCallback = input.data('warn');
     if (isValid && validationCallback) {
