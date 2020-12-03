@@ -507,7 +507,8 @@
             image: function(item) {
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
                 var subContainer = $("<div class='sub-container'/>");
-                var container = this.input(item, image);
+                var label = item.title && this.label(item);
+                var container = wrapGroup([label, image], false);
 
                 container.append(subContainer.append(image.detach()));
                 container.addClass("image-container");
