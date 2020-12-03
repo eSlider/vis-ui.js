@@ -9,6 +9,51 @@
  * @copyright 02.02.2015 by WhereGroup GmbH & Co. KG
  *
  */
+window.VisUi = window.VisUi || {};
+window.VisUi.validateInput = function(input) {
+    var $input = $(input);
+    if ($input.attr('type') === 'radio') {
+        // Individual radio buttons cannot be invalid and cannot be validated
+        return;
+    }
+    var isValid = $input.is(':valid') || $input.get(0).type === 'hidden';
+    var validationCallback = input.data('warn');
+    if (isValid && validationCallback) {
+        var value = $input.val();
+        if (value === '') {
+            isValid = validationCallback(null);
+        } else {
+            isValid = validationCallback(value);
+        }
+    }
+    // NOTE: hidden inputs must be explicitly excluded from jQuery validation
+    //       see https://stackoverflow.com/questions/51534473/jquery-validate-not-working-on-hidden-input
+    var isValid = (!validationCallback || validationCallback(value)) && $input.is(':valid') || $input.get(0).type === 'hidden';
+    var $formGroup = input.closest('.form-group');
+    $formGroup.toggleClass('has-error', !isValid);
+    $formGroup.toggleClass('has-success', isValid);
+    var $messageContainer = $('.invalid-feedback', $formGroup);
+    if (!isValid && $input.is(":visible") && $input.attr('type') !== 'checkbox') {
+        if (!$messageContainer.length) {
+            $messageContainer = $(document.createElement('div')).addClass('help-block invalid-feedback');
+            $formGroup.append($messageContainer);
+        }
+        var text = $input.attr('data-visui-validation-message') || "Please, check!";
+        $messageContainer.text(text);
+    }
+    $messageContainer.toggle(!isValid);
+    if (!isValid) {
+        // .has-warning is set initially to required inputs but its styling conflicts with .has-error / .has-success.
+        // After validation, we always either .has-error or .has-success, so .has-warning needs to go
+        $formGroup.removeClass('has-warning');
+        // Re-validate once on change, to make error message disappear
+        $input.one('change', function() {
+            VisUi.validateInput(input);
+        });
+    }
+    return isValid;
+};
+
 $.fn.formData = (function() {
     function setValues(form, values) {
         $('.-visui-text-callback', form).each(function() {
@@ -96,26 +141,28 @@ $.fn.formData = (function() {
             var input = $(this);
             var value;
 
+            // Ignore unchecked radios to avoid replacing previous checked radio value with the same name attribute
+            // NOTE: vis-ui itself makes it possible to generate radio button groups where no radio button is checked
+            //       For these cases, we cannot skip all unchecked radios. We have to evaluate at least one, to generate
+            //       an empty value.
+            if (this.type === 'radio' && values[this.name] && !this.checked) {
+                return;
+            }
+
             switch (this.type) {
                 case 'checkbox':
                 case 'radio':
-                    if(values.hasOwnProperty(this.name) && values[this.name] != null){
-                        return;
-                    }
                     value = input.is(':checked') && input.val();
                     break;
                 default:
                     value = input.val();
+                    break;
             }
 
-            if(value === ""){
+            if (value === "" || (this.type === 'radio' && !this.checked)) {
                 value = null;
             }
-            var validationCallback = input.data('warn');
-            // NOTE: hidden inputs must be explicitly excluded from jQuery validation
-            //       see https://stackoverflow.com/questions/51534473/jquery-validate-not-working-on-hidden-input
-            var isValid = (!validationCallback || validationCallback(value)) && input.is(':valid') || input.get(0).type === 'hidden';
-            input.closest('.form-group').toggleClass('has-error', !isValid);
+            var isValid = VisUi.validateInput(input);
             if (!isValid && !firstInput) {
                 var $tabElement = input.closest('.ui-tabs');
                 var tabIndex = $tabElement.length && input.closest('.ui-tabs-panel').index('.ui-tabs-panel');
@@ -126,10 +173,6 @@ $.fn.formData = (function() {
                 input.focus();
             }
 
-            if (!isValid && input.is(":visible") && $.notify) {
-                var text = input.attr('data-visui-validation-message') || "Please, check!";
-                $.notify(input, text, {position: "top right", autoHideDelay: 2000});
-            }
             values[this.name] = value;
         });
         return values;

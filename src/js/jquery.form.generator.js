@@ -97,10 +97,6 @@
         // @todo: remove excessive data bindings
         element.data('item', item);
 
-        if(has(item, 'mandatory')){
-            element.addClass('has-warning');
-        }
-
         return element;
     }
 
@@ -199,6 +195,43 @@
         dateInput.setAttribute('value', invalidDate);
         return dateInput.value !== invalidDate;
     })();
+    var isValidatingInput = function(item) {
+        var attr = item.attr || {};
+        return item.name && item.type !== 'radio' && (item.mandatory || attr.required || attr.pattern);
+    };
+    var isRequiredInput = function(item) {
+        var attr = item.attr || {};
+        return item.name && item.type !== 'radio' && (item.mandatory || attr.required);
+    };
+    var wrapGroup = function(contents, required) {
+        var container = $('<div class="form-group"/>');
+        if (required) {
+            container.addClass('has-warning');
+        }
+        container.append(contents);
+        return container;
+    };
+    var setBaseInputProps = function(input, item) {
+        $(input).attr({
+            type: $(input).attr('type') || (item.type !== 'input' && item.type) || 'text',
+            name: item.name || null
+        });
+        $(input).prop({
+            required: isRequiredInput(item),
+            disabled: item.disabled
+        });
+    };
+    var setTextInputProps = function(input, item) {
+        var attr = item.attr || {};
+        setBaseInputProps(input, item);
+        input.attr({
+            placeholder: attr.placeholder || item.placeholder || null
+        });
+
+        if (typeof(item.value) !== 'undefined') {
+            input.val(item.value);
+        }
+    };
 
     // NOTE: bad indents deliberate to minimize diff
     var defaultDeclarations = $.extend({}, readOnlyDeclarations, {
@@ -271,29 +304,13 @@
                     inputField = $('<input class="form-control" type="' + type + '"/>');
                     inputField.attr(item.attr || {});
                 }
-                var container = $('<div class="form-group"/>');
-
                 // @todo: remove excessive data bindings
                 inputField.data('declaration',item);
-
-                $.each(['name', 'rows', 'placeholder'], function(i, key) {
-                    if(has(item, key)) {
-                        inputField.attr(key, item[key]);
-                    }
-                });
-
-                if(has(item, 'value')) {
-                    inputField.val(item.value);
-                }
-
-                if(has(item, 'disabled') && item.disabled) {
-                    inputField.attr('disabled','');
-                }
+                setTextInputProps(inputField, item);
 
                 var label;
                 if (item.title) {
                     label = this.label(item);
-                    container.append(label);
                 }
 
                 if (item.mandatory) {
@@ -331,10 +348,7 @@
                         .attr('aria-hidden', 'true')
                     );
                 }
-
-                container.append(inputField);
-
-                return container;
+                return wrapGroup([label, inputField], isValidatingInput(item));
             },
             label: function(item) {
                 var label = $('<label/>');
@@ -357,33 +371,26 @@
 
                 return label;
             },
-            checkbox: function(item, input) {
-                // @todo: fold very apparent copy & paste between this method and "input" method
-                var container = $('<div class="form-group checkbox"/>');
+            checkbox: function(item) {
                 var label = this.label(item);
-
-                input = input ? input : $('<input type="checkbox"/>');
-
-                // @todo: remove excessive data bindings
-                input.data('declaration',item);
-
+                var input = $('<input type="checkbox"/>');
                 label.prepend(input);
-                input.attr({
-                    name: item.name || null,
-                    value: item.value || null
-                });
-                input.prop({
-                    required: !!item.mandatory,
-                    checked: !!item.checked
-                });
 
-                container.append(label);
-
+                setBaseInputProps(input, item);
+                input.attr('value', item.value || null);
+                input.prop('checked', !!item.checked);
+                var container = wrapGroup([label], isRequiredInput(item));
+                container.addClass('checkbox');
                 return container;
             },
             radio: function(item) {
                 var input = $('<input type="radio"/>');
-                var container = this.checkbox(item, input);
+                var $label = this.label(item);
+                setBaseInputProps(input, item);
+                input.prop('checked', !!item.checked);
+                input.attr('value', item.value || null);
+                $label.prepend(input);
+                var container = wrapGroup([$label], false);
                 container.addClass('radio');
                 return container;
             },
@@ -397,8 +404,8 @@
                 var container = this.input(item, inputField);
                 container.addClass('textarea-container');
 
-                // @todo: remove excessive data bindings
-                inputField.data('declaration',item);
+                inputField.attr('rows', item.rows || 3);
+
                 return container;
             },
             selectOption: function(item, option) {
@@ -476,7 +483,9 @@
                     select.attr('data-visui-multiselect-separator', separator);
                     select.val(value || null);
                 } else {
-                    select.val(value || "");
+                    if (value || !isRequiredInput(item)) {
+                        select.val(value || "");
+                    }
                 }
                 if ((item.multiple || item.select2) && (typeof select.select2 === 'function')) {
                     select.select2(item);
@@ -487,7 +496,8 @@
             image: function(item) {
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
                 var subContainer = $("<div class='sub-container'/>");
-                var container = this.input(item, image);
+                var label = item.title && this.label(item);
+                var container = wrapGroup([label, image], false);
 
                 container.append(subContainer.append(image.detach()));
                 container.addClass("image-container");

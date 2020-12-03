@@ -26,9 +26,16 @@
 * Drop requirements for assorted IE <= 9 shim scripts only included on demo page
 * Remove digitizing toolset code, this is now moved to the Mapbender Digitizer repository
 
-# 0.1.84 (WIP @ e13ad5e)
+# 0.1.84
 * Fix infotext and clipboard event handlers running multiple times in nested generateElements DOM
 * Fix validation marking hidden (file input integration) inputs as invalid
+* Fix checkboxes and radio buttons ignoring "disabled" setting
+* Fix invalid "rows" attribute on non-textarea inputs
+* Fix extracted value for (invalid) radio group with no checked radio from false => null
+* Emit form validation messages inline instead of using notifyjs
+* Disable invalid validation requirements for individual radio buttons
+* Prevent initializing required dropdown inputs to empty value
+* Add "required" attribute to basic text / textarea inputs with validation constraints
 
 # 0.1.83
 * When validating a form with tabs, activate the tab containing the first invalid input
