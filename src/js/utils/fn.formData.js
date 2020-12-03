@@ -159,7 +159,7 @@ $.fn.formData = (function() {
                     break;
             }
 
-            if(value === ""){
+            if (value === "" || (this.type === 'radio' && !this.checked)) {
                 value = null;
             }
             var isValid = VisUi.validateInput(input);
