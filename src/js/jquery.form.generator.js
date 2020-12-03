@@ -221,6 +221,7 @@
             name: item.name || null
         });
         $(input).prop({
+            required: isRequiredInput(item),
             disabled: item.disabled
         });
     };
@@ -382,28 +383,16 @@
 
                 return label;
             },
-            checkbox: function(item, input) {
-                // @todo: fold very apparent copy & paste between this method and "input" method
-                var container = $('<div class="form-group checkbox"/>');
+            checkbox: function(item) {
                 var label = this.label(item);
-
-                input = input ? input : $('<input type="checkbox"/>');
-
-                // @todo: remove excessive data bindings
-                input.data('declaration',item);
-
+                var input = $('<input type="checkbox"/>');
                 label.prepend(input);
-                input.attr({
-                    name: item.name || null,
-                    value: item.value || null
-                });
-                input.prop({
-                    required: !!item.mandatory,
-                    checked: !!item.checked
-                });
 
-                container.append(label);
-
+                setBaseInputProps(input, item);
+                input.attr('value', item.value || null);
+                input.prop('checked', !!item.checked);
+                var container = wrapGroup([label], isRequiredInput(item));
+                container.addClass('checkbox');
                 return container;
             },
             radio: function(item) {
