@@ -495,6 +495,7 @@
             },
             image: function(item) {
                 var image = $('<img src="' + (has(item, 'src') ? item.src : '') + '"/>');
+                image.attr('data-preview-for', item.name || null);
                 var subContainer = $("<div class='sub-container'/>");
                 var label = item.title && this.label(item);
                 var container = wrapGroup([label, image], false);
@@ -612,7 +613,7 @@
 
                         if(result.files && result.files[0]) {
                             var fileInfo = result.files[0];
-                            var img = container.closest('form').find('img[name="' + item.name + '"]');
+                            var img = container.closest('.vis-ui').find('img[data-preview-for="' + item.name + '"]');
 
                             if(fileInfo.error) {
                                 $.notify(fileInfo.error, "error");
