@@ -33,13 +33,13 @@ window.VisUi.validateInput = function(input) {
     $formGroup.toggleClass('has-error', !isValid);
     $formGroup.toggleClass('has-success', isValid);
     var $messageContainer = $('.invalid-feedback', $formGroup);
-    if (!isValid && $input.is(":visible") && $input.attr('type') !== 'checkbox') {
+    var invalidMessage = $input.attr('data-visui-validation-message');
+    if (!isValid && invalidMessage && $input.is(":visible") && $input.attr('type') !== 'checkbox') {
         if (!$messageContainer.length) {
             $messageContainer = $(document.createElement('div')).addClass('help-block invalid-feedback');
             $formGroup.append($messageContainer);
         }
-        var text = $input.attr('data-visui-validation-message') || "Please, check!";
-        $messageContainer.text(text);
+        $messageContainer.text(invalidMessage || '');
     }
     $messageContainer.toggle(!isValid);
     if (!isValid) {
