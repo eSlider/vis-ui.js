@@ -8,6 +8,7 @@
 * Disable invalid validation requirements for individual radio buttons
 * Prevent initializing required dropdown inputs to empty value
 * Add "required" attribute to basic text / textarea inputs with validation constraints
+* Support leaving custom validation error message empty
 
 # 0.1.83
 * When validating a form with tabs, activate the tab containing the first invalid input
