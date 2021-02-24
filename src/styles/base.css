@@ -1,3 +1,10 @@
+/**
+ * @deprecated
+ * Do not use or base upon this stylesheet. Use bootstrap css and fontawesome
+ * css. Using this stylesheet will cause conflicts now, and even more conflicts
+ * if / when you migrate to Bootstrap 4 and / or Fontawesome 5.
+ */
+
 .mb-element-popup-dialog {
     position: absolute !important;
     z-index: 5;
@@ -121,4 +128,5 @@ fieldset.form-group > .form-group{
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 10000;}
+    z-index: 10000;
+}

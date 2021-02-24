@@ -10,6 +10,8 @@
      info:         false,
      columns:      [{data: 'id', title: 'ID'}, {data: 'label', title: 'Title'}],
      data:         [{id: 1, label: 'example'}]
+     * @todo: Get this over into a separate repository (WITH a working stylesheet) or into Mapbender (current location of required stylesheet)
+     *        it makes no sense to have markup generation and css class modifiers here, separate from the stylesheets that make it work
      */
     $.widget("vis-ui-js.resultTable", {
 
@@ -30,7 +32,7 @@
             var isSelectable = _.has(options, 'selectable') && options.selectable;
             var hasBottomNavigation = _.has(options, 'bottomNavigation') && _.isArray(options.bottomNavigation);
             var hasRowButtons = options.hasOwnProperty('buttons');
-            var dataTableContainer = null;
+            var dataTableContainer;
 
             el.append(table);
             el.addClass('mapbender-element-result-table');
@@ -159,13 +161,15 @@
                         html.append(element.html);
                         break;
                     case 'button':
-                        var title = element.title?element.title:(element.text?element.text:'');
-                        var button = $('<button class="button" title="' + title + '">' + title + '</button>');
-                        if(_.has(element,'cssClass')){
-                             button.addClass(element.cssClass);
-                        }
+                        var button = $('<button/>');
+                        button.attr({
+                            'class': 'button',
+                            title: element.title || null
+                        });
+                        button.text(element.text || undefined);
+                        button.addClass(element.cssClass || null);
                         if(_.has(element,'className')){
-                            button.addClass("icon-"+element.className);
+                            button.addClass("icon-"+element.className);     // why?
                             button.addClass( element.className);
                         }
 
@@ -233,7 +237,7 @@
                         me.dispatch('change', list);
                         return this;
                     };
-                }, EventDispatcher);
+                }, widget._eventDispatcher);
             }
             return widget._selection;
         },
@@ -465,6 +469,48 @@
             var pageNumber = Math.floor(nodePosition / rowsOnOnePage);
             tableApi.page(pageNumber).draw( false );
             return pageNumber;
+        },
+        _eventDispatcher: {
+            _listeners: {},
+
+            on: function(name,callback){
+                if(!this._listeners[name]){
+                    this._listeners[name] = [];
+                }
+                this._listeners[name].push(callback);
+                return this;
+            },
+
+            off: function(name,callback){
+                if(!this._listeners[name]){
+                    return;
+                }
+                if(callback){
+                    var listeners = this._listeners[name];
+                    for(var i in listeners){
+                        if(callback == listeners[i]){
+                            listeners.splice(i,1);
+                            return;
+                        }
+                    }
+                }else{
+                    delete this._listeners[name];
+                }
+
+                return this;
+            },
+
+            dispatch: function(name,data){
+                if(!this._listeners[name]){
+                    return;
+                }
+
+                var listeners = this._listeners[name];
+                for(var i in listeners){
+                    listeners[i](data);
+                }
+                return this;
+            }
         }
     });
 

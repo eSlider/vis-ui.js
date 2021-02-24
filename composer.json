@@ -1,5 +1,5 @@
 {
-  "name": "viscreation/vis-ui.js",
+  "name": "mapbender/vis-ui.js",
   "type": "component",
   "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
   "keywords": [ "assets", "jquery", "vis-ui"],
@@ -11,25 +11,21 @@
       "email": "eslider@gmail.com"
     }
   ],
-  "require-dev": {
-    "components/normalize.css": "3.0.*",
-    "drmonty/leaflet": "1.0.*",
-    "components/placeholdersjs": "*"
-  },
   "require": {
     "robloach/component-installer": "0.2.*",
-    "components/font-awesome": "4.x",
+    "components/font-awesome": "^3.0 || ^4.0 || ^5.0",
     "components/bootstrap": "3.*",
     "components/jquery": "1.* || 2.*",
     "components/jqueryui": "1.*",
-    "afarkas/html5shiv": "3.*",
     "components/underscore": "1.8.*",
-    "rogeriopradoj/respond": "1.4.*",
     "wheregroup/jquerydialogextendjs": "2.x",
-    "components/datatables": "1.10.*",
+    "datatables/datatables": "^1.10.16",
     "medialize/jquery-context-menu": "1.*",
     "debugteam/bootstrap-colorpicker": "1.*",
     "select2/select2": "^4.0"
+  },
+  "conflict": {
+    "mapbender/digitizer": "<1.1.67"
   },
   "config": {
     "bin-dir": "bin",
@@ -49,24 +45,5 @@
     "branch-alias": {
 	"dev-master": "0.0.x-dev"
     }
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "components/placeholdersjs",
-        "type": "component",
-        "version": "4.0.1",
-        "dist": {
-          "url": "https://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
-          "type": "zip"
-        },
-        "extra": {
-          "component": {
-            "scripts": ["dist/placeholders.min.js","dist/placeholders.jquery.min.js"]
-          }
-        }
-      }
-    }
-  ]
+  }
 }
